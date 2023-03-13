@@ -522,7 +522,7 @@ plt.ylabel('amplitude [V]')
 plt.title('$\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
-t = (0.5*Ts + np.arange(0, bits.size*Ts, Ts))/1e-12
+t = (0.5*Ts + np.arange(0, bits.size*Ts, Ts))/1e-9
 plt.vlines(t, -1, 1, linestyles='dashed', color = 'k');
 plt.xlim(0, max(t));
 # -
@@ -761,7 +761,7 @@ plt.legend(loc='upper left');
 Nsamples = 10000
 
 # diagrama de olho
-eyediagram(sigTx, Nsamples, SpS)
+eyediagram(sigTx, Nsamples, SpS, ptype='fast')
 # -
 
 # ## Gerando sinais 4-PAM
@@ -790,7 +790,7 @@ bits_b   = np.random.randint(2, size=20)
 # mapeia bits para símbolos PAM4
 symbTx = 2/3*(2*bits_a-1) + 1/3*(2*bits_b-1)
 
-plt.stem(symbTx, basefmt=" ", use_line_collection=True, label ='símbolos 4-PAM')
+plt.stem(symbTx, basefmt=" ", label ='símbolos 4-PAM')
 plt.xlabel('n')
 plt.ylabel('$s_n$')
 plt.grid()
@@ -866,7 +866,7 @@ plt.legend(loc='upper left');
 # -
 
 # diagrama de olho
-eyediagram(sigTx, Nsamples, SpS, plotlabel='elétrico')
+eyediagram(sigTx, Nsamples, SpS, plotlabel='elétrico', ptype='fast')
 # ## Gerando sinais QPSK
 
 
@@ -928,7 +928,6 @@ plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro elétri
 plt.legend(loc='upper left');
 plt.xlim(-4*Rs,4*Rs);
 plt.ylim(-250,-50);
-
 # -
 
 # ## Referências
