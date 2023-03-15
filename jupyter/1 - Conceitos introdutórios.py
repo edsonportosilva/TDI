@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -29,7 +29,7 @@ import ipywidgets as widgets
 from ipywidgets import interact
 
 from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import pnorm
+from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm
 
 # +
 from IPython.core.display import HTML
@@ -46,14 +46,14 @@ HTML("""
 """)
 # -
 
-figsize(8, 3)
+figsize(10, 4)
 
 
 # # Transmissão Digital da Informação
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Representações-para-a-onda-portadora" data-toc-modified-id="Representações-para-a-onda-portadora-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Representações para a onda portadora</a></span></li><li><span><a href="#Modulações-digitais" data-toc-modified-id="Modulações-digitais-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li></ul></li><li><span><a href="#Intervalos-de-sinalização" data-toc-modified-id="Intervalos-de-sinalização-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Intervalos de sinalização</a></span><ul class="toc-item"><li><span><a href="#Teorema-da-amostragem" data-toc-modified-id="Teorema-da-amostragem-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Teorema da amostragem</a></span></li><li><span><a href="#Exemplo-1:-função-sinc(t)" data-toc-modified-id="Exemplo-1:-função-sinc(t)-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Exemplo 1: função sinc(t)</a></span></li><li><span><a href="#Exemplo-2:-chirp-de-frequência-linear" data-toc-modified-id="Exemplo-2:-chirp-de-frequência-linear-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Exemplo 2: chirp de frequência linear</a></span></li></ul></li><li><span><a href="#Gerando-sinais-binários" data-toc-modified-id="Gerando-sinais-binários-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Gerando sinais binários</a></span><ul class="toc-item"><li><span><a href="#Pulso-retangular-ideal" data-toc-modified-id="Pulso-retangular-ideal-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Pulso retangular ideal</a></span></li><li><span><a href="#Pulso-NRZ-típico" data-toc-modified-id="Pulso-NRZ-típico-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Pulso NRZ típico</a></span></li><li><span><a href="#Pulso-cosseno-levantado" data-toc-modified-id="Pulso-cosseno-levantado-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Pulso cosseno levantado</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente" data-toc-modified-id="Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Densidade espectral de potência de sinais modulados digitalmenente</a></span><ul class="toc-item"><li><span><a href="#Valor-médio-e-autocorrelação-de-$V(t)$" data-toc-modified-id="Valor-médio-e-autocorrelação-de-$V(t)$-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Valor médio e autocorrelação de $V(t)$</a></span><ul class="toc-item"><li><span><a href="#Valor-médio" data-toc-modified-id="Valor-médio-5.1.1"><span class="toc-item-num">5.1.1&nbsp;&nbsp;</span>Valor médio</a></span></li><li><span><a href="#Autocorrelação" data-toc-modified-id="Autocorrelação-5.1.2"><span class="toc-item-num">5.1.2&nbsp;&nbsp;</span>Autocorrelação</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$" data-toc-modified-id="Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Densidade espectral de potência $\mathcal{S}_{V}(f)$</a></span></li><li><span><a href="#Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados" data-toc-modified-id="Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Exemplos de densidade espectral de potência de sinais modulados</a></span></li></ul></li><li><span><a href="#Gerando-sinais-4-PAM" data-toc-modified-id="Gerando-sinais-4-PAM-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Gerando sinais 4-PAM</a></span></li><li><span><a href="#Gerando-sinais-QPSK" data-toc-modified-id="Gerando-sinais-QPSK-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Gerando sinais QPSK</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-8"><span class="toc-item-num">8&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Representações-para-a-onda-portadora" data-toc-modified-id="Representações-para-a-onda-portadora-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Representações para a onda portadora</a></span></li><li><span><a href="#Modulações-digitais" data-toc-modified-id="Modulações-digitais-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li></ul></li><li><span><a href="#Intervalos-de-sinalização" data-toc-modified-id="Intervalos-de-sinalização-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Intervalos de sinalização</a></span><ul class="toc-item"><li><span><a href="#Teorema-da-amostragem" data-toc-modified-id="Teorema-da-amostragem-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Teorema da amostragem</a></span></li><li><span><a href="#Exemplo-1:-função-sinc(t)" data-toc-modified-id="Exemplo-1:-função-sinc(t)-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Exemplo 1: função sinc(t)</a></span></li><li><span><a href="#Exemplo-2:-chirp-de-frequência-linear" data-toc-modified-id="Exemplo-2:-chirp-de-frequência-linear-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Exemplo 2: chirp de frequência linear</a></span></li></ul></li><li><span><a href="#Gerando-sinais-binários" data-toc-modified-id="Gerando-sinais-binários-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Gerando sinais binários</a></span><ul class="toc-item"><li><span><a href="#Pulso-retangular-ideal" data-toc-modified-id="Pulso-retangular-ideal-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Pulso retangular ideal</a></span></li><li><span><a href="#Pulso-NRZ-típico" data-toc-modified-id="Pulso-NRZ-típico-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Pulso NRZ típico</a></span></li><li><span><a href="#Pulso-cosseno-levantado" data-toc-modified-id="Pulso-cosseno-levantado-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Pulso cosseno levantado</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente" data-toc-modified-id="Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Densidade espectral de potência de sinais modulados digitalmenente</a></span><ul class="toc-item"><li><span><a href="#Valor-médio-e-autocorrelação-de-$V(t)$" data-toc-modified-id="Valor-médio-e-autocorrelação-de-$V(t)$-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Valor médio e autocorrelação de $V(t)$</a></span><ul class="toc-item"><li><span><a href="#Valor-médio" data-toc-modified-id="Valor-médio-5.1.1"><span class="toc-item-num">5.1.1&nbsp;&nbsp;</span>Valor médio</a></span></li><li><span><a href="#Autocorrelação" data-toc-modified-id="Autocorrelação-5.1.2"><span class="toc-item-num">5.1.2&nbsp;&nbsp;</span>Autocorrelação</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$" data-toc-modified-id="Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Densidade espectral de potência $\mathcal{S}_{V}(f)$</a></span></li><li><span><a href="#Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados" data-toc-modified-id="Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Exemplos de densidade espectral de potência de sinais modulados</a></span></li></ul></li><li><span><a href="#Gerando-sinais-4-PAM" data-toc-modified-id="Gerando-sinais-4-PAM-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Gerando sinais 4-PAM</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Sistemas de Transmissão Digital da Informação
@@ -758,15 +758,18 @@ plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sina
 plt.legend(loc='upper left');
 
 # +
-Nsamples = 10000
+Nsamples = sigTx.size
 
 # diagrama de olho
-eyediagram(sigTx, Nsamples, SpS, ptype='fast')
+eyediagram(sigTx, Nsamples, SpS, ptype='fancy')
 # -
 
 # ## Gerando sinais 4-PAM
 
-# +
+# + hide_input=true
+M = 4 # order of the modulation format
+constType = 'pam' # 'qam', 'psk', 'pam' or 'ook'
+
 plt.figure(figsize=(4,4))
 plt.plot([],[])
 plt.vlines(0,-1.5,1.5)
@@ -778,17 +781,40 @@ plt.axis('square')
 plt.xlim(-1.5,1.5)
 plt.ylim(-1.5,1.5);
 
-PAM4 = np.array([[-1,0],[-1/3,0],[1/3,0],[1,0]])
-plt.plot(PAM4[:,0], PAM4[:,1],'o', markersize=10,);
-plt.title('Constelação 4-PAM bipolar');
+# plot modulation bit-to-symbol mapping
+constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
+bitMap = bitMap.reshape(-1, int(np.log2(M)))
+
+# generate random bits
+bits = bitMap.reshape(1, -1)
+
+# Map bits to constellation symbols
+symbTx = modulateGray(bits, M, constType)
+
+# normalize symbols energy to 1
+symbTx = pnorm(symbTx)
+plt.plot(symbTx.real, symbTx.imag,'o', markersize=8,);
+plt.title('Constelação '+str(M)+'-'+constType.upper());
+
+for ind, symb in enumerate(pnorm(constSymb)):
+    bitMap[ind,:]
+    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.035*np.log2(M), symb.imag+0.1), size=12)
 
 # +
-# gera sequência de bits pseudo-aleatórios
-bits_a   = np.random.randint(2, size=20)
-bits_b   = np.random.randint(2, size=20)
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
 
-# mapeia bits para símbolos PAM4
-symbTx = 2/3*(2*bits_a-1) + 1/3*(2*bits_b-1)
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size=50)
+
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = pnorm(symbTx) # power normalization
 
 plt.stem(symbTx, basefmt=" ", label ='símbolos 4-PAM')
 plt.xlabel('n')
@@ -800,7 +826,7 @@ plt.xticks(np.arange(0, symbTx.size));
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 2000)
 pd.options.display.float_format = '{:,d}'.format
-df = pd.DataFrame({'bits a': bits_a, 'bits b': bits_b})
+df = pd.DataFrame({'bits a': bitsTx[0::2], 'bits b': bitsTx[1::2]})
 
 display(df.T)
 
@@ -813,10 +839,10 @@ pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
-sigTx  = firFilter(pulse, symbolsUp)
+sigTx = firFilter(pulse, symbolsUp)
 sigTx = sigTx.real
 
-t = np.arange(0, sigTx.size)*(Ta/1e-9)
+t = np.arange(0, sigTx.size)*(1/Fa)/1e-9
 
 # instantes centrais dos intervalos de sinalização
 symbolsUp = upsample(symbTx, SpS)
@@ -831,18 +857,16 @@ plt.title('$\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
 t = (0.5*Ts + np.arange(0, symbTx.size*Ts, Ts))/1e-9
-plt.vlines(t, -1, 1, linestyles='dashed', color = 'k');
+plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
 plt.xlim(0, max(t));
 
 # +
-# gera sequência de bits pseudo-aleatórios
-bits1   = np.random.randint(2, size=10000)  
-bits2   = np.random.randint(2, size=10000) 
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size=500000)
 
-n      = np.arange(0, bits.size)
-
-# mapeia bits para símbolos PAM4
-symbTx = 2/3*(2*bits1-1) + 1/3*(2*bits2-1)
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = pnorm(symbTx) # power normalization
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
@@ -855,7 +879,7 @@ pulse = pulse/max(abs(pulse))
 sigTx  = firFilter(pulse, symbolsUp)
 sigTx = sigTx.real
 
-Nsamples = 20000
+Nsamples = 200000
 
 # plota psd
 plt.figure();
@@ -866,8 +890,8 @@ plt.legend(loc='upper left');
 # -
 
 # diagrama de olho
-eyediagram(sigTx, Nsamples, SpS, plotlabel='elétrico', ptype='fast')
-# ## Gerando sinais QPSK
+Nsamples = sigTx.size
+eyediagram(sigTx, Nsamples, SpS, plotlabel='elétrico', ptype='fancy')
 
 
 # +
