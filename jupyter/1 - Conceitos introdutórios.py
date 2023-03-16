@@ -28,12 +28,22 @@ from utils import symdisp, symplot
 import ipywidgets as widgets
 from ipywidgets import interact
 
+from commpy.utilities import upsample
+
 from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm
+from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
+from optic.metrics import signal_power
+from optic.plot import eyediagram
+# -
+
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 2000)
+pd.options.display.float_format = '{:,d}'.format
 
 # +
 from IPython.core.display import HTML
 from IPython.core.pylabtools import figsize
+from IPython.display import display
 
 HTML("""
 <style>
@@ -46,6 +56,9 @@ HTML("""
 """)
 # -
 
+# %load_ext autoreload
+# %autoreload 2
+
 figsize(10, 4)
 
 
@@ -53,16 +66,15 @@ figsize(10, 4)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Representações-para-a-onda-portadora" data-toc-modified-id="Representações-para-a-onda-portadora-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Representações para a onda portadora</a></span></li><li><span><a href="#Modulações-digitais" data-toc-modified-id="Modulações-digitais-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li></ul></li><li><span><a href="#Intervalos-de-sinalização" data-toc-modified-id="Intervalos-de-sinalização-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Intervalos de sinalização</a></span><ul class="toc-item"><li><span><a href="#Teorema-da-amostragem" data-toc-modified-id="Teorema-da-amostragem-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Teorema da amostragem</a></span></li><li><span><a href="#Exemplo-1:-função-sinc(t)" data-toc-modified-id="Exemplo-1:-função-sinc(t)-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Exemplo 1: função sinc(t)</a></span></li><li><span><a href="#Exemplo-2:-chirp-de-frequência-linear" data-toc-modified-id="Exemplo-2:-chirp-de-frequência-linear-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Exemplo 2: chirp de frequência linear</a></span></li></ul></li><li><span><a href="#Gerando-sinais-binários" data-toc-modified-id="Gerando-sinais-binários-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Gerando sinais binários</a></span><ul class="toc-item"><li><span><a href="#Pulso-retangular-ideal" data-toc-modified-id="Pulso-retangular-ideal-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Pulso retangular ideal</a></span></li><li><span><a href="#Pulso-NRZ-típico" data-toc-modified-id="Pulso-NRZ-típico-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Pulso NRZ típico</a></span></li><li><span><a href="#Pulso-cosseno-levantado" data-toc-modified-id="Pulso-cosseno-levantado-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Pulso cosseno levantado</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente" data-toc-modified-id="Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Densidade espectral de potência de sinais modulados digitalmenente</a></span><ul class="toc-item"><li><span><a href="#Valor-médio-e-autocorrelação-de-$V(t)$" data-toc-modified-id="Valor-médio-e-autocorrelação-de-$V(t)$-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Valor médio e autocorrelação de $V(t)$</a></span><ul class="toc-item"><li><span><a href="#Valor-médio" data-toc-modified-id="Valor-médio-5.1.1"><span class="toc-item-num">5.1.1&nbsp;&nbsp;</span>Valor médio</a></span></li><li><span><a href="#Autocorrelação" data-toc-modified-id="Autocorrelação-5.1.2"><span class="toc-item-num">5.1.2&nbsp;&nbsp;</span>Autocorrelação</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$" data-toc-modified-id="Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Densidade espectral de potência $\mathcal{S}_{V}(f)$</a></span></li><li><span><a href="#Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados" data-toc-modified-id="Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Exemplos de densidade espectral de potência de sinais modulados</a></span></li></ul></li><li><span><a href="#Gerando-sinais-4-PAM" data-toc-modified-id="Gerando-sinais-4-PAM-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Gerando sinais 4-PAM</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Representações-para-a-onda-portadora" data-toc-modified-id="Representações-para-a-onda-portadora-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Representações para a onda portadora</a></span></li><li><span><a href="#Modulações-digitais" data-toc-modified-id="Modulações-digitais-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li></ul></li><li><span><a href="#Intervalos-de-sinalização" data-toc-modified-id="Intervalos-de-sinalização-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Intervalos de sinalização</a></span><ul class="toc-item"><li><span><a href="#Teorema-da-amostragem" data-toc-modified-id="Teorema-da-amostragem-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Teorema da amostragem</a></span></li><li><span><a href="#Exemplo-1:-função-sinc(t)" data-toc-modified-id="Exemplo-1:-função-sinc(t)-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Exemplo 1: função sinc(t)</a></span></li><li><span><a href="#Exemplo-2:-chirp-de-frequência-linear" data-toc-modified-id="Exemplo-2:-chirp-de-frequência-linear-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Exemplo 2: chirp de frequência linear</a></span></li></ul></li><li><span><a href="#Gerando-sinais-binários" data-toc-modified-id="Gerando-sinais-binários-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Gerando sinais binários</a></span><ul class="toc-item"><li><span><a href="#Pulso-retangular-ideal" data-toc-modified-id="Pulso-retangular-ideal-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Pulso retangular ideal</a></span></li><li><span><a href="#Pulso-NRZ-típico" data-toc-modified-id="Pulso-NRZ-típico-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Pulso NRZ típico</a></span></li><li><span><a href="#Pulso-cosseno-levantado" data-toc-modified-id="Pulso-cosseno-levantado-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Pulso cosseno levantado</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente" data-toc-modified-id="Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Densidade espectral de potência de sinais modulados digitalmenente</a></span><ul class="toc-item"><li><span><a href="#Valor-médio-e-autocorrelação-de-$V(t)$" data-toc-modified-id="Valor-médio-e-autocorrelação-de-$V(t)$-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Valor médio e autocorrelação de $V(t)$</a></span><ul class="toc-item"><li><span><a href="#Valor-médio" data-toc-modified-id="Valor-médio-5.1.1"><span class="toc-item-num">5.1.1&nbsp;&nbsp;</span>Valor médio</a></span></li><li><span><a href="#Autocorrelação" data-toc-modified-id="Autocorrelação-5.1.2"><span class="toc-item-num">5.1.2&nbsp;&nbsp;</span>Autocorrelação</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$" data-toc-modified-id="Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Densidade espectral de potência $\mathcal{S}_{V}(f)$</a></span></li><li><span><a href="#Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados" data-toc-modified-id="Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Exemplos de densidade espectral de potência de sinais modulados</a></span></li></ul></li><li><span><a href="#Modulação-M-PAM" data-toc-modified-id="Modulação-M-PAM-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Modulação M-PAM</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-6.1"><span class="toc-item-num">6.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-6.2"><span class="toc-item-num">6.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-6.3"><span class="toc-item-num">6.3&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Modulação-M-QAM" data-toc-modified-id="Modulação-M-QAM-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Modulação M-QAM</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-7.1"><span class="toc-item-num">7.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-7.2"><span class="toc-item-num">7.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Espectro-do-sinal-modulado" data-toc-modified-id="Espectro-do-sinal-modulado-7.3"><span class="toc-item-num">7.3&nbsp;&nbsp;</span>Espectro do sinal modulado</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-7.4"><span class="toc-item-num">7.4&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Modulação-M-PSK" data-toc-modified-id="Modulação-M-PSK-8"><span class="toc-item-num">8&nbsp;&nbsp;</span>Modulação M-PSK</a></span><ul class="toc-item"><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-8.1"><span class="toc-item-num">8.1&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Espectro-do-sinal-modulado" data-toc-modified-id="Espectro-do-sinal-modulado-8.2"><span class="toc-item-num">8.2&nbsp;&nbsp;</span>Espectro do sinal modulado</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-8.3"><span class="toc-item-num">8.3&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-9"><span class="toc-item-num">9&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Sistemas de Transmissão Digital da Informação
 #
-# Num sistema de comunicação digital óptica, a função do transmissor é converter uma dada sequência de bits num trem de pulsos elétricos que, por sua vez, será utilizado na modulação de uma portadora óptica (laser). A modulação de portadoras ópticas é realizada por meio de dispositivos de conversão eletro-óptica.
+# Num sistema de comunicação digital a função do transmissor é converter uma dada sequência de bits num trem de pulsos elétricos que, por sua vez, poderar ser utilizado na modulação de uma portadora. 
 #
 # <img src="./figuras/Fig1.png" width="900">
-#
-# Diversas técnicas de modulação podem ser implementadas e diversos fatores podem influenciar o projeto de um transmissor óptico. 
+#  
 
 # ## Representações para a onda portadora
 
@@ -221,10 +233,6 @@ plt.xlim(0, t.max());
 # $$
 #
 
-from commpy.utilities  import signal_power, upsample
-from optic.dsp import firFilter, pulseShape, sincInterp
-from optic.plot import eyediagram
-
 # ### Exemplo 1: função sinc(t)
 
 # +
@@ -314,9 +322,9 @@ plt.legend(loc='upper right');
 # $$ \begin{align} A(t) &= \left[ \sum_{n} s_{n} \delta \left(t-n T_{s}\right)\right] \ast p(t) \nonumber \\ & = \sum_{n} s_{n} p\left(t-n T_{s}\right)\end{align}$$
 
 # parâmetros da simulação
-SpS = 32
-Rs     = 100e6          # Taxa de símbolos
+Rs     = 100e6         # Taxa de símbolos
 Ts     = 1/Rs          # Período de símbolo em segundos
+SpS    = 128           # amostras por símbolo
 Fa     = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta     = 1/Fa          # Período de amostragem
 
@@ -324,12 +332,13 @@ Ta     = 1/Fa          # Período de amostragem
 # +
 # gera sequência de bits pseudo-aleatórios
 bits   = np.random.randint(2, size=20)    
-n      = np.arange(0, bits.size)
+n      = np.arange(bits.size)
 
 # mapeia bits para símbolos binários
 symbTx = 2*bits-1
 
 plt.figure(1)
+plt.title('Sequência de bits gerados:')
 plt.stem(bits, basefmt=" ")
 plt.xlabel('n')
 plt.ylabel('$b_n$')
@@ -337,6 +346,7 @@ plt.grid()
 plt.xticks(np.arange(0, bits.size));
 
 plt.figure(2)
+plt.title('Sequência de símbolos correspondente após o mapeamento:')
 plt.stem(symbTx, basefmt=" ")
 plt.xlabel('n')
 plt.ylabel('$s_n$')
@@ -357,7 +367,7 @@ pulse = pulse/max(abs(pulse))
 t = (0.5+np.arange(0, pulse.size))*(Ta/1e-9) # tempo em ps
 
 plt.figure(1)
-plt.plot(t, pulse,'-o', label = 'p(t)', linewidth=3)
+plt.plot(t, pulse,'-', label = 'p(t)', linewidth=3)
 plt.xlabel('tempo [ns]')
 plt.ylabel('amplitude')
 plt.xlim(min(t), max(t))
@@ -381,7 +391,7 @@ plt.plot(t, sigTx,'-', linewidth=3)
 plt.plot(t, symbolsUp.real, 'o')
 plt.xlabel('tempo [ns]')
 plt.ylabel('amplitude [V]')
-plt.title('$\sum_{n}\;s_{n}\;p(t-n T_s)$')
+plt.title('$A(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
 t = (0.5 + np.arange(bits.size))*(Ts/1e-9)
@@ -392,6 +402,10 @@ plt.xlim(0, max(t));
 # ### Pulso NRZ típico
 
 # +
+SpS   = 32            # amostras por símbolo
+Fa    = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta    = 1/Fa          # Período de amostragem
+
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
@@ -414,7 +428,7 @@ symbolsUp = upsample(symbTx, SpS)
 sigTx  = firFilter(pulse, symbolsUp)
 sigTx = sigTx.real
 
-t = np.arange(0, sigTx.size)*(Ta/1e-9)
+t = np.arange(sigTx.size)*(Ta/1e-9)
 
 # instantes centrais dos intervalos de sinalização
 symbolsUp = upsample(2*bits-1, SpS)
@@ -425,7 +439,7 @@ plt.plot(t, sigTx,'-',linewidth=3)
 plt.plot(t, symbolsUp.real,'o')
 plt.xlabel('tempo [ns]')
 plt.ylabel('amplitude [V]')
-plt.title('$\sum_{n}\;s_{n}\;p(t-n T_s)$')
+plt.title('$A(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
 t = (0.5*Ts + np.arange(0, bits.size*Ts, Ts))/1e-9
@@ -487,7 +501,7 @@ rolloff = 0.01
 pulse = pulseShape('rc', SpS, Ncoeffs, rolloff, Ts)
 pulse = pulse/max(abs(pulse))
 
-t = np.arange(0, pulse.size)*(Ta/1e-9)
+t = np.arange(pulse.size)*(Ta/1e-9)
 
 plt.figure(1)
 plt.plot(t, pulse,'-', label = 'p(t)', linewidth=3)
@@ -497,7 +511,7 @@ plt.xlim(min(t), max(t))
 plt.grid()
 plt.legend()
 
-t = (-0.0*Ts + np.arange(0, (Ncoeffs/SpS)*Ts, Ts))/1e-9
+t = (0.0*Ts + np.arange(0, (Ncoeffs/SpS)*Ts, Ts))/1e-9
 plt.vlines(t + 0.5*(Ts/1e-9), -0.2, 1, linestyles='dashed', color = 'k');
 
 # +
@@ -508,7 +522,7 @@ symbolsUp = upsample(symbTx, SpS)
 sigTx = firFilter(pulse, symbolsUp)
 sigTx = sigTx.real
 
-t = np.arange(0, sigTx.size)*(Ta/1e-9)
+t = np.arange(sigTx.size)*(Ta/1e-9)
 
 # instantes centrais dos intervalos de sinalização
 symbolsUp = upsample(2*bits-1, SpS)
@@ -519,7 +533,7 @@ plt.plot(t, sigTx,'-', linewidth=3)
 plt.plot(t, symbolsUp.real,'o')
 plt.xlabel('tempo [ns]')
 plt.ylabel('amplitude [V]')
-plt.title('$\sum_{n}\;s_{n}\;p(t-n T_s)$')
+plt.title('$A(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
 t = (0.5*Ts + np.arange(0, bits.size*Ts, Ts))/1e-9
@@ -726,8 +740,9 @@ plt.xlim(0, max(t));
 
 # +
 # gera sequência de bits pseudo-aleatórios
-bits   = np.random.randint(2, size=10000)    
+bits   = np.random.randint(2, size=200000)    
 n      = np.arange(0, bits.size)
+pulseType = 'nrz'
 
 # mapeia bits para pulsos elétricos
 symbTx = 2*bits-1
@@ -736,19 +751,21 @@ symbTx = symbTx/np.sqrt(signal_power(symbTx))
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
-# # pulso cosseno levantado (raised cosine)
-# Ncoeffs = 640
-# rolloff = 0.1
+if pulseType == 'rc':
+    # pulso cosseno levantado (raised cosine)
+    Ncoeffs = 640
+    rolloff = 0.1
 
-# pulse = pulseShape('rc', SpS, Ncoeffs, rolloff, Ts)
-# pulse = pulse/max(abs(pulse))
-
-# pulso NRZ típico
-pulse = pulseShape('nrz', SpS)
-pulse = pulse/max(abs(pulse))
+    pulse = pulseShape('rc', SpS, Ncoeffs, rolloff, Ts)
+    pulse = pulse/max(abs(pulse))
+    
+elif pulseType == 'nrz':
+    # pulso NRZ típico
+    pulse = pulseShape('nrz', SpS)
+    pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
-sigTx  = firFilter(pulse, symbolsUp)
+sigTx = firFilter(pulse, symbolsUp)
 
 # plota psd
 plt.figure();
@@ -756,30 +773,23 @@ plt.xlim(-4*Rs,4*Rs);
 plt.ylim(-250,-50);
 plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal')
 plt.legend(loc='upper left');
-
-# +
-Nsamples = sigTx.size
-
-# diagrama de olho
-eyediagram(sigTx, Nsamples, SpS, ptype='fancy')
 # -
 
-# ## Gerando sinais 4-PAM
+# ## Modulação M-PAM
 
-# + hide_input=true
-M = 4 # order of the modulation format
+# ### Diagramas de constelação
+
+# + hide_input=false
+M = 8 # order of the modulation format
 constType = 'pam' # 'qam', 'psk', 'pam' or 'ook'
 
 plt.figure(figsize=(4,4))
 plt.plot([],[])
-plt.vlines(0,-1.5,1.5)
-plt.hlines(0,-1.5,1.5)
+
 plt.grid()
 plt.ylabel('$A_Q$', fontsize=14)
 plt.xlabel('$A_I$', fontsize=14)
 plt.axis('square')
-plt.xlim(-1.5,1.5)
-plt.ylim(-1.5,1.5);
 
 # plot modulation bit-to-symbol mapping
 constSymb = GrayMapping(M, constType)             # Gray constellation mapping
@@ -796,10 +806,17 @@ symbTx = modulateGray(bits, M, constType)
 symbTx = pnorm(symbTx)
 plt.plot(symbTx.real, symbTx.imag,'o', markersize=8,);
 plt.title('Constelação '+str(M)+'-'+constType.upper());
+plt.xlim(min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+plt.ylim(min(symbTx.real)-0.25,max(symbTx.real)+0.25);
+plt.vlines(0,min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+plt.hlines(0,min(symbTx.real)-0.25,max(symbTx.real)+0.25)
 
 for ind, symb in enumerate(pnorm(constSymb)):
     bitMap[ind,:]
-    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.035*np.log2(M), symb.imag+0.1), size=12)
+    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.055*np.log2(M), symb.imag+0.15), size=10)
+# -
+
+# ### Mapeando bits para símbolos
 
 # +
 # parâmetros da simulação
@@ -810,23 +827,22 @@ Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
 # generate pseudo-random bit sequence
-bitsTx = np.random.randint(2, size=50)
+bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 
 # generate ook modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
 
-plt.stem(symbTx, basefmt=" ", label ='símbolos 4-PAM')
+plt.stem(symbTx, basefmt=" ", label ='símbolos '+str(M)+'-PAM')
 plt.xlabel('n')
 plt.ylabel('$s_n$')
 plt.grid()
 plt.legend(loc='upper right')
 plt.xticks(np.arange(0, symbTx.size));
 
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.width', 2000)
-pd.options.display.float_format = '{:,d}'.format
-df = pd.DataFrame({'bits a': bitsTx[0::2], 'bits b': bitsTx[1::2]})
+df = pd.DataFrame()
+for b in range(int(np.log2(M))):
+    df['bits '+str(b)] = bitsTx[b::int(np.log2(M))]
 
 display(df.T)
 
@@ -853,7 +869,7 @@ plt.plot(t, sigTx,'-',linewidth=3)
 plt.plot(t, symbolsUp.real,'o')
 plt.xlabel('tempo [ns]')
 plt.ylabel('amplitude [V]')
-plt.title('$\sum_{n}\;s_{n}\;p(t-n T_s)$')
+plt.title('$s(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
 t = (0.5*Ts + np.arange(0, symbTx.size*Ts, Ts))/1e-9
@@ -862,80 +878,117 @@ plt.xlim(0, max(t));
 
 # +
 # generate pseudo-random bit sequence
-bitsTx = np.random.randint(2, size=500000)
+bitsTx = np.random.randint(2, size=int(np.log2(M)*500000))
 
-# generate ook modulated symbol sequence
+# generate modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
-# pulso NRZ típico
+# NRZ pulse shaping
 pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
 
-# formatação de pulso
 sigTx  = firFilter(pulse, symbolsUp)
 sigTx = sigTx.real
 
-Nsamples = 200000
-
-# plota psd
+# plot PSD
 plt.figure();
 plt.xlim(-4*Rs,4*Rs);
 plt.ylim(-250,-50);
-plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal 4-PAM')
+plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal '+ str(M) +'-PAM')
 plt.legend(loc='upper left');
 # -
 
+# ### Diagramas de olho
+
 # diagrama de olho
 Nsamples = sigTx.size
-eyediagram(sigTx, Nsamples, SpS, plotlabel='elétrico', ptype='fancy')
+eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 
+
+# ## Modulação M-QAM
+
+# ### Diagramas de constelação
 
 # +
+M = 4 # order of the modulation format
+constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
+
 plt.figure(figsize=(4,4))
 plt.plot([],[])
-plt.vlines(0,-1.5,1.5)
-plt.hlines(0,-1.5,1.5)
+
 plt.grid()
 plt.ylabel('$A_Q$', fontsize=14)
 plt.xlabel('$A_I$', fontsize=14)
 plt.axis('square')
-plt.xlim(-1.5,1.5)
-plt.ylim(-1.5,1.5);
 
-QPSK = np.array([[-1,1],[-1,-1],[1,-1],[1,1]])
-plt.plot(QPSK[:,0], QPSK[:,1],'o', markersize=10,);
-plt.title('Constelação QPSK');
+# plot modulation bit-to-symbol mapping
+constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
+bitMap = bitMap.reshape(-1, int(np.log2(M)))
+
+# generate random bits
+bits = bitMap.reshape(1, -1)
+
+# Map bits to constellation symbols
+symbTx = modulateGray(bits, M, constType)
+
+# normalize symbols energy to 1
+symbTx = pnorm(symbTx)
+plt.plot(symbTx.real, symbTx.imag,'o', markersize=8,);
+plt.title('Constelação '+str(M)+'-'+constType.upper());
+plt.xlim(min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+plt.ylim(min(symbTx.real)-0.25,max(symbTx.real)+0.25);
+plt.vlines(0,min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+plt.hlines(0,min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+
+for ind, symb in enumerate(pnorm(constSymb)):
+    bitMap[ind,:]
+    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.025*np.log2(M), symb.imag+0.05), size=10)
+# -
+
+# ### Mapeando bits para símbolos
 
 # +
-AI, AQ, t, omega_c = sp.symbols('A_I, A_Q, t, ω_c', real=True)
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
 
-E = AI*cos(omega_c*t) + AQ*sin(omega_c*t)
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 
-print('Portadora:')
-disp(Math('E(t) = '+sp.latex(E)))
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'qam')    
+symbTx = pnorm(symbTx) # power normalization
 
-disp(Math('\hat{E}(t) = '+sp.latex(AI+j*AQ)))
+plt.stem(symbTx.real, basefmt=" ", label ='Re{símbolos} '+str(M)+'-QAM')
+plt.xlabel('n')
+plt.ylabel('$Re\{s_n\}$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, symbTx.size));
+
+plt.figure()
+plt.stem(symbTx.imag, basefmt=" ", label ='Im{símbolos} '+str(M)+'-QAM')
+plt.xlabel('n')
+plt.ylabel('$Im\{s_n\}$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, symbTx.size));
+
+df = pd.DataFrame()
+for b in range(int(np.log2(M))):
+    df['bits '+str(b)] = bitsTx[b::int(np.log2(M))]
+
+display(df.T)
 
 # +
-# gera sequência de bits pseudo-aleatórios
-bitsI   = np.random.randint(2, size=10000)  
-bitsQ   = np.random.randint(2, size=10000) 
-
-n  = np.arange(0, bits.size)
-
-# mapeia bits para símbolos 
-symbTx_I = 2*bitsI-1
-symbTx_Q = 2*bitsQ-1
-
-symbTx_I = symbTx_I/np.sqrt(signal_power(symbTx_I))
-symbTx_Q = symbTx_Q/np.sqrt(signal_power(symbTx_Q))
-
-symbTx = symbTx_I + 1j*symbTx_Q
-
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
@@ -944,14 +997,210 @@ pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+
+t = np.arange(sigTx.size)*Ta/1e-9
+
+# instantes centrais dos intervalos de sinalização
+symbolsUp = upsample(symbTx, SpS)
+symbolsUp[symbolsUp==0+1j*0] = np.nan + 1j*np.nan
+
+plt.figure(2)
+plt.plot(t, sigTx.real,'-',linewidth=3, label = '$Re\{s_n\}$')
+plt.plot(t, symbolsUp.real,'o')
+plt.plot(t, sigTx.imag,'-',linewidth=3, label = '$Im\{s_n\}$')
+plt.plot(t, symbolsUp.imag,'o')
+plt.xlabel('tempo [ns]')
+plt.ylabel('amplitude [V]')
+plt.title('$s(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
+plt.grid()
+
+t = (0.5*Ts + np.arange(0,symbTx.size*Ts, Ts))/1e-9
+plt.vlines(t, min(symbTx.real), max(symbTx.real), linestyles='dashed', color = 'k');
+plt.xlim(0, max(t));
+# -
+
+# ### Espectro do sinal modulado
+
+# +
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size=int(np.log2(M)*500000))
+
+# generate modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'qam')    
+symbTx = pnorm(symbTx) # power normalization
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# NRZ pulse shaping
+pulse = pulseShape('nrz', SpS)
+pulse = pulse/max(abs(pulse))
+
 sigTx  = firFilter(pulse, symbolsUp)
 
-# plota psd
+# plot PSD
 plt.figure();
-plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro elétrico do sinal QPSK')
-plt.legend(loc='upper left');
 plt.xlim(-4*Rs,4*Rs);
 plt.ylim(-250,-50);
+plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal '+ str(M) +'-QAM')
+plt.legend(loc='upper left');
+# -
+
+# ### Diagramas de olho
+
+# +
+# diagrama de olho
+Nsamples = sigTx.size
+eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
+
+eyediagram(np.abs(sigTx), Nsamples, SpS, plotlabel= str(M)+'-QAM (absolute value)', ptype='fancy')
+# -
+
+# ## Modulação M-PSK
+
+# +
+M = 8 # order of the modulation format
+constType = 'psk' # 'qam', 'psk', 'pam' or 'ook'
+
+plt.figure(figsize=(4,4))
+plt.plot([],[])
+
+plt.grid()
+plt.ylabel('$A_Q$', fontsize=14)
+plt.xlabel('$A_I$', fontsize=14)
+plt.axis('square')
+
+# plot modulation bit-to-symbol mapping
+constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
+bitMap = bitMap.reshape(-1, int(np.log2(M)))
+
+# generate random bits
+bits = bitMap.reshape(1, -1)
+
+# Map bits to constellation symbols
+symbTx = modulateGray(bits, M, constType)
+
+# normalize symbols energy to 1
+symbTx = pnorm(symbTx)
+plt.plot(symbTx.real, symbTx.imag,'o', markersize=8,);
+plt.title('Constelação '+str(M)+'-'+constType.upper());
+plt.xlim(min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+plt.ylim(min(symbTx.real)-0.25,max(symbTx.real)+0.25);
+plt.vlines(0,min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+plt.hlines(0,min(symbTx.real)-0.25,max(symbTx.real)+0.25)
+
+for ind, symb in enumerate(pnorm(constSymb)):
+    bitMap[ind,:]
+    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.025*np.log2(M), symb.imag+0.05), size=10)
+# -
+
+# ### Mapeando bits para símbolos
+
+# +
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
+
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'psk')    
+symbTx = pnorm(symbTx) # power normalization
+
+plt.stem(symbTx.real, basefmt=" ", label ='Re{símbolos} '+str(M)+'-PSK')
+plt.xlabel('n')
+plt.ylabel('$Re\{s_n\}$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, symbTx.size));
+
+plt.figure()
+plt.stem(symbTx.imag, basefmt=" ", label ='Im{símbolos} '+str(M)+'-PSK')
+plt.xlabel('n')
+plt.ylabel('$Im\{s_n\}$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, symbTx.size));
+
+df = pd.DataFrame()
+for b in range(int(np.log2(M))):
+    df['bits '+str(b)] = bitsTx[b::int(np.log2(M))]
+
+display(df.T)
+
+# +
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso NRZ típico
+pulse = pulseShape('nrz', SpS)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+
+t = np.arange(sigTx.size)*Ta/1e-9
+
+# instantes centrais dos intervalos de sinalização
+symbolsUp = upsample(symbTx, SpS)
+symbolsUp[symbolsUp==0+1j*0] = np.nan + 1j*np.nan
+
+plt.figure(2)
+plt.plot(t, sigTx.real,'-',linewidth=3, label = '$Re\{s_n\}$')
+plt.plot(t, symbolsUp.real,'o')
+plt.plot(t, sigTx.imag,'-',linewidth=3, label = '$Im\{s_n\}$')
+plt.plot(t, symbolsUp.imag,'o')
+plt.xlabel('tempo [ns]')
+plt.ylabel('amplitude [V]')
+plt.title('$s(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
+plt.grid()
+
+t = (0.5*Ts + np.arange(0,symbTx.size*Ts, Ts))/1e-9
+plt.vlines(t, min(symbTx.real), max(symbTx.real), linestyles='dashed', color = 'k');
+plt.xlim(0, max(t));
+# -
+
+# ### Espectro do sinal modulado
+
+# +
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size=int(np.log2(M)*500000))
+
+# generate modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'psk')    
+symbTx = pnorm(symbTx) # power normalization
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# NRZ pulse shaping
+pulse = pulseShape('nrz', SpS)
+pulse = pulse/max(abs(pulse))
+
+sigTx  = firFilter(pulse, symbolsUp)
+
+# plot PSD
+plt.figure();
+plt.xlim(-4*Rs,4*Rs);
+plt.ylim(-250,-50);
+plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal '+ str(M) +'-PSK')
+plt.legend(loc='upper left');
+# -
+
+# ### Diagramas de olho
+
+# +
+# diagrama de olho
+Nsamples = sigTx.size
+eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-PSK', ptype='fancy')
+
+eyediagram(np.abs(sigTx), Nsamples, SpS, plotlabel= str(M)+'-PSK (absolute value)', ptype='fancy')
 # -
 
 # ## Referências
