@@ -101,7 +101,7 @@ interact(plotCarrier, amp=(1e-8,10,0.1), fase=(0,2*np.pi,0.1), freq=(1e-3,10010,
 
 # Podemos também escrever de forma alternativa: $$ \begin{aligned}c(t) &= A \cos \left(2\pi f_c t + \theta\right)\\ &= \operatorname{Re}\left[A e^{j \theta} e^{j2\pi f_c t}\right] \end{aligned} $$
 
-# +
+# + hide_input=true
 A, fc, t, θ = sp.symbols('A, f_c, t, θ', real=True)
 π = sp.pi
 j = sp.I
@@ -110,12 +110,12 @@ c = sp.re( A * exp(j*θ) * exp(j * 2 * π * fc * t) )
 
 symdisp('c(t) = ', c)
 symdisp('c(t) = ', c.simplify())
-# -
 
+# + hide_input=true
 c = TR10(c.simplify()).expand()
 symdisp('c(t) = ', c)
 
-# +
+# + hide_input=true
 print('Portadora:')
 symdisp('c(t) = ', c)
 
@@ -158,8 +158,8 @@ symdisp('A_Q = ', A_Q)
 # ### Diagramas de constelação
 
 # +
-M = 2 # order of the modulation format
-constType = 'psk' # 'qam', 'psk', 'pam' or 'ook'
+M = 256 # order of the modulation format
+constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 
 plt.figure(figsize=(4,4))
 plt.plot([],[])
@@ -188,9 +188,9 @@ symbTx = pnorm(symbTx)
 plt.plot(symbTx.real, symbTx.imag,'o', markersize=8,);
 plt.title('Constelação '+str(M)+'-'+constType.upper());
 
-for ind, symb in enumerate(pnorm(constSymb)):
-    bitMap[ind,:]
-    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.035*np.log2(M), symb.imag+0.1), size=8)
+# for ind, symb in enumerate(pnorm(constSymb)):
+#     bitMap[ind,:]
+#     plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.035*np.log2(M), symb.imag+0.1), size=8)
 # -
 
 # ## Intervalos de sinalização
