@@ -197,9 +197,9 @@ for ind, symb in enumerate(pnorm(constSymb)):
 
 # #### Energia média dos símbolos da constelação ($E_s$)
 #
-# Seja $X$ uma variável aleatória que representa a fonte de símbolos do transmissor. Em cada, instante de sinalização, o transmissor envia para o canal um dos símbolos da constelação definida por $\mathcal{X} = \left\lbrace s_0, s_1, \dots, s_{M-1}\right\rbrace$, com probabilidade $P(s_n),\;n = 0,1,\dots,M-1$. A energia média dos símbolos enviados pelo transmissor será dada por:
+# Considere $X$ uma variável aleatória que representa a fonte de símbolos do transmissor. Em cada instante de sinalização, o transmissor envia para o canal um dos símbolos da constelação definida por $\mathcal{X} = \left\lbrace s_0, s_1, \dots, s_{M-1}\right\rbrace$, com probabilidade $P(s_n),\;n = 0,1,\dots,M-1$. A energia média $E_s$ dos símbolos enviados pelo transmissor será dada pelo valor esperado:
 #
-# $$ E_s = \frac{1}{M}\sum_{n=0}^{M-1}|s_n|^2P(s_n) $$
+# $$ E_s = E\left[X^2\right] = \sum_{n=0}^{M-1}|s_n|^2P(s_n) $$
 #
 #
 
