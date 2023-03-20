@@ -99,7 +99,7 @@ def plotCarrier(amp, fase, freq):
 interact(plotCarrier, amp=(1e-8,10,0.1), fase=(0,2*np.pi,0.1), freq=(1e-3,10010,100));
 # -
 
-# Podemos também escrever de forma alternativa: $$ \begin{aligned}c(t) &= A \cos \left(2\pi f_c t + \theta\right)\\ &= \operatorname{Re}\left[A e^{j \theta} \exp \left(j2\pi f_c t\right)\right] \end{aligned} $$
+# Podemos também escrever de forma alternativa: $$ \begin{aligned}c(t) &= A \cos \left(2\pi f_c t + \theta\right)\\ &= \operatorname{Re}\left[A e^{j \theta} e^{j2\pi f_c t}\right] \end{aligned} $$
 
 # +
 A, fc, t, θ = sp.symbols('A, f_c, t, θ', real=True)
@@ -464,14 +464,14 @@ plt.xlim(0, np.max(t));
 # \end{array}\right.
 # $$
 
-# +
+# + hide_input=false
 t = sp.symbols('t', real=True)
 T, β = sp.symbols('T, β', real=True, positive=True)
 
 π = sp.pi
 
 p = (1/T) * sp.sinc(t/T) * ( sp.cos(π*β*t/T) / (1 - (2*β*t/T)**2 ) )
-symdisp('p(t) =', p)
+#symdisp('p(t) =', p)
 
 def plotRC(β):    
     t = np.arange(-25,25,0.1)
