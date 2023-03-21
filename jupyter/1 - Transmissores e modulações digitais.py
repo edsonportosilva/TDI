@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -66,7 +66,7 @@ figsize(10, 4)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Representações-para-a-onda-portadora" data-toc-modified-id="Representações-para-a-onda-portadora-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Representações para a onda portadora</a></span></li><li><span><a href="#Modulações-digitais" data-toc-modified-id="Modulações-digitais-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Características-importantes-das-modulações-digitais" data-toc-modified-id="Características-importantes-das-modulações-digitais-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Características importantes das modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Energia-média-dos-símbolos-da-constelação-($E_s$)" data-toc-modified-id="Energia-média-dos-símbolos-da-constelação-($E_s$)-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Energia média dos símbolos da constelação ($E_s$)</a></span></li></ul></li></ul></li><li><span><a href="#Intervalos-de-sinalização" data-toc-modified-id="Intervalos-de-sinalização-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Intervalos de sinalização</a></span><ul class="toc-item"><li><span><a href="#Teorema-da-amostragem" data-toc-modified-id="Teorema-da-amostragem-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Teorema da amostragem</a></span></li><li><span><a href="#Exemplo-1:-função-sinc(t)" data-toc-modified-id="Exemplo-1:-função-sinc(t)-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Exemplo 1: função sinc(t)</a></span></li><li><span><a href="#Exemplo-2:-chirp-de-frequência-linear" data-toc-modified-id="Exemplo-2:-chirp-de-frequência-linear-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Exemplo 2: chirp de frequência linear</a></span></li></ul></li><li><span><a href="#Gerando-sinais-binários" data-toc-modified-id="Gerando-sinais-binários-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Gerando sinais binários</a></span><ul class="toc-item"><li><span><a href="#Pulso-retangular-ideal" data-toc-modified-id="Pulso-retangular-ideal-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Pulso retangular ideal</a></span></li><li><span><a href="#Pulso-NRZ-típico" data-toc-modified-id="Pulso-NRZ-típico-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Pulso NRZ típico</a></span></li><li><span><a href="#Pulso-cosseno-levantado" data-toc-modified-id="Pulso-cosseno-levantado-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Pulso cosseno levantado</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente" data-toc-modified-id="Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Densidade espectral de potência de sinais modulados digitalmenente</a></span><ul class="toc-item"><li><span><a href="#Valor-médio-e-autocorrelação-de-$V(t)$" data-toc-modified-id="Valor-médio-e-autocorrelação-de-$V(t)$-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Valor médio e autocorrelação de $V(t)$</a></span><ul class="toc-item"><li><span><a href="#Valor-médio" data-toc-modified-id="Valor-médio-5.1.1"><span class="toc-item-num">5.1.1&nbsp;&nbsp;</span>Valor médio</a></span></li><li><span><a href="#Autocorrelação" data-toc-modified-id="Autocorrelação-5.1.2"><span class="toc-item-num">5.1.2&nbsp;&nbsp;</span>Autocorrelação</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$" data-toc-modified-id="Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Densidade espectral de potência $\mathcal{S}_{V}(f)$</a></span></li><li><span><a href="#Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados" data-toc-modified-id="Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Exemplos de densidade espectral de potência de sinais modulados</a></span></li></ul></li><li><span><a href="#Modulação-M-PAM" data-toc-modified-id="Modulação-M-PAM-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Modulação M-PAM</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-6.1"><span class="toc-item-num">6.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-6.2"><span class="toc-item-num">6.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-6.3"><span class="toc-item-num">6.3&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Modulação-M-QAM" data-toc-modified-id="Modulação-M-QAM-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Modulação M-QAM</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-7.1"><span class="toc-item-num">7.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-7.2"><span class="toc-item-num">7.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Espectro-do-sinal-modulado" data-toc-modified-id="Espectro-do-sinal-modulado-7.3"><span class="toc-item-num">7.3&nbsp;&nbsp;</span>Espectro do sinal modulado</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-7.4"><span class="toc-item-num">7.4&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Modulação-M-PSK" data-toc-modified-id="Modulação-M-PSK-8"><span class="toc-item-num">8&nbsp;&nbsp;</span>Modulação M-PSK</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-8.1"><span class="toc-item-num">8.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-8.2"><span class="toc-item-num">8.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Espectro-do-sinal-modulado" data-toc-modified-id="Espectro-do-sinal-modulado-8.3"><span class="toc-item-num">8.3&nbsp;&nbsp;</span>Espectro do sinal modulado</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-8.4"><span class="toc-item-num">8.4&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-9"><span class="toc-item-num">9&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Representações-para-a-onda-portadora" data-toc-modified-id="Representações-para-a-onda-portadora-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Representações para a onda portadora</a></span></li><li><span><a href="#Modulações-digitais" data-toc-modified-id="Modulações-digitais-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Parâmetros-importantes-das-modulações-digitais" data-toc-modified-id="Parâmetros-importantes-das-modulações-digitais-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Parâmetros importantes das modulações digitais</a></span><ul class="toc-item"><li><span><a href="#Energia-média-dos-símbolos-da-constelação-($E_s$)" data-toc-modified-id="Energia-média-dos-símbolos-da-constelação-($E_s$)-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Energia média dos símbolos da constelação ($E_s$)</a></span></li><li><span><a href="#Distância-euclidiana-mínima-entre-símbolos-($d_{min}$)" data-toc-modified-id="Distância-euclidiana-mínima-entre-símbolos-($d_{min}$)-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Distância euclidiana mínima entre símbolos ($d_{min}$)</a></span></li></ul></li></ul></li><li><span><a href="#Intervalo-de-sinalização" data-toc-modified-id="Intervalo-de-sinalização-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Intervalo de sinalização</a></span></li><li><span><a href="#Teorema-da-amostragem" data-toc-modified-id="Teorema-da-amostragem-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Teorema da amostragem</a></span><ul class="toc-item"><li><span><a href="#Exemplo-1:-função-sinc(t)" data-toc-modified-id="Exemplo-1:-função-sinc(t)-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Exemplo 1: função sinc(t)</a></span></li><li><span><a href="#Exemplo-2:-chirp-de-frequência-linear" data-toc-modified-id="Exemplo-2:-chirp-de-frequência-linear-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Exemplo 2: chirp de frequência linear</a></span></li></ul></li><li><span><a href="#Gerando-sinais-binários" data-toc-modified-id="Gerando-sinais-binários-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Gerando sinais binários</a></span><ul class="toc-item"><li><span><a href="#Pulso-retangular-ideal" data-toc-modified-id="Pulso-retangular-ideal-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Pulso retangular ideal</a></span></li><li><span><a href="#Pulso-NRZ-típico" data-toc-modified-id="Pulso-NRZ-típico-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Pulso NRZ típico</a></span></li><li><span><a href="#Pulso-cosseno-levantado" data-toc-modified-id="Pulso-cosseno-levantado-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Pulso cosseno levantado</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente" data-toc-modified-id="Densidade-espectral-de-potência-de-sinais-modulados-digitalmenente-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Densidade espectral de potência de sinais modulados digitalmenente</a></span><ul class="toc-item"><li><span><a href="#Valor-médio-e-autocorrelação-de-$V(t)$" data-toc-modified-id="Valor-médio-e-autocorrelação-de-$V(t)$-6.1"><span class="toc-item-num">6.1&nbsp;&nbsp;</span>Valor médio e autocorrelação de $V(t)$</a></span><ul class="toc-item"><li><span><a href="#Valor-médio" data-toc-modified-id="Valor-médio-6.1.1"><span class="toc-item-num">6.1.1&nbsp;&nbsp;</span>Valor médio</a></span></li><li><span><a href="#Autocorrelação" data-toc-modified-id="Autocorrelação-6.1.2"><span class="toc-item-num">6.1.2&nbsp;&nbsp;</span>Autocorrelação</a></span></li></ul></li><li><span><a href="#Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$" data-toc-modified-id="Densidade-espectral-de-potência-$\mathcal{S}_{V}(f)$-6.2"><span class="toc-item-num">6.2&nbsp;&nbsp;</span>Densidade espectral de potência $\mathcal{S}_{V}(f)$</a></span></li><li><span><a href="#Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados" data-toc-modified-id="Exemplos-de-densidade-espectral-de-potência-de-sinais-modulados-6.3"><span class="toc-item-num">6.3&nbsp;&nbsp;</span>Exemplos de densidade espectral de potência de sinais modulados</a></span></li></ul></li><li><span><a href="#Modulação-M-PAM" data-toc-modified-id="Modulação-M-PAM-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Modulação M-PAM</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-7.1"><span class="toc-item-num">7.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-7.2"><span class="toc-item-num">7.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-7.3"><span class="toc-item-num">7.3&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Modulação-M-QAM" data-toc-modified-id="Modulação-M-QAM-8"><span class="toc-item-num">8&nbsp;&nbsp;</span>Modulação M-QAM</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-8.1"><span class="toc-item-num">8.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-8.2"><span class="toc-item-num">8.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Espectro-do-sinal-modulado" data-toc-modified-id="Espectro-do-sinal-modulado-8.3"><span class="toc-item-num">8.3&nbsp;&nbsp;</span>Espectro do sinal modulado</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-8.4"><span class="toc-item-num">8.4&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Modulação-M-PSK" data-toc-modified-id="Modulação-M-PSK-9"><span class="toc-item-num">9&nbsp;&nbsp;</span>Modulação M-PSK</a></span><ul class="toc-item"><li><span><a href="#Diagramas-de-constelação" data-toc-modified-id="Diagramas-de-constelação-9.1"><span class="toc-item-num">9.1&nbsp;&nbsp;</span>Diagramas de constelação</a></span></li><li><span><a href="#Mapeando-bits-para-símbolos" data-toc-modified-id="Mapeando-bits-para-símbolos-9.2"><span class="toc-item-num">9.2&nbsp;&nbsp;</span>Mapeando bits para símbolos</a></span></li><li><span><a href="#Espectro-do-sinal-modulado" data-toc-modified-id="Espectro-do-sinal-modulado-9.3"><span class="toc-item-num">9.3&nbsp;&nbsp;</span>Espectro do sinal modulado</a></span></li><li><span><a href="#Diagramas-de-olho" data-toc-modified-id="Diagramas-de-olho-9.4"><span class="toc-item-num">9.4&nbsp;&nbsp;</span>Diagramas de olho</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-10"><span class="toc-item-num">10&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Sistemas de Transmissão Digital da Informação
@@ -158,19 +158,14 @@ symdisp('A_Q = ', A_Q)
 # ### Diagramas de constelação
 
 # +
-M = 4 # order of the modulation format
+M = 64 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
-
 plt.figure(figsize=(4,4))
 plt.plot([],[])
-plt.vlines(0,-1.5,1.5)
-plt.hlines(0,-1.5,1.5)
 plt.grid()
 plt.ylabel('$A_Q$', fontsize=14)
 plt.xlabel('$A_I$', fontsize=14)
 plt.axis('square')
-plt.xlim(-1.5,1.5)
-plt.ylim(-1.5,1.5);
 
 # plot modulation bit-to-symbol mapping
 constSymb = GrayMapping(M, constType)             # Gray constellation mapping
@@ -184,32 +179,60 @@ bits = bitMap.reshape(1, -1)
 symbTx = modulateGray(bits, M, constType)
 
 # normalize symbols energy to 1
-symbTx = pnorm(symbTx)
+plt.xlim(1.2*min(symbTx.real),1.2*max(symbTx.real))
+plt.ylim(1.2*min(symbTx.real),1.2*max(symbTx.real));
+plt.vlines(0, 1.2*min(symbTx.real), 1.2*max(symbTx.real))
+plt.hlines(0, 1.2*min(symbTx.real), 1.2*max(symbTx.real))
+
 plt.plot(symbTx.real, symbTx.imag,'o', markersize=int(np.ceil(20/np.log2(M))),);
 plt.title('Constelação '+str(M)+'-'+constType.upper());
 
-for ind, symb in enumerate(pnorm(constSymb)):
+for ind, symb in enumerate(constSymb):
     bitMap[ind,:]
     plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.035*np.log2(M), symb.imag+0.1), size=int(np.ceil(30/np.log2(M))))
 # -
 
-# ### Características importantes das modulações digitais
+# ### Parâmetros importantes das modulações digitais
 
 # #### Energia média dos símbolos da constelação ($E_s$)
 #
-# Considere $X$ uma variável aleatória que representa a fonte de símbolos do transmissor. Em cada instante de sinalização, o transmissor envia para o canal um dos símbolos da constelação definida por $\mathcal{X} = \left\lbrace s_0, s_1, \dots, s_{M-1}\right\rbrace$, com probabilidade $P(s_n),\;n = 0,1,\dots,M-1$. A energia média $E_s$ dos símbolos enviados pelo transmissor será dada pelo valor esperado:
+# Considere $X$ uma variável aleatória discreta que representa a fonte de símbolos do transmissor. Em cada instante de sinalização, o transmissor envia para o canal um dos símbolos da constelação definida por $\mathcal{X} = \left\lbrace s_0, s_1, \dots, s_{M-1}\right\rbrace$, com probabilidade $P(s_n),\;n = 0,1,\dots,M-1$, de modo que $\sum_{n=0}^{M-1}P(s_n)=1$. A energia média $E_s$ dos símbolos enviados pelo transmissor será dada pelo valor esperado:
 #
-# $$ E_s = E\left[X^2\right] = \sum_{n=0}^{M-1}|s_n|^2P(s_n) $$
+# $$\begin{aligned} E_s &= E\left[X^2\right] \\ &= \sum_{n=0}^{M-1}|s_n|^2P(s_n) \end{aligned} $$
 #
+# Se cada um dos $M$ símbolos ocorre com a mesma probabilidade, diz-se que a fonte gera símbolos equiprováveis, de modo que $P(s_n)=\frac{1}{M}$. Neste caso, temos
 #
+# $$ \begin{aligned} E_s &=\sum_{n=0}^{M-1}|s_n|^2\frac{1}{M} \\ &=  \frac{1}{M}\sum_{n=0}^{M-1}|s_n|^2\end{aligned} $$
+#
+# Exemplos: 
+#
+# 1. Considere a constelação 4-PAM definida por $\mathcal{X} = \left\lbrace -3, -1, 1, 3\right\rbrace$. Considerando que os símbolos são gerados de maneira equiprovável, temos que:
+#
+# $$ \begin{aligned} E_s &=\sum_{n=0}^{M-1}|s_n|^2P(s_n) \\ &=  \frac{1}{4}\left[|-3|^2+|-1|^2+|1|^2+|3|^2\right] \\ &=  \frac{20}{4} = 5\end{aligned} $$
+#
+# 2. Considere a constelação 4-QAM definida por $\mathcal{X} = \left\lbrace -1-j, -1+j, 1+j, 1-j\right\rbrace$. Considerando que os símbolos são gerados de maneira equiprovável, temos que:
+#
+# $$ \begin{aligned} E_s &=\sum_{n=0}^{M-1}|s_n|^2P(s_n) \\ &=  \frac{1}{4}\left[|-1-j|^2+|-1+j|^2+|1+j|^2+|1+j|^2\right] \\ &=  \frac{8}{4} = 2\end{aligned} $$
+#
+# Logo, ao compararmos as modulações 4-PAM e 4-QAM dadas pelas constelações descritas, nota-se que ao utilizar a constelação 4-PAM o transmissor gastará, em média, $2,5\times$ mais energia por símbolo transmitido no canal do que gastaria utilizando a modulação 4-QAM. 
+#
+# Em algumas situações deseja-se comparar o desempenho entre diferentes formatos de modulação num sistema de comunicações. Neste caso, comparar constelações com valores distintos de energia média por símbolo pode ser problemático. Busca-se então normalizar a energia média das constelações, i.e. fazer com que $E_s = 1$, de modo a garantir uma comparação justa (i.e. assumindo que independentemente da modulação utilizada, o transmissor multiplica a constelação por um escalar de modo a enviar sempre a mesma energia média por símbolo transmitido ao canal). A normalização é feita dividindo-se todos os símbolos em $\mathcal{X}$ por $\sqrt{E_s}$.
 
-# ## Intervalos de sinalização
+# #### Distância euclidiana mínima entre símbolos ($d_{min}$)
 #
-# Transmissores digitais fazem uso do canal de comunicação para transmitir informação de acordo com uma base de tempo, geralmente denomidade de **intervalo de sinalização** ($T_s$). O intervalo de sinalização é o intervalo de tempo no qual o transmissor envia um símbolo discreto mapeado num pulso contínuo. O inverso do intervalo de sinalização é denominado de taxa de transmissão de símbolos ($R_s$), i.e. $R_s=1/T_s$.
+# Para uma dada constelação $\mathcal{X} = \left\lbrace s_0, s_1, \dots, s_{M-1}\right\rbrace$, a distância euclidiana mínima entre dois símbolos será dada por
 #
-# A quantidade de bits enviada em cada intervalo de sinalização multiplicada por $R_s$ corresponde à taxa de transmissão de bits do sistema ($R_b$). Assumindo que cada símbolo de uma modulação digital representa uma sequência de $k$ bits, temos que:
+# $$d_{min} = \min_{i,k} |s_i-s_k| = \min_{i,k} \sqrt{(s_i-s_k)^2} $$.
 #
-# $$R_b = kR_s $$
+# com $i, k \in \left\lbrace 0, 1, \dots, M-1\right\rbrace$ e $i\neq k$.
+#
+# Exemplos: 
+#
+# 1. Considere a constelação 4-PAM normalizada definida por $\mathcal{X} = \left\lbrace \frac{-3}{\sqrt{5}}, \frac{-1}{\sqrt{5}}, \frac{1}{\sqrt{5}}, \frac{3}{\sqrt{5}}\right\rbrace$, temos que $d_{min}=\frac{2}{\sqrt{5}}\approx 0.894$.
+#
+# 2. Considere a constelação 4-QAM normalizada definida por $\mathcal{X} = \left\lbrace \frac{-1-j}{\sqrt{2}}, \frac{-1+j}{\sqrt{2}}, \frac{1+j}{\sqrt{2}}, \frac{1-j}{\sqrt{2}}\right\rbrace$, temos que $d_{min}=\frac{2}{\sqrt{2}}\approx 1.414$.
+
+# ## Intervalo de sinalização
 
 # +
 Rs  = 100e6  # Taxa de símbolos [baud]
@@ -226,7 +249,7 @@ plt.xticks(t);
 plt.xlim(0, t.max());
 # -
 
-# ### Teorema da amostragem
+# ## Teorema da amostragem
 #
 # O teorema de amostragem de *Nyquist-Shannon* é um dos resultados mais importantes utilizados em processamento digital de sinais, servindo como uma ponte fundamental entre sinais de tempo contínuo e sinais de tempo discreto. O teorema estabelece uma **condição suficiente** para uma taxa de amostragem que permite que uma sequência discreta de amostras capture toda a informação de um sinal contínuo no tempo e de largura de banda finita.
 #
