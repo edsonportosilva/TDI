@@ -157,8 +157,8 @@ symdisp('A_Q = ', A_Q)
 
 # ### Diagramas de constelação
 
-# +
-M = 64 # order of the modulation format
+# + hide_input=true
+M = 16 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 plt.figure(figsize=(4,4))
 plt.plot([],[])
@@ -233,6 +233,8 @@ for ind, symb in enumerate(constSymb):
 # 2. Considere a constelação 4-QAM normalizada definida por $\mathcal{X} = \left\lbrace \frac{-1-j}{\sqrt{2}}, \frac{-1+j}{\sqrt{2}}, \frac{1+j}{\sqrt{2}}, \frac{1-j}{\sqrt{2}}\right\rbrace$, temos que $d_{min}=\frac{2}{\sqrt{2}}\approx 1.414$.
 
 # ## Intervalo de sinalização
+#
+# Num sistema de comunicações digitais, o transmissor envia informação pelo canal de comunicações ao receptor. Diz-se que o transmissor "faz uso do canal" toda cada vez que envia um símbolo de um esquema de modulação representando uma sequência de bits. A taxa (ou frequência) em que o transmissor faz uso do canal para enviar símbolos é chamada de taxa (ou frequência) de sinalização, ou taxa de símbolos, sendo medida em [baud](https://en.wikipedia.org/wiki/Baud). Quanto maior a taxa de símbolos, maior será a banda de espectro necessária para a operação do sistema. Para recuperar corretamente a sequência de símbolos transmitida, faz-se necessário que o transmissor e receptor estejam **sincronizados**, ou seja, o receptor deve conhecer exatamente os intervalos de sinalização utilizados pelo transmissor para o envio da informação.
 
 # +
 Rs  = 100e6  # Taxa de símbolos [baud]
@@ -310,7 +312,7 @@ plt.legend();
 # +
 from scipy.signal import chirp
 
-Fa = 200   # frequência de amostragem
+Fa = 800   # frequência de amostragem
 Ta = 1/Fa  # período de amostragem
 B  = 100
 
