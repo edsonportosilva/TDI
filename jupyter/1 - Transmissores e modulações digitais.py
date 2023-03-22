@@ -160,36 +160,60 @@ symdisp('A_Q = ', A_Q)
 # + hide_input=true
 M = 16 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
-plt.figure(figsize=(4,4))
-plt.plot([],[])
-plt.grid()
-plt.ylabel('$A_Q$', fontsize=14)
-plt.xlabel('$A_I$', fontsize=14)
-plt.axis('square')
 
-# plot modulation bit-to-symbol mapping
-constSymb = GrayMapping(M, constType)             # Gray constellation mapping
-bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
-bitMap = bitMap.reshape(-1, int(np.log2(M)))
+def genConst(M, constType, plotBits):
+    try:
+        plt.figure(figsize=(6,6))
+        plt.plot([],[])
+        plt.grid()
+        plt.ylabel('$A_Q$', fontsize=14)
+        plt.xlabel('$A_I$', fontsize=14)
+        plt.axis('square')
 
-# generate random bits
-bits = bitMap.reshape(1, -1)
+        # plot modulation bit-to-symbol mapping    
+        constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+        bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
+        bitMap = bitMap.reshape(-1, int(np.log2(M)))
 
-# Map bits to constellation symbols
-symbTx = modulateGray(bits, M, constType)
+        # generate random bits
+        bits = bitMap.reshape(1, -1)
 
-# normalize symbols energy to 1
-plt.xlim(1.2*min(symbTx.real),1.2*max(symbTx.real))
-plt.ylim(1.2*min(symbTx.real),1.2*max(symbTx.real));
-plt.vlines(0, 1.2*min(symbTx.real), 1.2*max(symbTx.real))
-plt.hlines(0, 1.2*min(symbTx.real), 1.2*max(symbTx.real))
+        # Map bits to constellation symbols
+        symbTx = modulateGray(bits, M, constType)
 
-plt.plot(symbTx.real, symbTx.imag,'o', markersize=int(np.ceil(20/np.log2(M))),);
-plt.title('Constelação '+str(M)+'-'+constType.upper());
+        # normalize symbols energy to 1
+        if constType == 'ook':
+            plt.xlim(-1.25*max(symbTx.real),1.25*max(symbTx.real))
+            plt.ylim(-1.25*max(symbTx.real),1.25*max(symbTx.real));
+            plt.vlines(0, -1.25*max(symbTx.real),1.25*max(symbTx.real))
+            plt.hlines(0, -1.25*max(symbTx.real),1.25*max(symbTx.real))
+        else:
+            plt.xlim(1.25*min(symbTx.real),1.25*max(symbTx.real))
+            plt.ylim(1.25*min(symbTx.real),1.25*max(symbTx.real));
+            plt.vlines(0, 1.25*min(symbTx.real), 1.25*max(symbTx.real))
+            plt.hlines(0, 1.25*min(symbTx.real), 1.25*max(symbTx.real))
+        
+        if M>64:
+            plt.plot(symbTx.real, symbTx.imag,'o', markersize=4);
+        else:
+            plt.plot(symbTx.real, symbTx.imag,'o', markersize=10);                
+      
+        plt.title('Constelação '+str(M)+'-'+constType.upper());
+        
+        if plotBits:
+            if M>=64:
+                fontSize = 6
+            else:
+                fontSize = 12
 
-for ind, symb in enumerate(constSymb):
-    bitMap[ind,:]
-    plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.035*np.log2(M), symb.imag+0.1), size=int(np.ceil(30/np.log2(M))))
+            for ind, symb in enumerate(constSymb):
+                bitMap[ind,:]
+                plt.annotate(str(bitMap[ind,:])[1:-1:2], xy = (symb.real-0.05, symb.imag+0.15), size=fontSize)
+        
+    except:
+        return    
+    
+interact(genConst, M=[2, 4, 8, 16, 64, 256, 1024], constType=['ook','pam','psk','qam'], plotBits=[True, False]);
 # -
 
 # ### Parâmetros importantes das modulações digitais
@@ -454,7 +478,7 @@ plt.xlim(0, max(t));
 # ### Pulso NRZ típico
 
 # +
-SpS   = 128            # amostras por símbolo
+SpS   = 128           # amostras por símbolo
 Fa    = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta    = 1/Fa          # Período de amostragem
 
@@ -554,6 +578,10 @@ def plotRC(β):
 interact(plotRC, β=(0.0001,1.0,0.005));
 
 # +
+SpS   = 32            # amostras por símbolo
+Fa    = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta    = 1/Fa          # Período de amostragem
+
 # pulso cosseno levantado (raised cosine)
 Ncoeffs = 640
 rolloff = 0.01
@@ -910,6 +938,14 @@ display(df.T)
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
+plt.stem(symbolsUp[0:5*SpS].real, basefmt=" ", label ='sinal sobreamostrado '+str(M)+'-PAM')
+plt.xlabel('n')
+plt.ylabel('$s_n$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, 5*SpS, SpS));
+
+# +
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
@@ -973,7 +1009,7 @@ eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 
 # ### Diagramas de constelação
 
-# +
+# + hide_input=true
 M = 4 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 
@@ -1023,11 +1059,11 @@ Ta  = 1/Fa          # Período de amostragem
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 
-# generate ook modulated symbol sequence
+# generate modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'qam')    
 symbTx = pnorm(symbTx) # power normalization
 
-plt.stem(symbTx.real, basefmt=" ", label ='Re{símbolos} '+str(M)+'-QAM')
+plt.stem(symbTx.real, basefmt=" ", label ='Re{s_n} '+str(M)+'-QAM')
 plt.xlabel('n')
 plt.ylabel('$Re\{s_n\}$')
 plt.grid()
@@ -1035,7 +1071,7 @@ plt.legend(loc='upper right')
 plt.xticks(np.arange(0, symbTx.size));
 
 plt.figure()
-plt.stem(symbTx.imag, basefmt=" ", label ='Im{símbolos} '+str(M)+'-QAM')
+plt.stem(symbTx.imag, basefmt=" ", label ='Im{s_n} '+str(M)+'-QAM')
 plt.xlabel('n')
 plt.ylabel('$Im\{s_n\}$')
 plt.grid()
@@ -1052,6 +1088,23 @@ display(df.T)
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
+plt.figure(1)
+plt.stem(symbolsUp[0:5*SpS].real, basefmt=" ", label ='$Re\{s_n^{(up)}\}$'+str(M)+'-QAM')
+plt.xlabel('n')
+plt.ylabel('$Re\{s_n^{(up)}\}$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, 5*SpS, SpS));
+
+plt.figure(2)
+plt.stem(symbolsUp[0:5*SpS].imag, basefmt=" ", label ='$Im\{s_n^{(up)}\}$ '+str(M)+'-QAM')
+plt.xlabel('n')
+plt.ylabel('$Im\{s_n^{(up)}\}$')
+plt.grid()
+plt.legend(loc='upper right')
+plt.xticks(np.arange(0, 5*SpS, SpS));
+
+# +
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
