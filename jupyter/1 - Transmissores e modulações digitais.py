@@ -216,7 +216,11 @@ for ind, symb in enumerate(constSymb):
 #
 # Logo, ao compararmos as modulações 4-PAM e 4-QAM dadas pelas constelações descritas, nota-se que ao utilizar a constelação 4-PAM o transmissor gastará, em média, $2,5\times$ mais energia por símbolo transmitido no canal do que gastaria utilizando a modulação 4-QAM. 
 #
-# Em algumas situações deseja-se comparar o desempenho entre diferentes formatos de modulação num sistema de comunicações. Neste caso, comparar constelações com valores distintos de energia média por símbolo pode ser problemático. Busca-se então normalizar a energia média das constelações, i.e. fazer com que $E_s = 1$, de modo a garantir uma comparação justa (i.e. assumindo que independentemente da modulação utilizada, o transmissor multiplica a constelação por um escalar de modo a enviar sempre a mesma energia média por símbolo transmitido ao canal). A normalização é feita dividindo-se todos os símbolos em $\mathcal{X}$ por $\sqrt{E_s}$.
+# Em diversas situações deseja-se comparar o desempenho entre diferentes formatos de modulação num sistema de comunicações. Neste caso, comparar constelações que possuem valores distintos de energia média por símbolo pode causar inconsistências. Busca-se, então, normalizar a energia média por símbolo das constelações, ou seja, fazer com que $E_s = 1$, de modo a garantir uma comparação justa. Desse modo assume-se que, independentemente da modulação utilizada, o transmissor envia sempre a mesma energia média por símbolo transmitido ao canal. A normalização é feita dividindo-se os símbolos em $\mathcal{X}$ por $\sqrt{E_s}$. Para verificar essa afirmação, podemos assumir que um fator $\alpha\in \mathbb{R}$ é utilizado para ampliar ($\alpha>1$) ou reduzir ($0<\alpha<1$) as dimensões da constelação, de modo que $\mathcal{X} = \left\lbrace \alpha s_0,  \alpha s_1, \dots, \alpha s_{M-1}\right\rbrace$ é a constelação resultante. Seja $E_s^{(\alpha)}$ a nova energia média por símbolo da constelação, temos que
+#
+# $$\begin{aligned} E_s^{(\alpha)} &= \sum_{n=0}^{M-1}|\alpha s_n|^2P(s_n) \\ &= \alpha^2\sum_{n=0}^{M-1}|s_n|^2P(s_n) \\ &= \alpha^2 E_s\end{aligned} $$
+#
+# Logo, se $\alpha = \frac{1}{\sqrt{E_s}}$, então $E_s^{(\alpha)}=1$.
 
 # #### Distância euclidiana mínima entre símbolos ($d_{min}$)
 #
@@ -312,7 +316,7 @@ plt.legend();
 # +
 from scipy.signal import chirp
 
-Fa = 800   # frequência de amostragem
+Fa = 150   # frequência de amostragem
 Ta = 1/Fa  # período de amostragem
 B  = 100
 
