@@ -529,8 +529,6 @@ plt.grid()
 t = (0.5*Ts + np.arange(0, bits.size*Ts, Ts))/1e-9
 plt.vlines(t, -1, 1, linestyles='dashed', color = 'k');
 plt.xlim(0, np.max(t));
-
-
 # -
 
 # ### Pulso cosseno levantado
@@ -551,31 +549,24 @@ plt.xlim(0, np.max(t));
 # $$
 
 # + hide_input=true
+from ipywidgets import FloatSlider
+
 def plotRC(β):
     Rs = 100e6
     T = 1/Rs
     SpS = 16
-    Ns = 601    
+    Ns = 600    
     π = np.pi
     Ta = 1/(Rs*SpS)
     Ta = (Ta/1e-9)
-    T = T/1e-9
+    T = T/1e-9     
     
-    t = np.arange(-Ns*Ta, (Ns+1)*Ta,Ta, dtype='float')    
-    p = np.zeros(2*Ns+1)
+    pulse = pulseShape('rc', SpS, Ns, β, T)
+    pulse = pulse/max(abs(pulse))
     
-    for ind in range(2*Ns+1):        
-        if t[ind] == 0.0:
-            p[ind] = 1.0
-        elif β != 0 and t[ind] == T/(2*β):
-            p[ind] = (π/4)*(np.sin(π*t[ind]/T)/(π*t[ind]/T))
-        elif β != 0 and t[ind] == -T/(2*β):
-            p[ind] = (π/4)*(np.sin(π*t[ind]/T)/(π*t[ind]/T))
-        else:
-            p[ind] = (np.sin(π*t[ind]/T)/(π*t[ind]/T))* \
-                    (np.cos(π*β*t[ind]/T)/(1-(((2*β*t[ind])/T)*((2*β*t[ind])/T))))
+    t = np.arange(pulse.size)*Ta
     
-    P = np.fft.fftshift(np.fft.fft(p))
+    P = np.fft.fftshift(np.fft.fft(pulse))
     freqs = np.fft.fftshift(np.fft.fftfreq(P.size, d=Ta))
     plt.figure(1)
     plt.plot(freqs, 20*np.log10(np.abs(P)), label='|P(f)|')
@@ -583,10 +574,10 @@ def plotRC(β):
     plt.ylabel('dB')
     plt.xlabel('f [GHz]')
     plt.legend()
-    plt.xlim(min(freqs), max(freqs))
+    plt.xlim(min(freqs)/(SpS/4), max(freqs)/(SpS/4))
     
     plt.figure(2)
-    plt.plot(t,p, label='p(t)')
+    plt.plot(t,pulse, label='p(t)')
     plt.grid()
     #plt.ylim(-0.25, 1.25)
     plt.xlim(min(t), max(t))
@@ -595,6 +586,7 @@ def plotRC(β):
     plt.legend()
     
 interact(plotRC, β=[0.99, 0.9, 0.8,0.7,0.6,0.5,0.4,0.3,0.2, 0.1, 0.01, 0.001, 0.0001]);
+#interact(plotRC, β = FloatSlider(min=1e-3, max=1, step=1e-3, continuous_update=False));
 
 # +
 SpS   = 32            # amostras por símbolo
