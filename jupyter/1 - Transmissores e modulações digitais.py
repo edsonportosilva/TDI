@@ -841,7 +841,7 @@ plt.xlim(0, max(t));
 # gera sequência de bits pseudo-aleatórios
 bits   = np.random.randint(2, size=200000)    
 n      = np.arange(0, bits.size)
-pulseType = 'nrz'
+pulseType = 'rc'
 
 # mapeia bits para pulsos elétricos
 symbTx = 2*bits-1
@@ -857,6 +857,11 @@ if pulseType == 'rc':
 
     pulse = pulseShape('rc', SpS, Ncoeffs, rolloff, Ts)
     pulse = pulse/max(abs(pulse))
+    
+elif pulseType == 'rect':
+    # pulso NRZ típico
+    pulse = pulseShape('rect', SpS)
+    pulse = pulse/max(abs(pulse))  
     
 elif pulseType == 'nrz':
     # pulso NRZ típico
