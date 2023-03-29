@@ -65,7 +65,7 @@ figsize(10, 4)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canal-AWGN" data-toc-modified-id="Canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canal AWGN</a></span></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canal-AWGN" data-toc-modified-id="Canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canal AWGN</a></span><ul class="toc-item"><li><span><a href="#Processo-estocástico-gaussiano-estacionário" data-toc-modified-id="Processo-estocástico-gaussiano-estacionário-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Processo estocástico gaussiano estacionário</a></span></li></ul></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Sistemas de Transmissão Digital da Informação
@@ -89,9 +89,12 @@ figsize(10, 4)
 #
 # em que $n(t)$ representa o ruído e $y(t)$ o sinal ruidoso.
 
-# +
+# ### Processo estocástico gaussiano estacionário
+
+# + hide_input=false
 from sympy import fourier_transform as FT
 from sympy import inverse_fourier_transform as iFT
+from sympy import oo as infty
 
 def rect(t, a):
     return (sp.Heaviside(t + a) - sp.Heaviside(t - a))
@@ -99,6 +102,7 @@ def rect(t, a):
 τ, f = sp.symbols('τ, f', real=True)
 N0, σ , B = sp.symbols('N_0, σ, B', real=True, positive=True)
 
+# Ruído filtrado numa banda -B < f < B:
 Sn = N0/2*rect(f, B)
 
 Rtau = iFT(Sn, f, τ)
@@ -109,8 +113,72 @@ symdisp('R(τ) = ', Rtau)
 intervalo_f = np.arange(-10, 10, 0.01)
 intervalo_τ = np.arange(-5*np.pi, 5*np.pi, 0.01)
 
-symplot(f, Sn.subs({N0:1, B:2}), intervalo_f, funLabel='$S_n(f)$', xlabel= 'frequência [Hz]');
-symplot(τ, Rtau.subs({N0:1,B:2}), intervalo_τ, funLabel='R(τ)');
+symplot(f, Sn.subs({N0:1, B:1}), intervalo_f, funLabel='$S_n(f)$', xlabel= 'frequência [Hz]');
+symplot(τ, Rtau.subs({N0:1,B:1}), intervalo_τ, funLabel='R(τ)');
+plt.grid()
+
+# +
+μ, σ, n = sp.symbols('μ, σ, n', real=True)
+
+π = sp.pi
+
+p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(n - μ) ** 2 / ( 2*σ**2 ) )
+
+symdisp('p_N(n) = ', p)
+
+intervalo = np.arange(-5, 5, 0.01)
+fig = None
+for sigma2 in np.arange(0.5, 2.5, 0.5):
+    fig = symplot(n, p.subs({μ:0, σ:np.sqrt(sigma2)}), intervalo, 
+                  funLabel='$p_N(n)$ $σ^2$ = '+str(sigma2), xlabel= 'n', fig=fig);
+
+plt.grid()
+plt.ylabel('$p_N(n)$');
+
+# +
+μ, σ, n = sp.symbols('μ, σ, n', real=True)
+
+p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(n - μ) ** 2 / ( 2*σ**2 ) )
+
+sigma = 0.5
+
+for ind in range(1, 5):
+    symdisp('\int_{-'+str(ind)+'σ}^{'+str(ind)+'σ} p_N(n) dn = ', 
+            sp.N(sp.integrate(p.subs({μ:0, σ:sigma}), (n, -ind*sigma, ind*sigma)),3))
+
+# +
+from numpy.random import normal
+
+# ruído gaussiano branco
+Namostras = 100000
+σ2  = 0.5  # variância
+μ   = 0    # média
+
+σ      = sqrt(σ2) 
+ruido  = normal(μ, σ, Namostras)  
+
+# plotas as primeiras 1000 amostras
+plt.plot(ruido[0:1000],linewidth = 0.8);
+plt.xlim(0,1000)
+plt.ylabel('amplitude')
+plt.xlabel('amostra')
+plt.grid()
+
+
+# -
+
+# Veja que o sinal ilustrado acima é a realização de um processo estocástico gaussiano estacionário. Cada amostra corresponde a uma realização de uma variável aleatória (v.a) gaussiana de média nula ($\mu=0$) e variância $\sigma^2$. As variáveis aleatórias, por sua vez, são independentes e idênticamente distribuídas (i.i.ds). Vamos calcular a potência do sinal acima, considerando que para um processo ergódico na correlação, podemos assumir:
+#
+# $$P_x=E\left[X^2\right] = \mu^2 + \sigma^2\approx \frac{1}{N}\sum_{k=1}^{N} x^2[k]$$
+#
+# Note que esta última expressão é a mesma expressão para cálculo da potência média de um sinal determinístico. Logo, temos que:
+
+# +
+# função para calcular a potência de um sinal
+def potSinal(x):
+    return (x**2).mean()
+
+print('Potência do ruído = %.2f unidades de potência' %potSinal(ruido)) # veja a definição da função potSinal() acima
 # -
 
 # ## Relação sinal-ruído
