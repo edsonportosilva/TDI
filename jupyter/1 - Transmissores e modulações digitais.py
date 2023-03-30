@@ -980,7 +980,7 @@ plt.figure(2)
 plt.plot(t, sigTx,'-',linewidth=3)
 plt.plot(t, symbolsUp.real,'o')
 plt.xlabel('tempo [ns]')
-plt.ylabel('amplitude [V]')
+plt.ylabel('amplitude')
 plt.title('$s(t)=\sum_{n}\;s_{n}\;p(t-n T_s)$')
 plt.grid()
 
