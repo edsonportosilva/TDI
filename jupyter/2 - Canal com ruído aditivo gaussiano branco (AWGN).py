@@ -65,12 +65,11 @@ figsize(10, 4)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canal-AWGN" data-toc-modified-id="Canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canal AWGN</a></span><ul class="toc-item"><li><span><a href="#Processo-estocástico-gaussiano-estacionário" data-toc-modified-id="Processo-estocástico-gaussiano-estacionário-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Processo estocástico gaussiano estacionário</a></span></li></ul></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canal-AWGN" data-toc-modified-id="Canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canal AWGN</a></span><ul class="toc-item"><li><span><a href="#Processo-estocástico-gaussiano-estacionário" data-toc-modified-id="Processo-estocástico-gaussiano-estacionário-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Processo estocástico gaussiano estacionário</a></span></li></ul></li><li><span><a href="#Ruído-aditivo-gaussiano-branco" data-toc-modified-id="Ruído-aditivo-gaussiano-branco-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Ruído aditivo gaussiano branco</a></span></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Sistemas de Transmissão Digital da Informação
 #
-# Num sistema de comunicação digital a função do transmissor é converter uma dada sequência de bits num trem de pulsos elétricos que, por sua vez, poderar ser utilizado na modulação de uma portadora. 
 #
 # <img src="./figuras/Fig1.png" width="900">
 #  
@@ -90,6 +89,24 @@ figsize(10, 4)
 # em que $n(t)$ representa o ruído e $y(t)$ o sinal ruidoso.
 
 # ### Processo estocástico gaussiano estacionário
+
+# Um processo estocástico gaussiano estacionário $X(t)$ é um processo aleatório no qual a distribuição de probabilidade conjunta de qualquer conjunto finito de variáveis aleatórias $\mathbf{X} = \left[X(t_1), X(t_2), \dots X(t_n) \right]^T$ possuirá uma distribuição conjunta gaussiana, ou seja, uma função densidade de probabilidade (fdp) dada por
+#
+# $$\begin{equation} p_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\Sigma|}} e^{-\frac{1}{2} (\mathbf{x}-\mathbf{\mu})^T \Sigma^{-1} (\mathbf{x}-\mu)} \end{equation}\label{eq1}$$
+#
+# onde $\mathbf{x}$ é um vetor coluna de dimensão $n$, $\mathbf{\mu}$ é um vetor coluna de médias de dimensão $n$, $\Sigma$ é uma matriz de covariância $n \times n$, $|\Sigma|$ é o determinante de $\Sigma$ e $^T$ representa a transposição. No caso de processos gaussianos, se as variáveis aleatórias forem mutuamente independentes, $\Sigma = \mathrm{diag}(\sigma_1^2, \sigma_2^2, \dots, \sigma_n^2)$ será uma matriz diagonal e temos que ($\ref{eq1}$) pode ser simplificada para
+#
+# $$ \begin{eqnarray} p_{\mathbf{X}}(\mathbf{x}) &=& p(x_1)p(x_2)\dots p(x_n) \\ &=&\prod_{k=1}^n \frac{1}{\sqrt{2\pi \sigma_k^2}} e^{-\frac{1}{2} \frac{(x_k-\mu_k)^2}{\sigma_k^2}} \end{eqnarray}\label{eq2}$$
+#
+# A propriedade de estacionariedade em um processo estocástico implica que suas estatísticas não variam ao longo do tempo. Em outras palavras, as médias e variâncias das variáveis aleatórias do processo são constantes temporalmente e as funções de autocorrelação e covariância dependem apenas da diferença entre os instantes de tempo, não do tempo em si. Essa propriedade é de grande importância na análise de processos estocásticos, pois permite simplificar a modelagem e a análise de sistemas complexos. Ao assumir que o processo é estacionário, podemos reduzir a dimensão do problema e concentrar nossos esforços na caracterização da estatística do processo em vez de sua dinâmica temporal.
+#
+#
+
+# ## Ruído aditivo gaussiano branco
+#
+# O ruído gaussiano branco $N(t)$ é um processo estocástico estacionário em que qualquer conjunto as amostras das realizações do processo são independentes e identicamente distribuídas (i.i.d.) com uma distribuição gaussiana de média zero e variância constante. O termo "branco" refere-se ao fato de que a densidade espectral de potência do processo constante ao longo de todo o espectro de frequências, fazendo alusão à luz branca, que é composta pela combinação de todas as componentes de frequência (cores) do espectro visível.
+
+# <img src="./figuras/Fig2.png" width="900">
 
 # + hide_input=false
 from sympy import fourier_transform as FT
@@ -115,7 +132,6 @@ intervalo_τ = np.arange(-5*np.pi, 5*np.pi, 0.01)
 
 symplot(f, Sn.subs({N0:1, B:1}), intervalo_f, funLabel='$S_n(f)$', xlabel= 'frequência [Hz]');
 symplot(τ, Rtau.subs({N0:1,B:1}), intervalo_τ, funLabel='R(τ)');
-plt.grid()
 
 # +
 μ, σ, n = sp.symbols('μ, σ, n', real=True)
@@ -179,6 +195,63 @@ def potSinal(x):
     return (x**2).mean()
 
 print('Potência do ruído = %.2f unidades de potência' %potSinal(ruido)) # veja a definição da função potSinal() acima
+
+# +
+M = 4
+
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
+
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = pnorm(symbTx) # power normalization
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso NRZ típico
+pulse = pulseShape('nrz', SpS)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+sigTx = sigTx.real
+
+t = np.arange(0, sigTx.size)*(1/Fa)/1e-9
+
+# instantes centrais dos intervalos de sinalização
+symbolsUp = upsample(symbTx, SpS)
+symbolsUp[symbolsUp==0] = np.nan
+
+plt.figure(2)
+plt.plot(t, sigTx,'-',linewidth=2)
+plt.plot(t, symbolsUp.real,'o')
+plt.xlabel('tempo [ns]')
+plt.ylabel('amplitude')
+plt.title('sinal '+str(M)+'-PAM')
+plt.grid()
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 0.050  # variância
+μ   = 0      # média
+
+σ      = sqrt(σ2) 
+ruido  = normal(μ, σ, Namostras)
+
+plt.figure(2)
+plt.plot(t, sigTx + ruido,'b-',alpha=0.5, linewidth=1)
+
+t = (0.5*Ts + np.arange(0, symbTx.size*Ts, Ts))/1e-9
+plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
+plt.xlim(min(t), max(t));
 # -
 
 # ## Relação sinal-ruído
