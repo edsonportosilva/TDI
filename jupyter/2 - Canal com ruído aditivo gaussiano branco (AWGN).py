@@ -78,15 +78,13 @@ figsize(10, 4)
 
 # Quando transmitidos pelo canal de comunicações, o sinais enviados pelo transmissor estão sujeitos a diversos tipos de distorção. Efeitos de filtragem, interferência, distorção não-linear e diversos tipos de ruído podem estar presentes no canal de comunicações, afetando a qualidade dos sinais que chegam ao receptor. 
 #
+# O modelo de canal mais importante para a análise de sistemas de comunicações digitais é o que assume que sinais transmitidos serão afetados pela presença de ruído branco gaussiano aditivo (*additive white Gaussian noise* - AWGN). Nesse modelo, o ruído é representado por um processo aleatório gaussiano, ou seja, para cada instante $t$ no tempo, o ruído $n(t)$ adicionado ao sinal é dado por uma variável aleatória gaussiana de média $\mu$ igual a zero e com uma certa variância $\sigma^2$. Desse modo, seja $s(t)$ o sinal enviado pelo transmissor ao canal, o modelo de canal AWGN assume que um ruído $n(t)$ será adicionado ao sinal de informação durante o processo de comunicação, como indicado na figura a seguir
+#
+# <img src="./figuras/Fig3.png" width="700">
+#
+# em que $r(t)$ representa o sinal ruidoso na entrada do receptor.
+#
 # Uma das principais fontes de ruído em sistemas de comunicações é o ruído térmico. O ruído Johnson-Nyquist (ruído térmico, ruído de Johnson ou ruído de Nyquist) é o ruído eletrônico gerado pela agitação térmica dos portadores de carga (geralmente os elétrons) dentro de um condutor elétrico, que ocorre independentemente de haver ou não tensão aplicada sobre o elemento. O ruído térmico está presente em todos os circuitos elétricos e eletrônicos. A presença de ruído em circuitos eletônicos reduz a sensibilidade de receptores na detecção de sinais de potência reduzida. Alguns equipamentos eletrônicos que requerem alta sensibilidade, como receptores de telescópios de rádio, precisam ser resfriados à temperaturas criogênicas para reduzir o ruído térmico em seus circuitos.
-#
-# O modelo matemático mais importante para a análise de sistemas de comunicações digitais é o modelo de ruído branco gaussiano aditivo (*additive white Gaussian noise* (AWGN), em Inglês). Nesse modelo, o ruído é representado por um processo aleatório gaussiano, ou seja, para cada instante $t$ no tempo, o ruído $n(t)$ adicionado ao sinal é dado por uma variável aleatória gaussiana de média zero e uma certa variância $\sigma^2$. 
-#
-# Seja $x(t)$ o sinal enviado pelo transmissor ao canal, o modelo de canal AWGN assume que um ruído será adicionado sinal de informação durante o processo de comunicação, como indicado na equação
-#
-# $$y(t) = x(t) + n(t)$$
-#
-# em que $n(t)$ representa o ruído e $y(t)$ o sinal ruidoso.
 
 # ### Processo estocástico gaussiano estacionário
 
@@ -106,7 +104,7 @@ figsize(10, 4)
 #
 # O ruído gaussiano branco $N(t)$ é um processo estocástico estacionário em que qualquer conjunto as amostras das realizações do processo são independentes e identicamente distribuídas (i.i.d.) com uma distribuição gaussiana de média zero e variância constante. O termo "branco" refere-se ao fato de que a densidade espectral de potência do processo constante ao longo de todo o espectro de frequências, fazendo alusão à luz branca, que é composta pela combinação de todas as componentes de frequência (cores) do espectro visível.
 
-# <img src="./figuras/Fig2.png" width="900">
+# <img src="./figuras/Fig4.png" width="900">
 
 # + hide_input=false
 from sympy import fourier_transform as FT
@@ -257,7 +255,7 @@ plt.xlim(min(t), max(t));
 # ## Relação sinal-ruído
 #
 #
-# A relação sinal-ruído (ou razão sinal-ruído, *signal-to-noise ratio* ($\mathrm{SNR}$), em Inglês) é uma das grandezas mais importantes na engenharia de sistemas de comunicações. A $\mathrm{SNR}$ é um indicador da presença de ruído no sistema, ou seja, a presença de distorções aleatórias e indesejáveis que afetam os sinais que carregam informação, dificultando ou impossibilitando o processo de comunicação. 
+# A relação sinal-ruído (ou razão sinal-ruído, *signal-to-noise ratio* - $\mathrm{SNR}$) é uma das grandezas mais importantes na engenharia de sistemas de comunicações. A $\mathrm{SNR}$ é um indicador da presença de ruído no sistema, ou seja, a presença de distorções aleatórias e indesejáveis que afetam os sinais que carregam informação, dificultando ou impossibilitando o processo de comunicação. 
 #
 # A $\mathrm{SNR}$ é definida como sendo a razão entre a potência de sinal $P_s$ e a potência do ruído $P_n$ observadas num dado sistema:
 #
