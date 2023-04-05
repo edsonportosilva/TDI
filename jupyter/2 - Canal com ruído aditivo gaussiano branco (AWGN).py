@@ -220,7 +220,7 @@ symplot(τ, Rtau.subs({N0:1,B:1}), intervalo_τ, funLabel='R(τ)');
 # $$
 # \begin{aligned}
 # & P_n=\int_{-B/2}^{B/2} \frac{k T}{2} d f \\
-# & P_n=\frac{k T}{2} \cdot 2 \frac{B}{2} =k T B
+# & P_n=\frac{k T}{2} \cdot 2 \frac{B}{2} =k T B/2
 # \end{aligned}
 # $$
 
@@ -364,6 +364,10 @@ ruido  = normal(μ, σ, Namostras)
 # diagrama de olho
 Nsamples = sigTx.size
 eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+
+SNR = 10*np.log10(pot(sigTx)/pot(ruido))
+
+symdisp('\mathrm{SNR} = ', round(SNR,2), 'dB')
 # -
 
 # ## Relação sinal-ruído
@@ -385,4 +389,4 @@ eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 
 # ## Referências
 #
-# [1] J. G. Proakis, M. Salehi, Communication Systems Engineering, 2nd Edition, Pearson, 2002.
+# [1] J. G. Proakis, M. Salehi, Digital Communications, 4th Edition, McGraw Hill, 2001.
