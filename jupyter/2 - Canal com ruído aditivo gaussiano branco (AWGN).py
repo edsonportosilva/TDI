@@ -65,7 +65,7 @@ figsize(10, 4)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canal-AWGN" data-toc-modified-id="Canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canal AWGN</a></span><ul class="toc-item"><li><span><a href="#Processo-estocástico-gaussiano-estacionário" data-toc-modified-id="Processo-estocástico-gaussiano-estacionário-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Processo estocástico gaussiano estacionário</a></span></li></ul></li><li><span><a href="#Ruído-aditivo-gaussiano-branco" data-toc-modified-id="Ruído-aditivo-gaussiano-branco-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Ruído aditivo gaussiano branco</a></span></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canal-AWGN" data-toc-modified-id="Canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canal AWGN</a></span><ul class="toc-item"><li><span><a href="#Variável-aleatória-com-distribuição-gaussiana" data-toc-modified-id="Variável-aleatória-com-distribuição-gaussiana-1.1"><span class="toc-item-num">1.1&nbsp;&nbsp;</span>Variável aleatória com distribuição gaussiana</a></span></li><li><span><a href="#Processo-estocástico-gaussiano-estacionário" data-toc-modified-id="Processo-estocástico-gaussiano-estacionário-1.2"><span class="toc-item-num">1.2&nbsp;&nbsp;</span>Processo estocástico gaussiano estacionário</a></span></li><li><span><a href="#Propriedades-importantes:" data-toc-modified-id="Propriedades-importantes:-1.3"><span class="toc-item-num">1.3&nbsp;&nbsp;</span>Propriedades importantes:</a></span></li></ul></li><li><span><a href="#Ruído-aditivo-gaussiano-branco" data-toc-modified-id="Ruído-aditivo-gaussiano-branco-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Ruído aditivo gaussiano branco</a></span><ul class="toc-item"><li><span><a href="#Filtrando-o-ruído-gaussiano-branco" data-toc-modified-id="Filtrando-o-ruído-gaussiano-branco-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Filtrando o ruído gaussiano branco</a></span></li><li><span><a href="#Exemplo:-ruído-térmico" data-toc-modified-id="Exemplo:-ruído-térmico-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Exemplo: ruído térmico</a></span></li><li><span><a href="#Gerando-numericamente-realizações-de-um-processo-gaussiano" data-toc-modified-id="Gerando-numericamente-realizações-de-um-processo-gaussiano-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Gerando numericamente realizações de um processo gaussiano</a></span></li><li><span><a href="#Efeito-do-ruído-em-sistemas-de-comunicação-digital" data-toc-modified-id="Efeito-do-ruído-em-sistemas-de-comunicação-digital-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Efeito do ruído em sistemas de comunicação digital</a></span></li></ul></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Sistemas de Transmissão Digital da Informação
@@ -86,6 +86,57 @@ figsize(10, 4)
 #
 # Uma das principais fontes de ruído em sistemas de comunicações é o ruído térmico. O ruído Johnson-Nyquist (ruído térmico, ruído de Johnson ou ruído de Nyquist) é o ruído eletrônico gerado pela agitação térmica dos portadores de carga (geralmente os elétrons) dentro de um condutor elétrico, que ocorre independentemente de haver ou não tensão aplicada sobre o elemento. O ruído térmico está presente em todos os circuitos elétricos e eletrônicos. A presença de ruído em circuitos eletônicos reduz a sensibilidade de receptores na detecção de sinais de potência reduzida. Alguns equipamentos eletrônicos que requerem alta sensibilidade, como receptores de telescópios de rádio, precisam ser resfriados à temperaturas criogênicas para reduzir o ruído térmico em seus circuitos.
 
+# ### Variável aleatória com distribuição gaussiana
+
+# Seja $X$ uma v.a. contínua com distribuição normal (gaussiana) de média $\mu$ e variância $\sigma^2$, i.e. $X \sim \mathcal{N}\mathrm{(\mu, \sigma^2)}$, a função densidade de probablidade de $X$ será dada por
+#
+# $$
+# p_X\left(x\right)=\frac{1}{\sqrt{2 \pi \sigma^{2}}} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}}
+# $$
+#
+# para $-\infty <x < \infty$.
+#
+#
+# Exemplos:
+
+# + hide_input=true
+μ, σ, x = sp.symbols('μ, σ, x', real=True)
+
+π = sp.pi
+
+p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(x - μ) ** 2 / ( 2*σ**2 ) )
+
+intervalo = np.arange(-5, 5, 0.01)
+fig = None
+for sigma2 in np.arange(0.5, 2.5, 0.5):
+    fig = symplot(x, p.subs({μ:0, σ:np.sqrt(sigma2)}), intervalo, 
+                  funLabel='$p_X(x)$ $σ^2$ = '+str(sigma2), xlabel= 'x', fig=fig);
+
+
+plt.grid()
+plt.ylabel('$p_X(x)$');
+# -
+
+# Seja $P(x_1 < X < x_2)$ a probabilidade de X assumir valores no intervalo $[x_1, x_2]$, temos que
+
+# + hide_input=true
+μ, σ, x, x1, x2 = sp.symbols('μ, σ, x, x_1, x_2', real=True)
+
+p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(x - μ) ** 2 / ( 2*σ**2 ) )
+
+sigma = 0.5
+
+symdisp('P(x_1 < X < x_2) = \int_{x_1}^{x_2} p_X(x) dx =', sp.integrate(p, (x, x1, x2) ).simplify())
+# -
+
+# em que $\operatorname{erf}(x) =\frac{2}{\sqrt{\pi}} \int_0^x e^{-u^2} \mathrm{~d} u$.
+
+# + hide_input=true
+for ind in range(1, 5):
+    symdisp('P(-'+str(ind)+'σ<X<'+str(ind)+'σ) = \int_{-'+str(ind)+'σ}^{'+str(ind)+'σ} p_X(x) dx = ', 
+            sp.N(sp.integrate(p.subs({μ:0, σ:sigma}), (x, -ind*sigma, ind*sigma)),3))
+# -
+
 # ### Processo estocástico gaussiano estacionário
 
 # Um processo estocástico gaussiano estacionário $X(t)$ é um processo aleatório no qual a distribuição de probabilidade conjunta de qualquer conjunto finito de variáveis aleatórias $\mathbf{X} = \left[X(t_1), X(t_2), \dots X(t_n) \right]^T$ possuirá uma distribuição conjunta gaussiana, ou seja, uma função densidade de probabilidade (fdp) dada por
@@ -100,13 +151,27 @@ figsize(10, 4)
 #
 #
 
+# ### Propriedades importantes:
+#
+# 1. Para processos gaussianos, o conhecimento da média e da autocorrelação, i.e., $\mu_X(t)$ e $R_X(t_1, t_2)$ provê uma descrição estatística completa do processo.
+#
+# 2. Se um processo gaussiano $X(t)$ passa por um sistema linear e invariante no tempo (LIT), então a saída $Y(t)$ do sistema também é um processo gaussiano.
+#
+# 3. Para processos gaussianos, estacionariedade no sentido amplo (WSS) implica em estacionariedade estrita.
+#
+# 4. Uma condição suficiente para a ergodicidade de um processo estacionário de média nula $X(t)$ é que
+#
+# $$\int_{-\infty}^{\infty}\left|R_X(\tau)\right| d \tau<\infty$$.
+
 # ## Ruído aditivo gaussiano branco
 #
 # O ruído gaussiano branco $N(t)$ é um processo estocástico estacionário em que qualquer conjunto as amostras das realizações do processo são independentes e identicamente distribuídas (i.i.d.) com uma distribuição gaussiana de média zero e variância constante. O termo "branco" refere-se ao fato de que a densidade espectral de potência do processo constante ao longo de todo o espectro de frequências, fazendo alusão à luz branca, que é composta pela combinação de todas as componentes de frequência (cores) do espectro visível.
 
 # <img src="./figuras/Fig4.png" width="900">
 
-# + hide_input=false
+# ### Filtrando o ruído gaussiano branco
+
+# + hide_input=true
 from sympy import fourier_transform as FT
 from sympy import inverse_fourier_transform as iFT
 from sympy import oo as infty
@@ -130,53 +195,68 @@ intervalo_τ = np.arange(-5*np.pi, 5*np.pi, 0.01)
 
 symplot(f, Sn.subs({N0:1, B:1}), intervalo_f, funLabel='$S_n(f)$', xlabel= 'frequência [Hz]');
 symplot(τ, Rtau.subs({N0:1,B:1}), intervalo_τ, funLabel='R(τ)');
+# -
 
-# +
-μ, σ, n = sp.symbols('μ, σ, n', real=True)
+# ### Exemplo: ruído térmico
+#
+# A densidade de potência do ruído térmico é dada por
+#
+# $$ S_n(f)=\frac{\hbar f}{2\left(e^{\frac{\hbar f}{k T}}-1\right)} $$
+#
+#
+# em que $f$ é a frequência em $Hz$, $\hbar=6.6 \times 10^{-34} \mathrm{~J}\mathrm{s}$ é a constante de Planck, $k=1.38 \times 10^{-23}  \mathrm{~J}\mathrm{K}$ é a constante de Boltzmann e $T$ é a temperatura em Kelvin.
+#
+# Observações:
+#
+# * O espectro acima assume valor máximo $\frac{kT}{2}$ em $f=0$ Hz;
+# * $\lim_{f\to \pm \infty} S_n(f) = 0$, porém a taxa de convergência é muito lenta.  Ex.: a 300 K, $S_n(f)=0.9S_n(0)$ para $f=2\times 10^{12} Hz$  
+#
+# Logo, para efeitos práticos:
+#
+# $$ S_n(f)=\frac{kT}{2} $$
+#
+# Considerando um intervalo de frequências $[-B/2, B/2]$, a potência de ruído térmico presente nessa banda será dada por
+#
+# $$
+# \begin{aligned}
+# & P_n=\int_{-B/2}^{B/2} \frac{k T}{2} d f \\
+# & P_n=\frac{k T}{2} \cdot 2 \frac{B}{2} =k T B
+# \end{aligned}
+# $$
 
-π = sp.pi
-
-p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(n - μ) ** 2 / ( 2*σ**2 ) )
-
-symdisp('p_N(n) = ', p)
-
-intervalo = np.arange(-5, 5, 0.01)
-fig = None
-for sigma2 in np.arange(0.5, 2.5, 0.5):
-    fig = symplot(n, p.subs({μ:0, σ:np.sqrt(sigma2)}), intervalo, 
-                  funLabel='$p_N(n)$ $σ^2$ = '+str(sigma2), xlabel= 'n', fig=fig);
-
-plt.grid()
-plt.ylabel('$p_N(n)$');
-
-# +
-μ, σ, n = sp.symbols('μ, σ, n', real=True)
-
-p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(n - μ) ** 2 / ( 2*σ**2 ) )
-
-sigma = 0.5
-
-for ind in range(1, 5):
-    symdisp('\int_{-'+str(ind)+'σ}^{'+str(ind)+'σ} p_N(n) dn = ', 
-            sp.N(sp.integrate(p.subs({μ:0, σ:sigma}), (n, -ind*sigma, ind*sigma)),3))
+# ### Gerando numericamente realizações de um processo gaussiano
 
 # +
 from numpy.random import normal
 
 # ruído gaussiano branco
-Namostras = 100000
+Namostras = 1000 
 σ2  = 0.5  # variância
 μ   = 0    # média
 
 σ      = sqrt(σ2) 
 ruido  = normal(μ, σ, Namostras)  
 
-# plotas as primeiras 1000 amostras
-plt.plot(ruido[0:1000],linewidth = 0.8);
-plt.xlim(0,1000)
-plt.ylabel('amplitude')
-plt.xlabel('amostra')
-plt.grid()
+x = np.arange(-3, 3, 0.1)
+π = np.pi
+
+pdf = 1/np.sqrt(2*π*σ2)*np.exp(-(x-μ)**2/(2*σ2))
+
+# plota valores e histograma
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (12,4))
+ax1.plot(ruido,linewidth = 0.8);
+ax1.grid()
+ax1.set_xlabel('amostra')
+ax1.set_ylabel('amplitude')
+ax1.set_xlim(0,Namostras);
+
+ax2.hist(ruido, density=True, bins=50, label = 'hist(x)',alpha=0.5);
+ax2.plot(x, pdf, 'k--', label = 'pdf', linewidth=2);
+ax2.grid()
+ax2.legend()
+ax2.set_xlabel('x')
+ax2.set_ylabel('hist(x)');
+ax2.set_xlim(min(x), max(x));
 
 
 # -
@@ -189,13 +269,16 @@ plt.grid()
 
 # +
 # função para calcular a potência de um sinal
-def potSinal(x):
-    return (x**2).mean()
+def pot(x):
+    return x.var() + x.mean()**2
 
-print('Potência do ruído = %.2f unidades de potência' %potSinal(ruido)) # veja a definição da função potSinal() acima
+print('Potência do ruído = %.2f unidades de potência' %pot(ruido)) # veja a definição da função potSinal() acima
+# -
+
+# ### Efeito do ruído em sistemas de comunicação digital
 
 # +
-M = 4
+M = 2
 
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
@@ -250,6 +333,37 @@ plt.plot(t, sigTx + ruido,'b-',alpha=0.5, linewidth=1)
 t = (0.5*Ts + np.arange(0, symbTx.size*Ts, Ts))/1e-9
 plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
 plt.xlim(min(t), max(t));
+
+# +
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size = int(250000*np.log2(M)))
+
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = pnorm(symbTx) # power normalization
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso NRZ típico
+pulse = pulseShape('nrz', SpS)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+sigTx = sigTx.real
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 0.0050  # variância
+μ   = 0      # média
+
+σ      = sqrt(σ2) 
+ruido  = normal(μ, σ, Namostras)
+
+# diagrama de olho
+Nsamples = sigTx.size
+eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 # -
 
 # ## Relação sinal-ruído
