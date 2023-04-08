@@ -65,21 +65,21 @@ figsize(10, 4)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-de-correlação" data-toc-modified-id="Demodulador-de-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador de correlação</a></span></li><li><span><a href="#Processo-estocástico-gaussiano-estacionário" data-toc-modified-id="Processo-estocástico-gaussiano-estacionário-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Processo estocástico gaussiano estacionário</a></span></li><li><span><a href="#Propriedades-importantes:" data-toc-modified-id="Propriedades-importantes:-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Propriedades importantes:</a></span></li></ul></li><li><span><a href="#Ruído-aditivo-gaussiano-branco" data-toc-modified-id="Ruído-aditivo-gaussiano-branco-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Ruído aditivo gaussiano branco</a></span><ul class="toc-item"><li><span><a href="#Filtrando-o-ruído-gaussiano-branco" data-toc-modified-id="Filtrando-o-ruído-gaussiano-branco-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Filtrando o ruído gaussiano branco</a></span></li><li><span><a href="#Exemplo:-ruído-térmico" data-toc-modified-id="Exemplo:-ruído-térmico-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Exemplo: ruído térmico</a></span></li><li><span><a href="#Gerando-numericamente-realizações-de-um-processo-gaussiano" data-toc-modified-id="Gerando-numericamente-realizações-de-um-processo-gaussiano-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Gerando numericamente realizações de um processo gaussiano</a></span></li><li><span><a href="#Efeito-do-ruído-em-sistemas-de-comunicação-digital" data-toc-modified-id="Efeito-do-ruído-em-sistemas-de-comunicação-digital-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Efeito do ruído em sistemas de comunicação digital</a></span></li></ul></li><li><span><a href="#Relação-sinal-ruído" data-toc-modified-id="Relação-sinal-ruído-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Relação sinal-ruído</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-de-correlação" data-toc-modified-id="Demodulador-de-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador de correlação</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
-#
-#
+
 # <img src="./figuras/Fig1.png" width="900">
-#  
+#  <center>Fig.1: Diagrama de blocos de um sistema de transmissão digital genérico.</center>
 
 # ##  O modelo de canal AWGN
 
 # Considere o modelo de canal em que os sinais transmitidos são afetados apenas por ruído branco gaussiano aditivo (*additive white Gaussian noise* - AWGN). Nesse modelo, o ruído é representado por um processo aleatório gaussiano, ou seja, para cada instante $t$ no tempo, o ruído $n(t)$ adicionado ao sinal é dado por uma variável aleatória gaussiana de média $\mu$ igual a zero e com uma certa variância $\sigma^2$. Desse modo, seja $s(t)$ o sinal enviado pelo transmissor ao canal, o modelo de canal AWGN assume que um ruído $n(t)$ será adicionado ao sinal de informação durante o processo de comunicação, como indicado na figura a seguir
-#
+
 # <img src="./figuras/Fig3.png" width="700">
-#
+# <center>Fig.2: Esquemático de um sistema de transmissão digital via canal AWGN.</center>
+
 # em que $r(t)$ representa o sinal ruidoso na entrada do receptor.
 #
 # Assuma que em cada intervalo de sinalização $T_s$, o transmissor envia um sinal $s_m(t)$ dentre os $M$ possíveis do esquema de modulação utilizado, i.e. $\left\lbrace s_m(t), m = 1,2,\dots, M\right\rbrace$. Considere que no intervalo de $0\leq t \leq T_s$ o transmissor enviou a sinal $s_m(t)$. Uma vez que o canal adiciona ruído ao sinal transmitido, o sinal recebido $r(t)$ no intervalo $0\leq t \leq T_s$ pode ser expresso como
@@ -97,9 +97,10 @@ figsize(10, 4)
 # * **Demodulação**: conversão do sinal recebido $r(t)$ em um vetor de amostras discretas $\mathbf{r} = [r_1,r_2,\dots, r_N]$, em que $N$ é a dimensão dos sinais transmitidos.
 #
 # * **Detecção**: a partir de $\mathbf{r}$, decidir qual dos $M$ possíveis sinais foram transmitidos.
-#
+
 # <img src="./figuras/Fig5.png" width="700">
-#
+# <center>Fig.3: Estrutura de blocos de um receptor digital.</center>
+
 # Para entendermos a tarefa do demodulador, precisamos recorrer ao conceito de espaço de sinais. Considere que os sinais $s_m(t)$ gerados pelo transmissor possam ser expandidos a partir de uma base de $N$ funções ortonormais $f_n(t)$, isto é
 #
 # $$\begin{equation} s_m(t) = \sum_{k=1}^{N}s_{mk}f_k(t) \end{equation}$$
@@ -120,6 +121,10 @@ figsize(10, 4)
 # em que $s_i$ é o componente vetorial de $s_m(t)$ na direção de $f_i(t)$.
 
 # ### Demodulador de correlação
+#
+# <img src="./figuras/Fig6.png" width="600">
+#
+# <center>Fig.4: Demodulador de correlação.</center>
 
 # +
 M = 4
