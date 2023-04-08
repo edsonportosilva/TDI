@@ -110,197 +110,16 @@ figsize(10, 4)
 # \langle f_i(t), f_j(t) \rangle = \int_{-\infty}^{\infty}f_i(t)f_j^*(t) dt = \begin{cases} 1, & \text{ se } i=j\\ 0, & \text{ se } i\neq j \end{cases} \end{equation} $$
 #
 # em que $^*$ indica o conjugado complexo.
+#
+# Assim, podemos decompor o sinal $s_m(t)$ em suas componentes vetorias $s_1, s_2, \dots, s_N$ na base $\left\lbrace f_n(t) \right\rbrace_{n=1}^{N}$ realizando o produto interno entre $s_m(t)$ e cada elemento da base no intervalo 
+# $0\leq t \leq T_s$:
+#
+# $$\begin{equation} 
+# \langle s_m(t), f_i(t) \rangle = \int_{0}^{T}s_m(t)f_i^*(t) dt = s_i \end{equation} $$
+#
+# em que $s_i$ é o componente vetorial de $s_m(t)$ na direção de $f_i(t)$.
 
 # ### Demodulador de correlação
-
-# Seja $X$ uma v.a. contínua com distribuição normal (gaussiana) de média $\mu$ e variância $\sigma^2$, i.e. $X \sim \mathcal{N}\mathrm{(\mu, \sigma^2)}$, a função densidade de probablidade de $X$ será dada por
-#
-# $$
-# p_X\left(x\right)=\frac{1}{\sqrt{2 \pi \sigma^{2}}} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}}
-# $$
-#
-# para $-\infty <x < \infty$.
-#
-#
-# Exemplos:
-
-# + hide_input=true
-μ, σ, x = sp.symbols('μ, σ, x', real=True)
-
-π = sp.pi
-
-p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(x - μ) ** 2 / ( 2*σ**2 ) )
-
-intervalo = np.arange(-5, 5, 0.01)
-fig = None
-for sigma2 in np.arange(0.5, 2.5, 0.5):
-    fig = symplot(x, p.subs({μ:0, σ:np.sqrt(sigma2)}), intervalo, 
-                  funLabel='$p_X(x)$ $σ^2$ = '+str(sigma2), xlabel= 'x', fig=fig);
-
-
-plt.grid()
-plt.ylabel('$p_X(x)$');
-# -
-
-# Seja $P(x_1 < X < x_2)$ a probabilidade de X assumir valores no intervalo $[x_1, x_2]$, temos que
-
-# + hide_input=true
-μ, σ, x, x1, x2 = sp.symbols('μ, σ, x, x_1, x_2', real=True)
-
-p = 1 / ( sp.sqrt(2*π) * σ ) * sp.exp( -(x - μ) ** 2 / ( 2*σ**2 ) )
-
-sigma = 0.5
-
-symdisp('P(x_1 < X < x_2) = \int_{x_1}^{x_2} p_X(x) dx =', sp.integrate(p, (x, x1, x2) ).simplify())
-# -
-
-# em que $\operatorname{erf}(x) =\frac{2}{\sqrt{\pi}} \int_0^x e^{-u^2} \mathrm{~d} u$.
-
-# + hide_input=true
-for ind in range(1, 5):
-    symdisp('P(-'+str(ind)+'σ<X<'+str(ind)+'σ) = \int_{-'+str(ind)+'σ}^{'+str(ind)+'σ} p_X(x) dx = ', 
-            sp.N(sp.integrate(p.subs({μ:0, σ:sigma}), (x, -ind*sigma, ind*sigma)),3))
-# -
-
-# ### Processo estocástico gaussiano estacionário
-
-# Um processo estocástico gaussiano estacionário $X(t)$ é um processo aleatório no qual a distribuição de probabilidade conjunta de qualquer conjunto finito de variáveis aleatórias $\mathbf{X} = \left[X(t_1), X(t_2), \dots X(t_n) \right]^T$ possuirá uma distribuição conjunta gaussiana, ou seja, uma função densidade de probabilidade (fdp) dada por
-#
-# $$\begin{equation} p_{\mathbf{X}}(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^n|\Sigma|}} e^{-\frac{1}{2} (\mathbf{x}-\mathbf{\mu})^T \Sigma^{-1} (\mathbf{x}-\mu)} \end{equation}\label{eq1}$$
-#
-# onde $\mathbf{x}$ é um vetor coluna de dimensão $n$, $\mathbf{\mu}$ é um vetor coluna de médias de dimensão $n$, $\Sigma$ é uma matriz de covariância $n \times n$, $|\Sigma|$ é o determinante de $\Sigma$ e $^T$ representa a transposição. No caso de processos gaussianos, se as variáveis aleatórias forem mutuamente independentes, $\Sigma = \mathrm{diag}(\sigma_1^2, \sigma_2^2, \dots, \sigma_n^2)$ será uma matriz diagonal e temos que ($\ref{eq1}$) pode ser simplificada para
-#
-# $$ \begin{eqnarray} p_{\mathbf{X}}(\mathbf{x}) &=& p(x_1)p(x_2)\dots p(x_n) \\ &=&\prod_{k=1}^n \frac{1}{\sqrt{2\pi \sigma_k^2}} e^{-\frac{1}{2} \frac{(x_k-\mu_k)^2}{\sigma_k^2}} \end{eqnarray}\label{eq2}$$
-#
-# A propriedade de estacionariedade em um processo estocástico implica que suas estatísticas não variam ao longo do tempo. Em outras palavras, as médias e variâncias das variáveis aleatórias do processo são constantes temporalmente e as funções de autocorrelação e covariância dependem apenas da diferença entre os instantes de tempo, não do tempo em si. Essa propriedade é de grande importância na análise de processos estocásticos, pois permite simplificar a modelagem e a análise de sistemas complexos. Ao assumir que o processo é estacionário, podemos reduzir a dimensão do problema e concentrar nossos esforços na caracterização da estatística do processo em vez de sua dinâmica temporal.
-#
-#
-
-# ### Propriedades importantes:
-#
-# 1. Para processos gaussianos, o conhecimento da média e da autocorrelação, i.e., $\mu_X(t)$ e $R_X(t_1, t_2)$ provê uma descrição estatística completa do processo.
-#
-# 2. Se um processo gaussiano $X(t)$ passa por um sistema linear e invariante no tempo (LIT), então a saída $Y(t)$ do sistema também é um processo gaussiano.
-#
-# 3. Para processos gaussianos, estacionariedade no sentido amplo (WSS) implica em estacionariedade estrita.
-#
-# 4. Uma condição suficiente para a ergodicidade de um processo estacionário de média nula $X(t)$ é que
-#
-# $$\int_{-\infty}^{\infty}\left|R_X(\tau)\right| d \tau<\infty$$.
-
-# ## Ruído aditivo gaussiano branco
-#
-# O ruído gaussiano branco $N(t)$ é um processo estocástico estacionário em que qualquer conjunto as amostras das realizações do processo são independentes e identicamente distribuídas (i.i.d.) com uma distribuição gaussiana de média zero e variância constante. O termo "branco" refere-se ao fato de que a densidade espectral de potência do processo constante ao longo de todo o espectro de frequências, fazendo alusão à luz branca, que é composta pela combinação de todas as componentes de frequência (cores) do espectro visível.
-
-# <img src="./figuras/Fig4.png" width="900">
-
-# ### Filtrando o ruído gaussiano branco
-
-# + hide_input=true
-from sympy import fourier_transform as FT
-from sympy import inverse_fourier_transform as iFT
-from sympy import oo as infty
-
-def rect(t, a):
-    return (sp.Heaviside(t + a) - sp.Heaviside(t - a))
-
-τ, f = sp.symbols('τ, f', real=True)
-N0, σ , B = sp.symbols('N_0, σ, B', real=True, positive=True)
-
-# Ruído filtrado numa banda -B < f < B:
-Sn = N0/2*rect(f, B)
-
-Rtau = iFT(Sn, f, τ)
-
-symdisp('S_N = ', Sn)
-symdisp('R(τ) = ', Rtau)
-
-intervalo_f = np.arange(-10, 10, 0.01)
-intervalo_τ = np.arange(-5*np.pi, 5*np.pi, 0.01)
-
-symplot(f, Sn.subs({N0:1, B:1}), intervalo_f, funLabel='$S_n(f)$', xlabel= 'frequência [Hz]');
-symplot(τ, Rtau.subs({N0:1,B:1}), intervalo_τ, funLabel='R(τ)');
-# -
-
-# ### Exemplo: ruído térmico
-#
-# A densidade de potência do ruído térmico é dada por
-#
-# $$ S_n(f)=\frac{\hbar f}{2\left(e^{\frac{\hbar f}{k T}}-1\right)} $$
-#
-#
-# em que $f$ é a frequência em $Hz$, $\hbar=6.6 \times 10^{-34} \mathrm{~J}\mathrm{s}$ é a constante de Planck, $k=1.38 \times 10^{-23}  \mathrm{~J}\mathrm{K}$ é a constante de Boltzmann e $T$ é a temperatura em Kelvin.
-#
-# Observações:
-#
-# * O espectro acima assume valor máximo $\frac{kT}{2}$ em $f=0$ Hz;
-# * $\lim_{f\to \pm \infty} S_n(f) = 0$, porém a taxa de convergência é muito lenta.  Ex.: a 300 K, $S_n(f)=0.9S_n(0)$ para $f=2\times 10^{12} Hz$  
-#
-# Logo, para efeitos práticos:
-#
-# $$ S_n(f)=\frac{kT}{2} $$
-#
-# Considerando um intervalo de frequências $[-B/2, B/2]$, a potência de ruído térmico presente nessa banda será dada por
-#
-# $$
-# \begin{aligned}
-# & P_n=\int_{-B/2}^{B/2} \frac{k T}{2} d f \\
-# & P_n=\frac{k T}{2} \cdot 2 \frac{B}{2} =k T B/2
-# \end{aligned}
-# $$
-
-# ### Gerando numericamente realizações de um processo gaussiano
-
-# +
-from numpy.random import normal
-
-# ruído gaussiano branco
-Namostras = 10000 
-σ2  = 0.5  # variância
-μ   = 0    # média
-
-σ      = sqrt(σ2) 
-ruido  = normal(μ, σ, Namostras)  
-
-x = np.arange(-3, 3, 0.1)
-π = np.pi
-
-pdf = 1/np.sqrt(2*π*σ2)*np.exp(-(x-μ)**2/(2*σ2))
-
-# plota valores e histograma
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (12,4))
-ax1.plot(ruido,linewidth = 0.8);
-ax1.grid()
-ax1.set_xlabel('amostra')
-ax1.set_ylabel('amplitude')
-ax1.set_xlim(0,Namostras);
-
-ax2.hist(ruido, density=True, bins=50, label = 'hist(x)',alpha=0.5);
-ax2.plot(x, pdf, 'k--', label = 'pdf', linewidth=2);
-ax2.grid()
-ax2.legend()
-ax2.set_xlabel('x')
-ax2.set_ylabel('hist(x)');
-ax2.set_xlim(min(x), max(x));
-
-
-# -
-
-# Veja que o sinal ilustrado acima é a realização de um processo estocástico gaussiano estacionário. Cada amostra corresponde a uma realização de uma variável aleatória (v.a) gaussiana de média nula ($\mu=0$) e variância $\sigma^2$. As variáveis aleatórias, por sua vez, são independentes e idênticamente distribuídas (i.i.ds). Vamos calcular a potência do sinal acima, considerando que para um processo ergódico na correlação, podemos assumir:
-#
-# $$P_x=E\left[X^2\right] = \mu^2 + \sigma^2\approx \frac{1}{N}\sum_{k=1}^{N} x^2[k]$$
-#
-# Note que esta última expressão é a mesma expressão para cálculo da potência média de um sinal determinístico. Logo, temos que:
-
-# +
-# função para calcular a potência de um sinal
-def pot(x):
-    return x.var() + x.mean()**2
-
-print('Potência do ruído = %.2f unidades de potência' %pot(ruido)) # veja a definição da função potSinal() acima
-# -
-
-# ### Efeito do ruído em sistemas de comunicação digital
 
 # +
 M = 4
@@ -390,23 +209,6 @@ ruido  = normal(μ, σ, Namostras)
 Nsamples = sigTx.size
 eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 # -
-
-# ## Relação sinal-ruído
-#
-#
-# A relação sinal-ruído (ou razão sinal-ruído, *signal-to-noise ratio* - $\mathrm{SNR}$) é uma das grandezas mais importantes na engenharia de sistemas de comunicações. A $\mathrm{SNR}$ é um indicador da presença de ruído no sistema, ou seja, a presença de distorções aleatórias e indesejáveis que afetam os sinais que carregam informação, dificultando ou impossibilitando o processo de comunicação. 
-#
-# A $\mathrm{SNR}$ é definida como sendo a razão entre a potência de sinal $P_s$ e a potência do ruído $P_n$ observadas num dado sistema:
-#
-# $$\mathrm{SNR} = \frac{P_s}{P_n}$$
-#
-# em que $P_s = E\left[|s(t)|^2\right]$ e $P_n=E\left[|n(t)|^2\right]$, com $E[.]$ denotando valor esperado.
-#
-# Quando expressa em decibéis (dB), a $\mathrm{SNR}$ é dada por
-#
-# $$ \mathrm{SNR}_{dB} = 10\log_{10}P_s-10\log_{10}P_n.$$
-#
-# Quanto maior a $\mathrm{SNR}$ maior a diferença entre a potência do sinal de interesse e a potência do ruído adicionado á mesma. Dessa forma, quanto maior a $\mathrm{SNR}$ melhor a qualidade do sinal.
 
 # ## Referências
 #
