@@ -17,6 +17,7 @@
 # +
 import sympy as sp
 import numpy as np
+from numpy.random import normal
 import matplotlib.pyplot as plt
 from sympy import cos, sin, exp, Matrix, sqrt
 from sympy.simplify.fu import TR10, TR9
@@ -212,6 +213,7 @@ bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 # generate ook modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
+symbTx = np.insert(symbTx,0, 0)
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
@@ -249,7 +251,7 @@ ruido  = normal(μ, σ, Namostras)
 plt.figure(2)
 plt.plot(t, sigTx + ruido,'b-',alpha=0.5, linewidth=1)
 
-t = (0.5*Ts + np.arange(0, symbTx.size*Ts, Ts))/1e-9
+t = (0.5*Ts + np.arange(0, symbTx.size+1)*Ts)/1e-9
 plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
 plt.xlim(min(t), max(t));
 
