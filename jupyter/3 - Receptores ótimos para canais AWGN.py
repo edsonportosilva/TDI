@@ -136,6 +136,25 @@ figsize(10, 4)
 # <img src="./figuras/Fig6.png" width="600">
 # <center>Fig.4: Demodulador de correlação.</center>
 
+# $$\begin{aligned} r(t) & =\sum_{k=1}^N s_{m k} f_k(t)+\sum_{k=1}^N n_k f_k(t)+n^{\prime}(t) \\ & =\sum_{k=1}^N r_k f_k(t)+n^{\prime}(t)\end{aligned}$$
+#
+# em que $n^{\prime}(t)=n(t)-\sum_{k=1}^N n_k f_k(t)$.
+#
+# $$\begin{equation}
+# E\left[n_k\right]=\int_0^{T_s} E[n(t)] f_k(t) dt=0
+# \end{equation}$$
+#
+#
+# $$
+# \begin{aligned}
+# E\left[n_k n_m\right] & =\int_0^{T_s} \int_0^{T_s} E[n(t) n(\tau)] f_k(t) f_m(\tau) d t d \tau \\
+# & =\frac{N_0}{2}  \int_0^{T_s} \int_0^{T_s} \delta(t-\tau) f_k(t) f_m(\tau) d t d \tau \\
+# & = \frac{N_0}{2} \int_0^{T_s} f_k(t) \left[\int_0^{T_s} \delta(t-\tau)  f_m(\tau) d \tau \right] d t \\
+# & =\frac{N_0}{2} \int_0^{T_s} f_k(t) f_m(t) d t \\
+# & =\frac{N_0}{2} \delta_{m k}
+# \end{aligned}
+# $$
+
 # +
 M = 4
 
