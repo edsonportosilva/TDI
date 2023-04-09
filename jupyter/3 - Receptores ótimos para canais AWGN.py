@@ -84,7 +84,7 @@ figsize(10, 4)
 #
 # Assuma que em cada intervalo de sinalização $T_s$, o transmissor envia um sinal $s_m(t)$ dentre os $M$ possíveis do esquema de modulação utilizado, i.e. $\left\lbrace s_m(t), m = 1,2,\dots, M\right\rbrace$. Considere que no intervalo de $0\leq t \leq T_s$ o transmissor enviou a sinal $s_m(t)$. Uma vez que o canal adiciona ruído ao sinal transmitido, o sinal recebido $r(t)$ no intervalo $0\leq t \leq T_s$ pode ser expresso como
 #
-# $$\begin{equation} r(t) = s_m(t) + n(t)\end{equation}$$
+# $$\begin{equation}\label{awgnch_eq1} r(t) = s_m(t) + n(t)\end{equation}$$
 #
 # em que $n(t)$ é uma função amostra de um processo estocástico gaussiano com densidade espectral de potência $S_n(f)=\frac{N_0}{2}$.
 
@@ -124,36 +124,76 @@ figsize(10, 4)
 #
 # Na Fig.4 a estrutura de um demodulador por correlação está ilustrada. No receptor, o sinal recebido é correlacionado com cada uma das $N$ funções que compõem a base ortonormal $\left\lbrace f_k(t) \right\rbrace_{k=1}^{N}$, ou seja, cada correlator corresponde à operação
 #
-# $$\begin{aligned} 
+# $$\begin{align} 
 # \langle r(t), f_k(t) \rangle =& \int_{0}^{T}r(t)f_k(t) dt \\
 # =& \int_{0}^{T}[s_m(t) + n(t)]f_k(t) dt \\
 # =& \int_{0}^{T}s_m(t)f_k(t)dt + \int_{0}^{T}n(t)f_k(t) dt\\
 # =& s_{mk} + n_k = r_k
-# \end{aligned} $$
+# \end{align} $$
 #
 # com $k=1, 2,\dots, M$.
 
 # <img src="./figuras/Fig6.png" width="600">
 # <center>Fig.4: Demodulador de correlação.</center>
 
-# $$\begin{aligned} r(t) & =\sum_{k=1}^N s_{m k} f_k(t)+\sum_{k=1}^N n_k f_k(t)+n^{\prime}(t) \\ & =\sum_{k=1}^N r_k f_k(t)+n^{\prime}(t)\end{aligned}$$
+# $$\begin{align} r(t) & =\sum_{k=1}^N s_{m k} f_k(t)+\sum_{k=1}^N n_k f_k(t)+n^{\prime}(t) \\ & =\sum_{k=1}^N r_k f_k(t)+n^{\prime}(t)\end{align}$$
 #
 # em que $n^{\prime}(t)=n(t)-\sum_{k=1}^N n_k f_k(t)$.
+#
+# Utilizando as propriedades da média e da autocorrelação do processo estocástico gaussiano estacionário associado ao ruído, temos que:
 #
 # $$\begin{equation}
 # E\left[n_k\right]=\int_0^{T_s} E[n(t)] f_k(t) dt=0
 # \end{equation}$$
 #
+# e 
 #
 # $$
-# \begin{aligned}
+# \begin{align}
 # E\left[n_k n_m\right] & =\int_0^{T_s} \int_0^{T_s} E[n(t) n(\tau)] f_k(t) f_m(\tau) d t d \tau \\
 # & =\frac{N_0}{2}  \int_0^{T_s} \int_0^{T_s} \delta(t-\tau) f_k(t) f_m(\tau) d t d \tau \\
 # & = \frac{N_0}{2} \int_0^{T_s} f_k(t) \left[\int_0^{T_s} \delta(t-\tau)  f_m(\tau) d \tau \right] d t \\
 # & =\frac{N_0}{2} \int_0^{T_s} f_k(t) f_m(t) d t \\
 # & =\frac{N_0}{2} \delta_{m k}
-# \end{aligned}
+# \end{align}
 # $$
+#
+# Desse modo, os termos $n_k$ são variáveis aleatórias gaussianas independentes e identicamente distribuídas (i.i.d), com média nula e variância $\sigma_n^2 = E[n_k^2] = \frac{N_0}{2}$.
+#
+# Assumindo que o sinal $s_m(t)$ seja conhecido, podemos descrever os sinais $r_k$ na saída dos correlatores como variáveis aleatórias gaussianas independentes de média:
+#
+# $$
+# \begin{equation}
+# E\left[r_k\right]=E\left[s_{m k}+n_k\right]=s_{m k} 
+# \end{equation}
+# $$
+# e variância
+# $$
+# \begin{align}
+# \sigma_r^2 &= E\left[r_k^2\right] - E[r_k]^2 \\
+# &= E\left[s_{mk}^2 + 2s_{mk}n_k + n_k^2\right] - s_{mk}^2\\
+# &= s_{mk}^2 + E[n_k]^2 - s_{mk}^2\\
+# &= \sigma_n^2=\frac{N_0}{2}.
+# \end{align}
+# $$
+#
+# Portanto, o vetor $\mathbf{r}$ pode ser representado pela seguinte função densidade de probabilidade condicional conjunta
+#
+# $$ \begin{equation}\label{pdf_conj_1}
+# p\left(\mathbf{r}|\mathbf{s}_m\right)=\prod_{k=1}^N p\left(r_k|s_{m k}\right), \quad m=1,2, \ldots, M
+# \end{equation} $$
+#
+# em que cada componente vetorial possui distribuição condicional
+#
+# $$\begin{equation}\label{pdf_conj_2}
+# p\left(r_k|s_{m k}\right)=\frac{1}{\sqrt{\pi N_0}} \exp \left[-\frac{\left(r_k-s_{mk}\right)^2}{N_0}\right], \quad k=1,2, \ldots, N.
+# \end{equation}$$
+#
+# Substituindo ($\ref{pdf_conj_2}$) in ($\ref{pdf_conj_1}$), temos:
+#
+# $$\begin{equation}\label{pdf_conj_3}
+# p\left(\mathbf{r}|\mathbf{s}_m\right)=\frac{1}{\left(\pi N_0\right)^{N/2}} \exp \left[-\sum_{k=1}^N \frac{\left(r_k-s_{m k}\right)^2}{N_0}\right], \quad m=1,2, \ldots, M
+# \end{equation}$$
 
 # +
 M = 4
