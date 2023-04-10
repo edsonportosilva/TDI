@@ -217,13 +217,78 @@ figsize(10, 4)
 #
 # $$ 
 # \begin{equation}
-# h_k(t)=f_k(T-t), \quad 0 \leqslant t \leqslant T
+# h_k(t)=f_k(T_s-t), \quad 0 \leqslant t \leqslant T
 # \end{equation}
 # $$
 #
 
 # <img src="./figuras/Fig7.png" width="600">
 # <center>Fig.5: Demodulador por filtro casado.</center>
+
+# $$ \begin{align} 
+# y_k(t) & =\int_0^t r(\tau) h_k(t-\tau) d \tau \\ 
+# & =\int_0^t r(\tau) f_k(T_s-t+\tau) d \tau, \quad k=1,2, \ldots, N.
+# \end{align}$$
+#
+# $$\begin{equation}
+# y_k(T_s)=\int_0^t r(t) f_k(\tau) d t=r_k, \quad k=1,2, \ldots, N
+# \end{equation}$$
+#
+# Um filtro cuja resposta ao impulso é dada por $h(t) = s(T_s - t)$, em que $s(t)$ está confinada ao intervalo $0\leq t \leq T_s$, é denominado *filtro casado* ao sinal $s(t)$.
+#
+# $$
+# \begin{equation}
+# y(t)=\int_0^t s(\tau) s(T_s-t+\tau) d \tau
+# \end{equation}
+# $$
+#
+#
+# **Maximização da $\mathrm{SNR}$**: a mais importante característica de um filtro casado é que se o sinal $s(t)$ estiver afetado por ruído AWGN, o filtro cuja resposta ao impulso maximiza a $\mathrm{SNR}$ do sinal filtrado é o filtro casado de $s(t)$. Para demonstrar essa propriedade, considere o seguinte
+#
+# $$
+# \begin{align}
+# y(t) & =\int_0^t r(\tau) h(t-\tau) d \tau \\
+# & =\int_0^t s(\tau) h(t-\tau) d \tau+\int_0^t n(\tau) h(t-\tau) d \tau
+# \end{align}
+# $$
+#
+# $$
+# \begin{align}
+# y(T_s) & = \int_0^{T_s} s(\tau)h(T_s-\tau)d\tau + \int_0^{T_s}n(\tau)h(T_s-\tau)d\tau\\
+# & = y_s(T_s)+y_n(T_s)
+# \end{align}
+# $$
+#
+# $$
+# \begin{equation}
+# \mathrm{SNR}_o = \frac{y_s^2(T_s)}{E\left[y_n^2(T_s)\right]}
+# \end{equation}
+# $$
+#
+# $$
+# \begin{align}
+# E\left[y_n^2(T_s)\right] & =\int_0^{T_s} \int_0^{T_s} E[n(\tau) n(t)] h(T_s-\tau) h(T_s-t) d t d \tau \\
+# & =\frac{N_0}{2} \int_0^{T_s} \int_0^{T_s} \delta(t-\tau) h(T_s-\tau) h(T_s-t) d t d \tau \\
+# & =\frac{N_0}{2} \int_0^{T_s} h^2(T_s-t) d t
+# \end{align}
+# $$
+#
+# $$
+# \mathrm{SNR}_o =\frac{\left[\int_0^\tau s(\tau) h(T_s-\tau) d \tau\right]^2}{\frac{N_0}{2} \int_0^\tau h^2(T_s-t) d t}=\frac{\left[\int_0^{T_s} h(\tau) s(T_s-\tau) d \tau\right]^2}{\frac{N_0}{2} \int_0^{T_s} h^2(T_s-t) d t}
+# $$
+#
+# $$
+# \begin{equation}
+# \left[\int_{-\infty}^{\infty} g_1(t) g_2(t) d t\right]^2 \leqslant \int_{-\infty}^{\infty} g_1^2(t) d t \int_{-\infty}^{\infty} g_2^2(t) d t
+# \end{equation}
+# $$
+#
+# $$
+# \begin{align}
+# \mathrm{SNR}_o & =\frac{2}{N_0} \int_0^{T_s} s^2(t) d t \\
+# & = \frac{2E}{N_0}
+# \end{align}
+# $$
 
 # +
 M = 4
