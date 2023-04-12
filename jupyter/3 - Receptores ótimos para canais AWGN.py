@@ -387,7 +387,7 @@ symbTx = pnorm(symbTx) # power normalization
 symbolsUp = upsample(symbTx, SpS)
 
 # pulso NRZ típico
-pulse = pulseShape('rc', SpS)
+pulse = pulseShape('rrc', SpS)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
@@ -405,6 +405,22 @@ ruido  = normal(μ, σ, Namostras)
 # diagrama de olho
 Nsamples = sigTx.size
 eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+eyediagram(firFilter(pulse, sigTx+ruido), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+
+# +
+# plot PSD
+plt.figure();
+plt.xlim(-4*Rs,4*Rs);
+plt.ylim(-250,-50);
+plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx '+ str(M) +'-PAM')
+plt.legend(loc='upper left');
+
+plt.figure();
+plt.xlim(-4*Rs,4*Rs);
+plt.ylim(-250,-50);
+plt.psd(sigTx+ruido,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (entrada do filtro) '+ str(M) +'-PAM')
+plt.psd(pnorm(firFilter(pulse, sigTx+ruido)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do filtro)  '+ str(M) +'-PAM')
+plt.legend(loc='upper left');
 # -
 
 # ## Referências
