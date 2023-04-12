@@ -176,7 +176,7 @@ figsize(10, 4)
 # \begin{align}
 # \sigma_r^2 &= E\left[r_k^2\right] - E[r_k]^2 \\
 # &= E\left[s_{mk}^2 + 2s_{mk}n_k + n_k^2\right] - s_{mk}^2\\
-# &= s_{mk}^2 + E[n_k]^2 - s_{mk}^2\\
+# &= s_{mk}^2 + E[n_k^2] - s_{mk}^2\\
 # &= \sigma_n^2=\frac{N_0}{2}.
 # \end{align}
 # $$
