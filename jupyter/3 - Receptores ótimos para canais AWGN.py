@@ -591,24 +591,30 @@ def MAPdetector(r, σn, constSymb, px=None):
         
         for jj, s in enumerate(constSymb): # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
             # calculate MAP probability metric
-            log_probMetric[jj] = -np.log(2*π*σn) - (2/σn)*np.abs(ri-s)**2 + np.log(px[jj])
+            log_probMetric[jj] = -np.log(2*π*σn) - (1/(2*σn)*np.abs(ri-s)**2 + np.log(px[jj])
         
         # find the constellation symbol with the largest P(sm|r)
         index[ii] = np.argmax(log_probMetric)
         
-        # make the decision for the symbol with the largest metric
-        decided[ii] = constSymb[ int(index[ii]) ]
+        # make the decision in favor of the symbol with the largest metric
+        decided[ii] = constSymb[index[ii]]
     
     return decided, index
 
 
 # +
 # select PAM order
-M = 8
+M = 4
+
+# parâmetros da simulação
+SpS = 8            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
 
 # generate pseudo-random bit sequence
-bitsTx = np.random.randint(2, size = int(100000*np.log2(M)))
-
+bitsTx = np.random.randint(2, size = int(200000*np.log2(M)))
 # generate ook modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
@@ -623,6 +629,7 @@ pulse = pulse/max(abs(pulse))
 # formatação de pulso
 sigTx = firFilter(pulse, symbolsUp)
 sigTx = sigTx.real
+sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
@@ -640,7 +647,7 @@ sigRx = pnorm(sigRx)
 r = sigRx[2::SpS]
 
 # diagrama de olho
-Nsamples = sigTx.size
+Nsamples = 10000
 eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM (antes do filtro casado)', ptype='fast')
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fast')
 
@@ -667,9 +674,10 @@ plt.xlim(0, dec.size);
 # +
 from optic.metrics import fastBERcalc
 
-BER, _, _ = fastBERcalc(r, symbTx, M, 'pam')
+BER, _, _ = fastBERcalc(pnorm(dec), pnorm(symbTx), M, 'pam')
 
-print(f'BER = {BER[0]}')
+print(f'SNR = {10*np.log10(signal_power(sigTx)/(2*σ2)):.2f} dB')
+print(f'BER = {BER[0]:.2e}')
 # -
 
 # ## Referências
