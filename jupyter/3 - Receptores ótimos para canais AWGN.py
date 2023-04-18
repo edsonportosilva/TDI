@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -396,10 +396,10 @@ sigTx = sigTx.real
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.050  # variância
+σ2  = 0.050 # variância
 μ   = 0      # média
 
-σ      = sqrt(σ2) 
+σ      = sqrt(σ2*SpS) 
 ruido  = normal(μ, σ, Namostras)
 
 # diagrama de olho
@@ -459,7 +459,7 @@ plt.legend(loc='upper left');
 #
 # $$
 # \begin{align}
-# \hat{\mathbf{s}}_m &= \arg\max_{\mathbf{s}_m}p\left(\mathbf{s}_m|\mathbf{r}\right)\nonumber\\
+# \hat{\mathbf{s}}_m &= \arg\max_{\mathbf{s}_m}P\left(\mathbf{s}_m|\mathbf{r}\right)\nonumber\\
 # &= \arg\max_{\mathbf{s}_m}p\left(\mathbf{r}|\mathbf{s}_m\right)P\left(\mathbf{s}_m\right)\label{MAP_crit}
 # \end{align}
 # $$
@@ -470,7 +470,7 @@ plt.legend(loc='upper left');
 #
 # $$
 # \begin{align}
-# \hat{\mathbf{s}}_m &= \arg\max_{\mathbf{s}_m}p\left(\mathbf{s}_m|\mathbf{r}\right)\nonumber\\
+# \hat{\mathbf{s}}_m &= \arg\max_{\mathbf{s}_m}P\left(\mathbf{s}_m|\mathbf{r}\right)\nonumber\\
 # &= \arg\max_{\mathbf{s}_m}p\left(\mathbf{r}|\mathbf{s}_m\right)\label{ML_crit}
 # \end{align}
 # $$
@@ -571,49 +571,105 @@ ax2.set_ylabel('hist(r)');
 ax2.plot(np.unique(symbTx),np.zeros(M),'x');
 ax2.set_xlim(min(x), max(x));
 
+# +
+from numba import njit
 
-# -
-
-def MAPdetector(r, σn, M, constType, px=None):
+@njit
+def MAPdetector(r, σn, constSymb, px=None):
     
-    r = pnorm(r)
+    r = pnorm(r)    
+    M = constSymb.size
     
     if px == None:
-        px = 1/M*np.ones(M)
-        
-    # get constellation    
-    constSymb = GrayMapping(M, constType)  # constellation
-    constSymb = pnorm(constSymb)   
+        px = 1/M*np.ones(M)         
            
     decided = np.zeros(r.size) 
-    index = np.zeros(r.size) 
-    
-    # calculate loglikelihood
-    for ii, ri in enumerate(r):
-        probMetric = np.zeros(constSymb.size)
+    index = np.zeros(r.size, dtype=np.int64) 
         
-        for jj, s in enumerate(constSymb):
-            probMetric[jj] = -np.log(2*π*σn) - np.abs(ri-s)**2 + np.log(px[jj])
+    for ii, ri in enumerate(r): # for each received symbol
+        log_probMetric = np.zeros(constSymb.size)
         
-        index[ii] = np.argmax(probMetric)
+        for jj, s in enumerate(constSymb): # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
+            # calculate MAP probability metric
+            log_probMetric[jj] = -np.log(2*π*σn) - (2/σn)*np.abs(ri-s)**2 + np.log(px[jj])
         
+        # find the constellation symbol with the largest P(sm|r)
+        index[ii] = np.argmax(log_probMetric)
+        
+        # make the decision for the symbol with the largest metric
         decided[ii] = constSymb[ int(index[ii]) ]
     
-    return decided, np.int64(index)
+    return decided, index
 
 
 # +
+# select PAM order
+M = 8
+
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size = int(25000*np.log2(M)))
+
+# generate ook modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = pnorm(symbTx) # power normalization
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso NRZ típico
+pulse = pulseShape('rrc', SpS)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+sigTx = sigTx.real
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 0.010 # variância
+μ   = 0      # média
+
+σ      = sqrt(σ2*SpS) 
+ruido  = normal(μ, σ, Namostras)
+
+# filtro casado
+sigRx = firFilter(pulse, sigTx+ruido)
+sigRx = pnorm(sigRx)
+
+# downsampling
+r = sigRx[2::SpS]
+
+# diagrama de olho
+Nsamples = sigTx.size
+eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM (antes do filtro casado)', ptype='fast')
+eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fast')
+
+
+from matplotlib import cm
+n_colors = M
+colors = cm.rainbow(np.linspace(0, 1, n_colors))
+
 count = r.size
 
-dec, pos = MAPdetector(r[0:count], σ2, M, 'pam')
+# get constellation    
+constSymb = GrayMapping(M, 'pam')  # constellation
+constSymb = pnorm(constSymb) 
+    
+dec, pos = MAPdetector(r[0:count], σ2, constSymb)
 
 constSymb = np.unique(dec)
-
-colors = ['red', 'green', 'blue', 'orange']
 col = [colors[ind] for ind in pos]
 
 index = np.arange(0,dec.size)[0:count]
-plt.scatter(index, r[0:count],c=col, marker='.')
+plt.scatter(index, r[0:count],c=col, marker='.');
+plt.xlim(0, dec.size);
+
+# +
+from optic.metrics import fastBERcalc
+
+BER, _, _ = fastBERcalc(r, symbTx, M, 'pam')
+
+print(f'BER = {BER[0]}')
 # -
 
 # ## Referências
