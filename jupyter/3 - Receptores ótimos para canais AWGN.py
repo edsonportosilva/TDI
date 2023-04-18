@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -386,8 +386,8 @@ symbTx = pnorm(symbTx) # power normalization
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
-# pulso NRZ típico
-pulse = pulseShape('rrc', SpS)
+# pulso 
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
@@ -396,7 +396,7 @@ sigTx = sigTx.real
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.050 # variância
+σ2  = 0.0050 # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2*SpS) 
@@ -539,13 +539,7 @@ plt.legend(loc='upper left');
 σ     = sqrt(σ2*SpS) 
 ruido = normal(μ, σ, sigTx.size)  
 
-x = np.arange(-2, 2, 0.01)
-π = np.pi
 constSymb = np.unique(symbTx)
-
-pdf = 0
-for sm in constSymb:
-    pdf += 1/np.sqrt(2*π*σ2)*np.exp(-(x-sm)**2/(2*σ2))*(1/M)  
 
 # filtro casado
 sigRx = firFilter(pulse, sigTx+ruido)
@@ -563,9 +557,18 @@ ax1.set_ylabel('amplitude')
 ax1.set_xlim(0,r.size);
 
 ax2.hist(r, density=True, bins=300, label = 'hist(r)',alpha=0.5);
-ax2.plot(x, pdf, 'k--', label = 'pdf(r)', linewidth=1);
+
+x = np.arange(-2, 2, 0.01)
+π = np.pi
+pdf = 0
+for sm in constSymb:
+    pdf_c = 1/np.sqrt(2*π*σ2)*np.exp(-(x-sm)**2/(2*σ2))*(1/M) 
+    pdf += pdf_c
+    ax2.plot(x, pdf_c, '--', label = f'p(r|s={sm:.2f})P(s={sm:.2f})', linewidth=2);
+    
+ax2.plot(x, pdf, 'k--', label = 'p(r)', linewidth=2);    
 ax2.grid()
-ax2.legend()
+ax2.legend(loc='right', bbox_to_anchor=(1.5, 0.5))
 ax2.set_xlabel('r')
 ax2.set_ylabel('hist(r)');
 ax2.plot(np.unique(symbTx),np.zeros(M),'x');
@@ -584,22 +587,22 @@ def MAPdetector(r, σn, constSymb, px=None):
         px = 1/M*np.ones(M)         
            
     decided = np.zeros(r.size) 
-    index = np.zeros(r.size, dtype=np.int64) 
+    indDec = np.zeros(r.size, dtype=np.int64) 
         
     for ii, ri in enumerate(r): # for each received symbol
         log_probMetric = np.zeros(constSymb.size)
         
         for jj, s in enumerate(constSymb): # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
             # calculate MAP probability metric
-            log_probMetric[jj] = -np.log(2*π*σn) - (1/(2*σn)*np.abs(ri-s)**2 + np.log(px[jj])
+            log_probMetric[jj] = -np.log(2*π*σn) - (1/(2*σn))*np.abs(ri-s)**2 + np.log(px[jj])
         
         # find the constellation symbol with the largest P(sm|r)
-        index[ii] = np.argmax(log_probMetric)
+        indDec[ii] = np.argmax(log_probMetric)
         
         # make the decision in favor of the symbol with the largest metric
-        decided[ii] = constSymb[index[ii]]
+        decided[ii] = constSymb[indDec[ii]]
     
-    return decided, index
+    return decided, indDec
 
 
 # +
@@ -607,7 +610,7 @@ def MAPdetector(r, σn, constSymb, px=None):
 M = 4
 
 # parâmetros da simulação
-SpS = 8            # Amostras por símbolo
+SpS = 16            # Amostras por símbolo
 Rs  = 100e6         # Taxa de símbolos
 Ts  = 1/Rs          # Período de símbolo em segundos
 Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
@@ -615,6 +618,7 @@ Ta  = 1/Fa          # Período de amostragem
 
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size = int(200000*np.log2(M)))
+
 # generate ook modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
@@ -623,7 +627,7 @@ symbTx = pnorm(symbTx) # power normalization
 symbolsUp = upsample(symbTx, SpS)
 
 # pulso NRZ típico
-pulse = pulseShape('rrc', SpS)
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
@@ -633,7 +637,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.010 # variância
+σ2  = 0.020 # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2*SpS) 
@@ -656,28 +660,33 @@ from matplotlib import cm
 n_colors = M
 colors = cm.rainbow(np.linspace(0, 1, n_colors))
 
-count = r.size
-
 # get constellation    
 constSymb = GrayMapping(M, 'pam')  # constellation
 constSymb = pnorm(constSymb) 
     
-dec, pos = MAPdetector(r[0:count], σ2, constSymb)
+dec, pos = MAPdetector(r, σ2, constSymb)
 
 constSymb = np.unique(dec)
 col = [colors[ind] for ind in pos]
 
-index = np.arange(0,dec.size)[0:count]
-plt.scatter(index, r[0:count],c=col, marker='.');
+index = np.arange(0,dec.size)
+plt.scatter(index, r,c=col, marker='.');
 plt.xlim(0, dec.size);
 
 # +
-from optic.metrics import fastBERcalc
+from optic.metrics import fastBERcalc, theoryBER
 
-BER, _, _ = fastBERcalc(pnorm(dec), pnorm(symbTx), M, 'pam')
+ind = np.arange(1000,dec.size-1000)
 
-print(f'SNR = {10*np.log10(signal_power(sigTx)/(2*σ2)):.2f} dB')
+BER, _, _ = fastBERcalc(dec[ind], symbTx[ind], M, 'pam')
+
+SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
+
+BER_th = theoryBER(M, SNRb,'pam')
+
+print(f'SNRb = {SNRb:.2f} dB')
 print(f'BER = {BER[0]:.2e}')
+print(f'BER(teoria) = {BER_th:.2e}')
 # -
 
 # ## Referências
