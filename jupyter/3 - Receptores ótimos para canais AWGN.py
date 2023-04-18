@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -570,6 +570,50 @@ ax2.set_xlabel('r')
 ax2.set_ylabel('hist(r)');
 ax2.plot(np.unique(symbTx),np.zeros(M),'x');
 ax2.set_xlim(min(x), max(x));
+
+
+# -
+
+def MAPdetector(r, σn, M, constType, px=None):
+    
+    r = pnorm(r)
+    
+    if px == None:
+        px = 1/M*np.ones(M)
+        
+    # get constellation    
+    constSymb = GrayMapping(M, constType)  # constellation
+    constSymb = pnorm(constSymb)   
+           
+    decided = np.zeros(r.size) 
+    index = np.zeros(r.size) 
+    
+    # calculate loglikelihood
+    for ii, ri in enumerate(r):
+        probMetric = np.zeros(constSymb.size)
+        
+        for jj, s in enumerate(constSymb):
+            probMetric[jj] = -np.log(2*π*σn) - np.abs(ri-s)**2 + np.log(px[jj])
+        
+        index[ii] = np.argmax(probMetric)
+        
+        decided[ii] = constSymb[ int(index[ii]) ]
+    
+    return decided, np.int64(index)
+
+
+# +
+count = r.size
+
+dec, pos = MAPdetector(r[0:count], σ2, M, 'pam')
+
+constSymb = np.unique(dec)
+
+colors = ['red', 'green', 'blue', 'orange']
+col = [colors[ind] for ind in pos]
+
+index = np.arange(0,dec.size)[0:count]
+plt.scatter(index, r[0:count],c=col, marker='.')
 # -
 
 # ## Referências

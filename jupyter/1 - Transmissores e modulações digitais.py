@@ -157,7 +157,7 @@ symdisp('A_Q = ', A_Q)
 
 # ### Diagramas de constelação
 
-# + hide_input=true
+# + hide_input=false
 M = 16 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 
