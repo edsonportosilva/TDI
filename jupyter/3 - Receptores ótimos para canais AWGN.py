@@ -607,7 +607,7 @@ def MAPdetector(r, σn, constSymb, px=None):
 M = 8
 
 # generate pseudo-random bit sequence
-bitsTx = np.random.randint(2, size = int(25000*np.log2(M)))
+bitsTx = np.random.randint(2, size = int(100000*np.log2(M)))
 
 # generate ook modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
