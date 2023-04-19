@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -19,6 +19,7 @@ import sympy as sp
 import numpy as np
 from numpy.random import normal
 import matplotlib.pyplot as plt
+from matplotlib import cm
 from sympy import cos, sin, exp, Matrix, sqrt
 from sympy.simplify.fu import TR10, TR9
 import pandas as pd
@@ -66,7 +67,7 @@ figsize(8, 3)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -573,32 +574,30 @@ ax2.set_xlabel('r')
 ax2.set_ylabel('hist(r)');
 ax2.plot(np.unique(symbTx),np.zeros(M),'x');
 ax2.set_xlim(min(x), max(x));
+# -
+
+# ### Implementação de detectores MAP e ML
 
 # +
 from numba import njit
 
 @njit
-def MAPdetector(r, σn, constSymb, px=None):
-    
-    r = pnorm(r)    
+def MAPdetector(r, σn, constSymb, px=None):        
     
     if px == None:
-        px = 1/M*np.ones(M)         
+        px = 1/M*np.ones(M)      
            
     decided = np.zeros(r.size) 
     indDec = np.zeros(r.size, dtype=np.int64) 
-    π = np.pi    
-    for ii, ri in enumerate(r): # for each received symbol
-        # probMetric = np.zeros(constSymb.size)
-        log_probMetric = np.zeros(constSymb.size)
+    π = np.pi  
+    
+    for ii, ri in enumerate(r): # for each received symbol        
+        log_probMetric = np.zeros(constSymb.size)        
+        # calculate MAP probability metric        
+        # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
+        log_probMetric = - np.abs(ri - constSymb)**2 + (2*σn)*np.log(px)
         
-        for jj, s in enumerate(constSymb): # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
-            # calculate MAP probability metric
-            # probMetric[jj] = 1/np.sqrt(2*π*σ2) *np.exp( -(1/(2*σn))*np.abs(ri-s)**2)*px[jj]
-            log_probMetric[jj] = - (1/(2*σn))*np.abs(ri-s)**2 + np.log(px[jj])
-        
-        # find the constellation symbol with the largest P(sm|r)
-        #cindDec[ii] = np.argmax(probMetric)
+        # find the constellation symbol with the largest P(sm|r)       
         indDec[ii] = np.argmax(log_probMetric)
         
         # make the decision in favor of the symbol with the largest metric
@@ -606,6 +605,32 @@ def MAPdetector(r, σn, constSymb, px=None):
     
     return decided, indDec
 
+@njit
+def MLdetector(r, constSymb):   
+       
+    decided = np.zeros(r.size) 
+    indDec = np.zeros(r.size, dtype=np.int64) 
+    π = np.pi  
+    
+    for ii, ri in enumerate(r): # for each received symbol        
+        distMetric = np.zeros(constSymb.size)        
+        # calculate distance metric   
+        
+        # calculate |r-sm|**2, for m= 1,2,...,M
+        distMetric = np.abs(ri - constSymb)**2
+        
+        # find the constellation symbol with the largest P(sm|r)       
+        indDec[ii] = np.argmin(distMetric)
+        
+        # make the decision in favor of the symbol with the smallest metric
+        decided[ii] = constSymb[indDec[ii]]
+    
+    return decided, indDec
+
+
+# -
+
+# ### Exemplo: sinal M-PAM equiprovável
 
 # +
 # select PAM order
@@ -623,9 +648,9 @@ constSymb = GrayMapping(M, 'pam')  # constellation
 constSymb = pnorm(constSymb) 
 
 # generate pseudo-random bit sequence
-bitsTx = np.random.randint(2, size = int(200000*np.log2(M)))
+bitsTx = np.random.randint(2, size = int(500000*np.log2(M)))
 
-# generate ook modulated symbol sequence
+# generate modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
 
@@ -660,36 +685,40 @@ r = sigRx[2::SpS]
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
 
-from matplotlib import cm
-n_colors = M
-colors = cm.rainbow(np.linspace(0, 1, n_colors))
-    
-dec, pos = MAPdetector(r, σ2, constSymb)
+# +
+r = r/np.mean(r/symbTx) # normalização
 
-col = [colors[ind] for ind in pos]
+dec, pos = MAPdetector(r, σ2, constSymb) # detector MAP
+#dec, pos = MLdetector(r, constSymb) # detector ML
 # -
 
+# plota símbolos recebidos e decisões
+n_colors = M
+colors = cm.rainbow(np.linspace(0, 1, n_colors))
 index = np.arange(0,dec.size)
-plt.scatter(index, r,c=col, marker='.', s = 0.5);
+plt.scatter(index, r,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
 plt.xlim(0, dec.size);
+plt.hlines(constSymb, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
 from optic.metrics import fastBERcalc, theoryBER
 
-ind = np.arange(1000,dec.size-1000)
+ind = np.arange(100,dec.size-100)
 
-_, SER, _ = fastBERcalc(dec[ind], symbTx[ind], M, 'pam')
+SER = 1 - np.sum( np.isclose(dec, symbTx, rtol=1e-2) )/dec.size # calcula SER
 
 SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
 
 BER_th = theoryBER(M, SNRb,'pam')
 
 print(f'SNRb = {SNRb:.2f} dB')
-print(f'SER = {SER[0]:.2e}')
+print(f'SER = {SER:.2e}')
 print(f'SER(teoria) = {BER_th*np.log2(M):.2e}')
 
 
 # -
+
+# ### Exemplo: sinal M-PAM não-equiprovável
 
 def maxwellBolt(λ, const):
     
@@ -705,7 +734,7 @@ def maxwellBolt(λ, const):
 
 # +
 # select PAM order
-M = 8
+M = 4
 
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
@@ -716,12 +745,12 @@ Ta  = 1/Fa          # Período de amostragem
 
 # gera constelação    
 constSymb = GrayMapping(M, 'pam')  # constellation
+
 # define probabilidades de símbolo
 constSymb = pnorm(constSymb)
 
-PS = 1
-probSymb = maxwellBolt(PS, constSymb)  
-
+PS = 1.5
+probSymb = maxwellBolt(PS, constSymb) 
 Es = np.sum(( np.abs(constSymb) ** 2 ) * probSymb)
 constSymb = constSymb/np.sqrt(Es)
 
@@ -745,7 +774,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.5 # variância
+σ2  = 0.15 # variância
 μ   = 0   # média
 
 σ      = sqrt(σ2*SpS) 
@@ -762,30 +791,30 @@ r = sigRx[2::SpS]
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
 
+# +
+r = r/np.mean(r/symbTx)
+
+dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
+#dec, pos = MLdetector(r, constSymb) # detector ML
+# -
+
+# plota símbolos recebidos e decisões
 n_colors = M
 colors = cm.rainbow(np.linspace(0, 1, n_colors))
-    
-dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb)
-
 index = np.arange(0,dec.size)
-col = [colors[ind] for ind in pos[index]]
-
-plt.figure()
-plt.scatter(index, r[index],c=col, marker='.', s = 0.5);
+plt.scatter(index, r,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
 plt.xlim(0, dec.size);
+plt.hlines(constSymb, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
 ind = np.arange(1000,dec.size-1000)
 
-_, SER, _ = fastBERcalc(dec[ind], symbTx[ind], M, 'pam')
+SER = 1 - np.sum( np.isclose(pnorm(dec), symbTx, atol=1e-1) )/dec.size # calcula SER
 
 SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
 
-BER_th = theoryBER(M, SNRb,'pam')
-
 print(f'SNRb = {SNRb:.2f} dB')
-print(f'SER = {SER[0]:.2e}')
-print(f'SER(teoria) = {BER_th*np.log2(M):.2e}')
+print(f'SER = {SER:.2e}')
 # -
 
 # ## Referências
