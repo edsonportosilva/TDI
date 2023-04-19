@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -533,7 +533,7 @@ plt.legend(loc='upper left');
 
 # +
 # ruído gaussiano branco
-σ2  = 0.05  # variância
+σ2  = 0.01  # variância
 μ   = 0      # média
 
 σ     = sqrt(σ2*SpS) 
@@ -581,22 +581,24 @@ from numba import njit
 def MAPdetector(r, σn, constSymb, px=None):
     
     r = pnorm(r)    
-    M = constSymb.size
     
     if px == None:
         px = 1/M*np.ones(M)         
            
     decided = np.zeros(r.size) 
     indDec = np.zeros(r.size, dtype=np.int64) 
-        
+    π = np.pi    
     for ii, ri in enumerate(r): # for each received symbol
+        # probMetric = np.zeros(constSymb.size)
         log_probMetric = np.zeros(constSymb.size)
         
         for jj, s in enumerate(constSymb): # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
             # calculate MAP probability metric
-            log_probMetric[jj] = -np.log(2*π*σn) - (1/(2*σn))*np.abs(ri-s)**2 + np.log(px[jj])
+            # probMetric[jj] = 1/np.sqrt(2*π*σ2) *np.exp( -(1/(2*σn))*np.abs(ri-s)**2)*px[jj]
+            log_probMetric[jj] = - (1/(2*σn))*np.abs(ri-s)**2 + np.log(px[jj])
         
         # find the constellation symbol with the largest P(sm|r)
+        #cindDec[ii] = np.argmax(probMetric)
         indDec[ii] = np.argmax(log_probMetric)
         
         # make the decision in favor of the symbol with the largest metric
@@ -615,6 +617,10 @@ Rs  = 100e6         # Taxa de símbolos
 Ts  = 1/Rs          # Período de símbolo em segundos
 Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
+
+# get constellation    
+constSymb = GrayMapping(M, 'pam')  # constellation
+constSymb = pnorm(constSymb) 
 
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size = int(200000*np.log2(M)))
@@ -637,7 +643,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.020 # variância
+σ2  = 0.025 # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2*SpS) 
@@ -651,26 +657,20 @@ sigRx = pnorm(sigRx)
 r = sigRx[2::SpS]
 
 # diagrama de olho
-Nsamples = 10000
-eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM (antes do filtro casado)', ptype='fast')
-eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fast')
-
+Nsamples = 200000*SpS
+eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
 
 from matplotlib import cm
 n_colors = M
 colors = cm.rainbow(np.linspace(0, 1, n_colors))
-
-# get constellation    
-constSymb = GrayMapping(M, 'pam')  # constellation
-constSymb = pnorm(constSymb) 
     
 dec, pos = MAPdetector(r, σ2, constSymb)
 
-constSymb = np.unique(dec)
 col = [colors[ind] for ind in pos]
+# -
 
 index = np.arange(0,dec.size)
-plt.scatter(index, r,c=col, marker='.');
+plt.scatter(index, r,c=col, marker='.', s = 0.5);
 plt.xlim(0, dec.size);
 
 # +
@@ -678,15 +678,114 @@ from optic.metrics import fastBERcalc, theoryBER
 
 ind = np.arange(1000,dec.size-1000)
 
-BER, _, _ = fastBERcalc(dec[ind], symbTx[ind], M, 'pam')
+_, SER, _ = fastBERcalc(dec[ind], symbTx[ind], M, 'pam')
 
 SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
 
 BER_th = theoryBER(M, SNRb,'pam')
 
 print(f'SNRb = {SNRb:.2f} dB')
-print(f'BER = {BER[0]:.2e}')
-print(f'BER(teoria) = {BER_th:.2e}')
+print(f'SER = {SER[0]:.2e}')
+print(f'SER(teoria) = {BER_th*np.log2(M):.2e}')
+
+
+# -
+
+def maxwellBolt(λ, const):
+    
+    p = np.zeros(const.size)
+    
+    for ind, x in enumerate(const):
+        p[ind] = np.exp(-λ*np.abs(x)**2)
+        
+    p = p/np.sum(p)
+    
+    return p
+
+
+# +
+# select PAM order
+M = 8
+
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
+# gera constelação    
+constSymb = GrayMapping(M, 'pam')  # constellation
+# define probabilidades de símbolo
+constSymb = pnorm(constSymb)
+
+PS = 1
+probSymb = maxwellBolt(PS, constSymb)  
+
+Es = np.sum(( np.abs(constSymb) ** 2 ) * probSymb)
+constSymb = constSymb/np.sqrt(Es)
+
+plt.stem(constSymb, probSymb)
+
+# gera sequência de símbolos modulados
+symbTx = np.random.choice(constSymb, 200000, p=probSymb)
+symbTx = pnorm(symbTx) # power normalization
+    
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso 
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+sigTx = sigTx.real
+sigTx = pnorm(sigTx)
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 0.5 # variância
+μ   = 0   # média
+
+σ      = sqrt(σ2*SpS) 
+ruido  = normal(μ, σ, Namostras)
+
+# filtro casado
+sigRx = firFilter(pulse, sigTx+ruido)
+sigRx = pnorm(sigRx)
+
+# downsampling
+r = sigRx[2::SpS]
+
+# diagrama de olho
+Nsamples = 200000*SpS
+eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
+
+n_colors = M
+colors = cm.rainbow(np.linspace(0, 1, n_colors))
+    
+dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb)
+
+index = np.arange(0,dec.size)
+col = [colors[ind] for ind in pos[index]]
+
+plt.figure()
+plt.scatter(index, r[index],c=col, marker='.', s = 0.5);
+plt.xlim(0, dec.size);
+
+# +
+ind = np.arange(1000,dec.size-1000)
+
+_, SER, _ = fastBERcalc(dec[ind], symbTx[ind], M, 'pam')
+
+SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
+
+BER_th = theoryBER(M, SNRb,'pam')
+
+print(f'SNRb = {SNRb:.2f} dB')
+print(f'SER = {SER[0]:.2e}')
+print(f'SER(teoria) = {BER_th*np.log2(M):.2e}')
 # -
 
 # ## Referências
