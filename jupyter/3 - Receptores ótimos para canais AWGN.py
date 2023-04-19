@@ -582,6 +582,28 @@ ax2.set_xlim(min(x), max(x));
 from numba import njit
 
 @njit
+def MLdetector(r, constSymb):   
+       
+    decided = np.zeros(r.size) 
+    indDec = np.zeros(r.size, dtype=np.int64) 
+    π = np.pi  
+    
+    for ii, ri in enumerate(r): # for each received symbol        
+        distMetric = np.zeros(constSymb.size)        
+        # calculate distance metric   
+        
+        # calculate |r-sm|**2, for m= 1,2,...,M
+        distMetric = np.abs(ri - constSymb)**2
+        
+        # find the constellation symbol with the largest P(sm|r)       
+        indDec[ii] = np.argmin(distMetric)
+        
+        # make the decision in favor of the symbol with the smallest metric
+        decided[ii] = constSymb[indDec[ii]]
+    
+    return decided, indDec
+
+@njit
 def MAPdetector(r, σn, constSymb, px=None):        
     
     if px == None:
@@ -601,28 +623,6 @@ def MAPdetector(r, σn, constSymb, px=None):
         indDec[ii] = np.argmax(log_probMetric)
         
         # make the decision in favor of the symbol with the largest metric
-        decided[ii] = constSymb[indDec[ii]]
-    
-    return decided, indDec
-
-@njit
-def MLdetector(r, constSymb):   
-       
-    decided = np.zeros(r.size) 
-    indDec = np.zeros(r.size, dtype=np.int64) 
-    π = np.pi  
-    
-    for ii, ri in enumerate(r): # for each received symbol        
-        distMetric = np.zeros(constSymb.size)        
-        # calculate distance metric   
-        
-        # calculate |r-sm|**2, for m= 1,2,...,M
-        distMetric = np.abs(ri - constSymb)**2
-        
-        # find the constellation symbol with the largest P(sm|r)       
-        indDec[ii] = np.argmin(distMetric)
-        
-        # make the decision in favor of the symbol with the smallest metric
         decided[ii] = constSymb[indDec[ii]]
     
     return decided, indDec
