@@ -532,6 +532,13 @@ plt.legend(loc='upper left');
 # \end{equation}
 # $$
 
+# $$
+# \begin{align}\label{metric_prob_2}
+# \ln\left[p\left(\mathbf{r}|\mathbf{s}_m\right)P\left(\mathbf{s}_m\right)\right]&=\frac{-N}{2} \ln \left(\pi N_0\right)-\frac{1}{N_0} \sum_{k=1}^N\left(r_k-s_{m k}\right)^2 + \ln P\left(\mathbf{s}_m\right).\nonumber\\
+# &\propto \sigma_n^2\ln \left(P\left(\mathbf{s}_m\right)\right) - \sum_{k=1}^N\left(r_k-s_{m k}\right)^2 \nonumber\\
+# \end{align}
+# $$
+
 # +
 # ruído gaussiano branco
 σ2  = 0.01  # variância
@@ -609,7 +616,7 @@ def MAPdetector(r, σn, constSymb, px=None):
     if px == None:
         px = 1/M*np.ones(M)      
            
-    decided = np.zeros(r.size) 
+    decided = np.zeros(r.size, dtype=np.complex64) 
     indDec = np.zeros(r.size, dtype=np.int64) 
     π = np.pi  
     
@@ -628,7 +635,71 @@ def MAPdetector(r, σn, constSymb, px=None):
     return decided, indDec
 
 
+# +
+
+def findLimiars(constSymb, σn=1, px=None):
+    
+    M = constSymb.size
+    
+    if px is None:
+        px = 1/M*np.ones(M)     
+        
+    xmin = np.min(constSymb.real)
+    ymin = np.min(constSymb.imag)
+    xmax = np.max(constSymb.real)
+    ymax = np.max(constSymb.imag)
+
+    x = np.linspace(xmin, xmax, 1000)
+    y = np.linspace(ymin, ymax, 1000)
+
+    constSymb = np.round(constSymb,2)
+
+    x_const = np.unique(constSymb.real)
+    y_const = np.unique(constSymb.imag)
+
+   # for s in itertools.product(x_const, x_const):
+    lx = np.zeros(x_const.size-1)
+    ly = np.zeros(x_const.size-1)
+
+    for ii in range(x_const.size):
+
+        if ii == 0:
+            pass
+        else:            
+            pivot1 = x_const[ii-1] + 1j*y_const[0]
+            pivot2 = x_const[ii] + 1j*y_const[0]
+            
+            p1 = px[constSymb == pivot1]
+            p2 = px[constSymb == pivot2]
+            
+            metric1 = np.exp(- np.abs(x - x_const[ii-1])**2 / (2*σn) ) * p1
+            metric2 = np.exp(- np.abs(x - x_const[ii])**2 / (2*σn) ) * p2
+                        
+            lx[ii-1] = np.round(x[np.argmin(np.abs(metric1 - metric2))],2)
+
+    for ii in range(y_const.size):
+
+        if ii == 0:
+            pass
+        else:            
+            pivot1 = x_const[0] + 1j*y_const[ii-1]
+            pivot2 = x_const[0] + 1j*y_const[ii]
+
+            p1 = px[constSymb == pivot1]
+            p2 = px[constSymb == pivot2]
+
+            metric1 = np.exp(- np.abs(y - y_const[ii-1])**2 / (2*σn) ) * p1
+            metric2 = np.exp(- np.abs(y - y_const[ii])**2 / (2*σn) ) * p2
+
+            ly[ii-1] = np.round(y[np.argmin(np.abs(metric1 - metric2))],2)
+
+    return lx, ly
+        
+
+
 # -
+
+findLimiars(constSymb, σn=1, px=probSymb)
 
 # ### Exemplo: sinal M-PAM equiprovável
 
@@ -815,8 +886,184 @@ SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
 
 print(f'SNRb = {SNRb:.2f} dB')
 print(f'SER = {SER:.2e}')
+
+# +
+# select PAM order
+M = 16
+
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
+# get constellation    
+constSymb = GrayMapping(M, 'qam')  # constellation
+constSymb = pnorm(constSymb) 
+
+# generate pseudo-random bit sequence
+bitsTx = np.random.randint(2, size = int(500000*np.log2(M)))
+
+# generate modulated symbol sequence
+symbTx = modulateGray(bitsTx, M, 'qam')    
+symbTx = pnorm(symbTx) # power normalization
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso NRZ típico
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+sigTx = pnorm(sigTx)
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 0.025 # variância
+μ   = 0      # média
+
+σ      = sqrt(σ2*SpS) 
+ruido  = 1/np.sqrt(2)*(normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))
+
+# filtro casado
+sigRx = firFilter(pulse, sigTx+ruido)
+sigRx = pnorm(sigRx)
+
+# downsampling
+r = sigRx[2::SpS]
+
+# diagrama de olho
+Nsamples = 200000*SpS
+eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
+
+# +
+r = r/np.mean(r/symbTx)
+
+dec, pos = MAPdetector(r, σ2, constSymb) # detector MAP
+#dec, pos = MLdetector(r, constSymb) # detector ML
+
+# +
+# plota símbolos recebidos e decisões
+n_colors = M
+colors = cm.turbo(np.linspace(0, 1, n_colors))
+index = np.arange(0,dec.size)
+
+plt.figure(figsize=(4,4))
+plt.scatter(r.real, r.imag,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
+plt.axis('square');
+plt.grid(alpha=0.25)
+plt.xlabel('I')
+plt.ylabel('Q');
+
+lx, ly = findLimiars(constSymb)
+
+plt.hlines(ly, -3, 3, colors='black', linestyles='dashed');
+plt.vlines(lx, -3, 3, colors='black', linestyles='dashed');
+#plt.xlim(0, dec.size);
+#plt.hlines(constSymb, 0, dec.size, colors='black', linestyles='dashed');
+
+# +
+ind = np.arange(100,dec.size-100)
+
+SER = 1 - np.sum( np.isclose(dec, symbTx, rtol=1e-2) )/dec.size # calcula SER
+
+SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
+
+BER_th = theoryBER(M, SNRb,'qam')
+
+print(f'SNRb = {SNRb:.2f} dB')
+print(f'SER = {SER:.2e}')
+print(f'SER(teoria) = {BER_th*np.log2(M):.2e}')
+
+# +
+# select PAM order
+M = 16
+
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
+# gera constelação    
+constSymb = GrayMapping(M, 'qam')  # constellation
+
+# define probabilidades de símbolo
+constSymb = pnorm(constSymb)
+
+PS = 1.5
+probSymb = maxwellBolt(PS, constSymb) 
+Es = np.sum(( np.abs(constSymb) ** 2 ) * probSymb)
+constSymb = constSymb/np.sqrt(Es)
+
+fig, ax = plt.subplots(subplot_kw=dict(projection='3d'))
+ax.stem(constSymb.real,constSymb.imag, probSymb, basefmt=" ")
+
+# gera sequência de símbolos modulados
+symbTx = np.random.choice(constSymb, 200000, p=probSymb)
+symbTx = pnorm(symbTx) # power normalization
+    
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso 
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulse, symbolsUp)
+sigTx = pnorm(sigTx)
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 0.15 # variância
+μ   = 0   # média
+
+σ      = sqrt(σ2*SpS) 
+ruido  = 1/np.sqrt(2)*(normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))
+
+# filtro casado
+sigRx = firFilter(pulse, sigTx+ruido)
+sigRx = pnorm(sigRx)
+
+# downsampling
+r = sigRx[2::SpS]
+
+# diagrama de olho
+Nsamples = 200000*SpS
+eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
+
+# +
+r = r/np.mean(r/symbTx).real
+
+dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
+#dec, pos = MLdetector(r, constSymb) # detector ML
+
+# +
+# plota símbolos recebidos e decisões
+n_colors = M
+colors = cm.turbo(np.linspace(0, 1, n_colors))
+index = np.arange(0,dec.size)
+
+plt.figure(figsize=(4,4))
+plt.scatter(r.real, r.imag,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
+plt.axis('square');
+plt.grid(alpha=0.25)
+plt.xlabel('I')
+plt.ylabel('Q');
+plt.plot(constSymb.real, constSymb.imag,'o');
+
+lx, ly = findLimiars(constSymb, σn=σ2, px=probSymb)
+plt.hlines(0.85*ly, -3, 3, colors='black', linestyles='dashed');
+plt.vlines(0.85*lx, -3, 3, colors='black', linestyles='dashed');
 # -
 
 # ## Referências
 #
 # [1] J. G. Proakis, M. Salehi, Communication Systems Engineering, 2nd Edition, Pearson, 2002.
+
+
