@@ -611,41 +611,69 @@ def MLdetector(r, constSymb):
     return decided, indDec
 
 @njit
-def MAPdetector(r, σ2, constSymb, px=None):        
+def detector(r, σ2, constSymb, px=None, rule='MAP'):        
     
-    if px == None:
+    if px is None or rule == 'ML':
         px = 1/M*np.ones(M)      
            
     decided = np.zeros(r.size, dtype=np.complex64) 
     indDec = np.zeros(r.size, dtype=np.int64) 
     π = np.pi  
     
-    for ii, ri in enumerate(r): # for each received symbol        
-        log_probMetric = np.zeros(constSymb.size)        
-        # calculate MAP probability metric        
-        # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
-        log_probMetric = - np.abs(ri - constSymb)**2/σ2 + np.log(px)
-                
-        # find the constellation symbol with the largest P(sm|r)       
-        indDec[ii] = np.argmax(log_probMetric)
+    if rule == 'MAP':
+        for ii, ri in enumerate(r): # for each received symbol        
+            log_probMetric = np.zeros(constSymb.size)
+
+            # calculate MAP probability metric        
+            # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
+            log_probMetric = - np.abs(ri - constSymb)**2/σ2 + np.log(px)
+
+            # find the constellation symbol with the largest P(sm|r)       
+            indDec[ii] = np.argmax(log_probMetric)
+
+            # make the decision in favor of the symbol with the largest metric
+            decided[ii] = constSymb[indDec[ii]]
+            
+    elif rule == 'ML':      
+        for ii, ri in enumerate(r): # for each received symbol        
+            distMetric = np.zeros(constSymb.size)        
+            # calculate distance metric   
+
+            # calculate |r-sm|**2, for m= 1,2,...,M
+            distMetric = np.abs(ri - constSymb)**2
+
+            # find the constellation symbol with the largest P(sm|r)       
+            indDec[ii] = np.argmin(distMetric)
+
+            # make the decision in favor of the symbol with the smallest metric
+            decided[ii] = constSymb[indDec[ii]]
+    else:
+        print('Detection rule should be either MAP or ML')
         
-        # make the decision in favor of the symbol with the largest metric
-        decided[ii] = constSymb[indDec[ii]]
     
     return decided, indDec
 
 
 # +
+def cart2pol(x, y):
+    r = np.sqrt(x**2 + y**2)
+    ϕ = np.arctan2(y, x)
+    return r, ϕ
 
-def findLimiars(constSymb, σ2=1, px=None):
+def pol2cart(r, ϕ):
+    x = r * np.cos(ϕ)
+    y = r * np.sin(ϕ)
+    return x, y
+
+def findLimiars(constSymb, σ2=1, px=None, rule='MAP'):
     
     σ2_x = σ2/2
     σ2_y = σ2/2
     
     M = constSymb.size
     
-    if px is None:
-        px = 1/M*np.ones(M)     
+    if px is None or rule == 'ML':
+        px = 1/M*np.ones(M)  
         
     xmin = np.min(constSymb.real)
     ymin = np.min(constSymb.imag)
@@ -664,7 +692,6 @@ def findLimiars(constSymb, σ2=1, px=None):
     ly = np.zeros(x_const.size-1)
 
     for ii in range(x_const.size):
-
         if ii == 0:
             pass
         else:            
@@ -760,8 +787,7 @@ Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
 # -
 
-dec, pos = MAPdetector(r, σ2, constSymb) # detector MAP
-#dec, pos = MLdetector(r, constSymb) # detector ML
+dec, pos = detector(r, σ2, constSymb, px=probSymb, rule='MAP') # detector
 
 # +
 # plota símbolos recebidos e decisões
@@ -849,7 +875,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.1 # variância
+σ2  = 0.2 # variância
 μ   = 0   # média
 
 σ      = sqrt(σ2*SpS) 
@@ -867,8 +893,7 @@ Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
 # -
 
-#dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
-dec, pos = MLdetector(r, constSymb) # detector ML
+dec, pos = detector(r, σ2, constSymb, px=probSymb, rule='MAP') # detector
 
 # +
 # plota símbolos recebidos e decisões
@@ -948,8 +973,7 @@ Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
 # -
 
-dec, pos = MAPdetector(r, σ2, constSymb) # detector MAP
-#dec, pos = MLdetector(r, constSymb) # detector ML
+dec, pos = detector(r, σ2, constSymb, rule='MAP') # detector
 
 # +
 # plota símbolos recebidos e decisões
@@ -1047,9 +1071,7 @@ Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
 # -
 
-#r = r/np.mean(r/symbTx).real
-dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
-#dec, pos = MLdetector(r, constSymb) # detector ML
+dec, pos = detector(r, σ2, constSymb, px=probSymb, rule='MAP') # detector
 
 # +
 # plota símbolos recebidos e decisões
