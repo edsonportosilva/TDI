@@ -67,7 +67,7 @@ figsize(8, 3)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-equiprovável-3.7"><span class="toc-item-num">3.7&nbsp;&nbsp;</span>Exemplo: sinal M-QAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-não-equiprovável-3.8"><span class="toc-item-num">3.8&nbsp;&nbsp;</span>Exemplo: sinal M-QAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -591,7 +591,7 @@ from numba import njit
 @njit
 def MLdetector(r, constSymb):   
        
-    decided = np.zeros(r.size) 
+    decided = np.zeros(r.size, dtype=np.complex64) 
     indDec = np.zeros(r.size, dtype=np.int64) 
     π = np.pi  
     
@@ -611,7 +611,7 @@ def MLdetector(r, constSymb):
     return decided, indDec
 
 @njit
-def MAPdetector(r, σn, constSymb, px=None):        
+def MAPdetector(r, σ2, constSymb, px=None):        
     
     if px == None:
         px = 1/M*np.ones(M)      
@@ -624,8 +624,8 @@ def MAPdetector(r, σn, constSymb, px=None):
         log_probMetric = np.zeros(constSymb.size)        
         # calculate MAP probability metric        
         # calculate log(P(sm|r)) = log(p(r|sm)*P(sm)) for m= 1,2,...,M
-        log_probMetric = - np.abs(ri - constSymb)**2 + (2*σn)*np.log(px)
-        
+        log_probMetric = - np.abs(ri - constSymb)**2/σ2 + np.log(px)
+                
         # find the constellation symbol with the largest P(sm|r)       
         indDec[ii] = np.argmax(log_probMetric)
         
@@ -637,7 +637,10 @@ def MAPdetector(r, σn, constSymb, px=None):
 
 # +
 
-def findLimiars(constSymb, σn=1, px=None):
+def findLimiars(constSymb, σ2=1, px=None):
+    
+    σ2_x = σ2/2
+    σ2_y = σ2/2
     
     M = constSymb.size
     
@@ -648,16 +651,15 @@ def findLimiars(constSymb, σn=1, px=None):
     ymin = np.min(constSymb.imag)
     xmax = np.max(constSymb.real)
     ymax = np.max(constSymb.imag)
-
-    x = np.linspace(xmin, xmax, 1000)
-    y = np.linspace(ymin, ymax, 1000)
+        
+    x = np.linspace(xmin, xmax, 2000)
+    y = np.linspace(ymin, ymax, 2000)
 
     constSymb = np.round(constSymb,2)
 
-    x_const = np.unique(constSymb.real)
-    y_const = np.unique(constSymb.imag)
+    x_const = np.sort(np.unique(constSymb.real))
+    y_const = np.sort(np.unique(constSymb.imag))
 
-   # for s in itertools.product(x_const, x_const):
     lx = np.zeros(x_const.size-1)
     ly = np.zeros(x_const.size-1)
 
@@ -669,12 +671,14 @@ def findLimiars(constSymb, σn=1, px=None):
             pivot1 = x_const[ii-1] + 1j*y_const[0]
             pivot2 = x_const[ii] + 1j*y_const[0]
             
+            x = np.linspace(pivot1.real, pivot2.real, 1000)
+            
             p1 = px[constSymb == pivot1]
             p2 = px[constSymb == pivot2]
             
-            metric1 = np.exp(- np.abs(x - x_const[ii-1])**2 / (2*σn) ) * p1
-            metric2 = np.exp(- np.abs(x - x_const[ii])**2 / (2*σn) ) * p2
-                        
+            metric1 = - np.abs(x - x_const[ii-1])**2 / (2*σ2_x) + np.log(p1)
+            metric2 = - np.abs(x - x_const[ii]  )**2 / (2*σ2_x) + np.log(p2)
+                                    
             lx[ii-1] = np.round(x[np.argmin(np.abs(metric1 - metric2))],2)
 
     for ii in range(y_const.size):
@@ -684,22 +688,21 @@ def findLimiars(constSymb, σn=1, px=None):
         else:            
             pivot1 = x_const[0] + 1j*y_const[ii-1]
             pivot2 = x_const[0] + 1j*y_const[ii]
-
+            
+            y = np.linspace(pivot1.imag, pivot2.imag, 1000)
+            
             p1 = px[constSymb == pivot1]
             p2 = px[constSymb == pivot2]
 
-            metric1 = np.exp(- np.abs(y - y_const[ii-1])**2 / (2*σn) ) * p1
-            metric2 = np.exp(- np.abs(y - y_const[ii])**2 / (2*σn) ) * p2
+            metric1 = - np.abs(y - y_const[ii-1])**2 / (2*σ2_y)  + np.log(p1)
+            metric2 = - np.abs(y - y_const[ii])**2 / (2*σ2_y) + np.log(p2)
 
             ly[ii-1] = np.round(y[np.argmin(np.abs(metric1 - metric2))],2)
 
     return lx, ly
-        
 
 
 # -
-
-findLimiars(constSymb, σn=1, px=probSymb)
 
 # ### Exemplo: sinal M-PAM equiprovável
 
@@ -739,7 +742,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.025 # variância
+σ2  = 0.015 # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2*SpS) 
@@ -755,21 +758,22 @@ r = sigRx[2::SpS]
 # diagrama de olho
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
-
-# +
-r = r/np.mean(r/symbTx) # normalização
+# -
 
 dec, pos = MAPdetector(r, σ2, constSymb) # detector MAP
 #dec, pos = MLdetector(r, constSymb) # detector ML
-# -
 
+# +
 # plota símbolos recebidos e decisões
 n_colors = M
 colors = cm.rainbow(np.linspace(0, 1, n_colors))
 index = np.arange(0,dec.size)
 plt.scatter(index, r,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
 plt.xlim(0, dec.size);
-plt.hlines(constSymb, 0, dec.size, colors='black', linestyles='dashed');
+
+lx, _ = findLimiars(constSymb, σ2=σ2)
+#plt.hlines(constSymb, 0, dec.size, colors='black', linewidth=1);
+plt.hlines(lx, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
 from optic.metrics import fastBERcalc, theoryBER
@@ -845,7 +849,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.15 # variância
+σ2  = 0.1 # variância
 μ   = 0   # média
 
 σ      = sqrt(σ2*SpS) 
@@ -861,34 +865,38 @@ r = sigRx[2::SpS]
 # diagrama de olho
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
-
-# +
-r = r/np.mean(r/symbTx)
-
-dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
-#dec, pos = MLdetector(r, constSymb) # detector ML
 # -
 
+#dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
+dec, pos = MLdetector(r, constSymb) # detector ML
+
+# +
 # plota símbolos recebidos e decisões
 n_colors = M
 colors = cm.rainbow(np.linspace(0, 1, n_colors))
 index = np.arange(0,dec.size)
 plt.scatter(index, r,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
 plt.xlim(0, dec.size);
-plt.hlines(constSymb, 0, dec.size, colors='black', linestyles='dashed');
+
+lx, _ = findLimiars(constSymb, σ2=σ2, px=probSymb)
+#plt.hlines(constSymb, 0, dec.size, colors='black', linewidth=1);
+plt.hlines(lx, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
 ind = np.arange(1000,dec.size-1000)
 
-SER = 1 - np.sum( np.isclose(pnorm(dec), symbTx, atol=1e-1) )/dec.size # calcula SER
+SER = 1 - np.sum( np.isclose(dec, symbTx, atol=1e-2) )/dec.size # calcula SER
 
 SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
 
 print(f'SNRb = {SNRb:.2f} dB')
 print(f'SER = {SER:.2e}')
+# -
+
+# ### Exemplo: sinal M-QAM equiprovável
 
 # +
-# select PAM order
+# select QAM order
 M = 16
 
 # parâmetros da simulação
@@ -938,9 +946,7 @@ r = sigRx[2::SpS]
 # diagrama de olho
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
-
-# +
-r = r/np.mean(r/symbTx)
+# -
 
 dec, pos = MAPdetector(r, σ2, constSymb) # detector MAP
 #dec, pos = MLdetector(r, constSymb) # detector ML
@@ -957,26 +963,28 @@ plt.axis('square');
 plt.grid(alpha=0.25)
 plt.xlabel('I')
 plt.ylabel('Q');
+plt.plot(constSymb.real, constSymb.imag,'ko', markersize=3);
 
-lx, ly = findLimiars(constSymb)
+lx, ly = findLimiars(constSymb, σ2=σ2)
 
 plt.hlines(ly, -3, 3, colors='black', linestyles='dashed');
 plt.vlines(lx, -3, 3, colors='black', linestyles='dashed');
-#plt.xlim(0, dec.size);
-#plt.hlines(constSymb, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
 ind = np.arange(100,dec.size-100)
 
 SER = 1 - np.sum( np.isclose(dec, symbTx, rtol=1e-2) )/dec.size # calcula SER
 
-SNRb = 10*np.log10(signal_power(sigTx)/(2*σ2)/np.log2(M))
+SNRb = 10*np.log10(signal_power(sigTx)/σ2/np.log2(M))
 
 BER_th = theoryBER(M, SNRb,'qam')
 
 print(f'SNRb = {SNRb:.2f} dB')
 print(f'SER = {SER:.2e}')
 print(f'SER(teoria) = {BER_th*np.log2(M):.2e}')
+# -
+
+# ### Exemplo: sinal M-QAM não-equiprovável
 
 # +
 # select PAM order
@@ -995,7 +1003,7 @@ constSymb = GrayMapping(M, 'qam')  # constellation
 # define probabilidades de símbolo
 constSymb = pnorm(constSymb)
 
-PS = 1.5
+PS = -1.5
 probSymb = maxwellBolt(PS, constSymb) 
 Es = np.sum(( np.abs(constSymb) ** 2 ) * probSymb)
 constSymb = constSymb/np.sqrt(Es)
@@ -1020,11 +1028,12 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.15 # variância
+σ2  = 0.025 # variância
 μ   = 0   # média
 
 σ      = sqrt(σ2*SpS) 
 ruido  = 1/np.sqrt(2)*(normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))
+
 
 # filtro casado
 sigRx = firFilter(pulse, sigTx+ruido)
@@ -1036,10 +1045,9 @@ r = sigRx[2::SpS]
 # diagrama de olho
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
+# -
 
-# +
-r = r/np.mean(r/symbTx).real
-
+#r = r/np.mean(r/symbTx).real
 dec, pos = MAPdetector(r, σ2, constSymb, px=probSymb) # detector MAP
 #dec, pos = MLdetector(r, constSymb) # detector ML
 
@@ -1055,15 +1063,23 @@ plt.axis('square');
 plt.grid(alpha=0.25)
 plt.xlabel('I')
 plt.ylabel('Q');
-plt.plot(constSymb.real, constSymb.imag,'o');
+plt.plot(constSymb.real, constSymb.imag,'ko',markersize=3);
 
-lx, ly = findLimiars(constSymb, σn=σ2, px=probSymb)
-plt.hlines(0.85*ly, -3, 3, colors='black', linestyles='dashed');
-plt.vlines(0.85*lx, -3, 3, colors='black', linestyles='dashed');
+lx, ly = findLimiars(constSymb, σ2=σ2, px=probSymb)
+plt.hlines(ly, -3, 3, colors='black', linestyles='dashed');
+plt.vlines(lx, -3, 3, colors='black', linestyles='dashed');
+
+# +
+ind = np.arange(100,dec.size-100)
+
+SER = 1 - np.sum( np.isclose(dec[ind], symbTx[ind], rtol=1e-2) )/dec.size # calcula SER
+
+SNRb = 10*np.log10(signal_power(sigTx)/σ2/np.log2(M))
+
+print(f'SNRb = {SNRb:.2f} dB')
+print(f'SER = {SER:.2e}')
 # -
 
 # ## Referências
 #
 # [1] J. G. Proakis, M. Salehi, Communication Systems Engineering, 2nd Edition, Pearson, 2002.
-
-
