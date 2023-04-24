@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.1
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -67,7 +67,7 @@ figsize(8, 3)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-equiprovável-3.7"><span class="toc-item-num">3.7&nbsp;&nbsp;</span>Exemplo: sinal M-QAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-não-equiprovável-3.8"><span class="toc-item-num">3.8&nbsp;&nbsp;</span>Exemplo: sinal M-QAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Detecção-de-sequências-por-máxima-verossimilhança" data-toc-modified-id="Detecção-de-sequências-por-máxima-verossimilhança-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Detecção de sequências por máxima verossimilhança</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-equiprovável-3.7"><span class="toc-item-num">3.7&nbsp;&nbsp;</span>Exemplo: sinal M-QAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-não-equiprovável-3.8"><span class="toc-item-num">3.8&nbsp;&nbsp;</span>Exemplo: sinal M-QAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Cálculo-da-probabilidade-de-erro-para-modulações-sem-memória-em-canais-AWGN" data-toc-modified-id="Cálculo-da-probabilidade-de-erro-para-modulações-sem-memória-em-canais-AWGN-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Cálculo da probabilidade de erro para modulações sem memória em canais AWGN</a></span><ul class="toc-item"><li><span><a href="#Modulações-binárias-antipodais" data-toc-modified-id="Modulações-binárias-antipodais-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Modulações binárias antipodais</a></span></li><li><span><a href="#Modulações-binárias-ortogonais" data-toc-modified-id="Modulações-binárias-ortogonais-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Modulações binárias ortogonais</a></span></li></ul></li><li><span><a href="#Modulações-M-PAM" data-toc-modified-id="Modulações-M-PAM-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Modulações M-PAM</a></span></li><li><span><a href="#Detecção-de-sequências-por-máxima-verossimilhança" data-toc-modified-id="Detecção-de-sequências-por-máxima-verossimilhança-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Detecção de sequências por máxima verossimilhança</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -776,7 +776,7 @@ Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-PAM (após o filtro casado)', ptype='fancy')
 # -
 
-dec, pos = detector(r, σ2, constSymb, px=probSymb, rule='MAP') # detector
+dec, pos = detector(r, σ2, constSymb, rule='MAP') # detector
 
 # +
 # plota símbolos recebidos e decisões
@@ -1089,6 +1089,215 @@ SNRb = 10*np.log10(signal_power(sigTx)/σ2/np.log2(M))
 
 print(f'SNRb = {SNRb:.2f} dB')
 print(f'SER = {SER:.2e}')
+# -
+
+# ## Cálculo da probabilidade de erro para modulações sem memória em canais AWGN
+#
+# ### Modulações binárias antipodais
+#
+# Considere o caso da modulação binária PAM, em que o transmissor envia os sinais $s_1(t) = g(t)$ e $s_2(t) = -g(t)$. Seja $E_g = \int_{0}^{T_s} g^2(t)dt$ a energia do pulso, a base ortonormal para os sinais ${s_1(t),s_2(t)}$ contém apenas uma função dada por $u(t) = \frac{g(t)}{\sqrt{E_g}}$. Logo, a constelação da modulação possui dois símbolos representados por $s_1 = -\sqrt{E_g}$ e $s_2 = \sqrt{E_g}$. Considere que os dois símbolos são equiprováveis, i.e. $P(s_1) = P(s_2)= \frac{1}{2}$.
+#
+# Considerando que os sinais são transmitidos por um canal AWGN, num dado instante de sinalização a saída $r$ do demodulador será dada por
+#
+# $$\begin{equation}
+# r = s + n,
+# \end{equation}$$
+#
+# em que $n$ é uma variável aleatória gaussiana de média 0 e variância $\sigma^2 = \frac{N_0}{2}$. Neste caso, a regra de decisão ótima correspondente ao critério MAP consiste na comparação entre o valor de $r$ e o limiar de decisão $l_d$. Se $r<l_d$, decide-se que $s=s_1$. Caso contrário, decide-se que $s=s_2$. No caso de sinais binários equiprováveis, temos que $l_d = 0$.
+# Teremos, então, as seguintes distribuições condicionais de $r$ dado $s$
+#
+# $$
+# \begin{align}
+# p\left(r|s_1\right)&=\frac{1}{\sqrt{\pi N_0}} e^{-\left(r+\sqrt{\mathcal{E}_g}\right)^2 / N_0} \\
+# p\left(r|s_2\right)&=\frac{1}{\sqrt{\pi N_0}} e^{-\left(r-\sqrt{\mathcal{E}_g}\right)^2 / N_0}
+# \end{align}
+# $$
+# Seja $P(e)$ a probabilidade de ocorrência de um erro no processo de detecção implementado no receptor, temos que
+#
+# $$
+# \begin{align}
+# P(e|s_1) = P\left(r>0|s_1\right) & =\int_{0}^\infty p\left(r|s_1\right) d r \\
+# & =\frac{1}{\sqrt{\pi N_0}} \int_{0}^\infty e^{-\left(r + \sqrt{E_g}\right)^2 / N_0} d r \\
+# & =\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# & =Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
+# \end{align}
+# $$
+#
+# em que $Q(x)=\frac{1}{\sqrt{2 \pi}} \int_x^{\infty} \exp \left(-\frac{u^2}{2}\right) d u =\frac{1}{2} \operatorname{erfc}\left(\frac{x}{\sqrt{2}}\right)$.
+#
+# De maneira análoga, temos
+#
+# $$
+# \begin{align}
+# P(e|s_2) = P\left(r<0|s_1\right) & =\int_{-\infty}^0 p\left(r|s_2\right) d r \\
+# & =\frac{1}{\sqrt{\pi N_0}} \int_{-\infty}^0 e^{-\left(r - \sqrt{E_g}\right)^2 / N_0} d r \\
+# & =\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{-\sqrt{2 E_g / N_0}} e^{-x^2 / 2} d x \\
+# & =\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# & =Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
+# \end{align}
+# $$
+#
+# Logo, a probabilidade de erro $P(e)$ é dada por
+#
+# $$
+# \begin{align}
+# P(e) & =\frac{1}{2} P\left(e|s_1\right)+\frac{1}{2} P\left(e|s_2\right) \\
+# & = Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
+# \end{align}
+# $$
+#
+# Perceba que a probabilidade de erro é função apenas da relação sinal-ruído $\mathrm{SNR} = \frac{E_s}{\sigma_n^2} = \frac{2E_g}{N_0}$ na entrada do receptor.
+
+# +
+from scipy.special import erfc
+
+def Q(x):
+    return 0.5*erfc(x/np.sqrt(2))
+
+
+# +
+SNRdB = np.arange(0,14.5,0.5)
+SNR = 10**(SNRdB/10)
+
+Pe = Q(np.sqrt(SNR))
+
+plt.figure()
+plt.semilogy(SNRdB, Pe, '-', label='P(e) sinais binários antipodais')
+plt.xlabel('SNR na entrada do receptor [dB]')
+plt.ylabel('P(e)')
+plt.title('Probabilidade de erro de sinais PAM binários')
+plt.xlim(min(SNRdB), max(SNRdB))
+plt.legend()
+plt.grid();
+# -
+
+# ### Modulações binárias ortogonais
+#
+# Considere que disponhamos de um espaço de sinais bidimensional para gerar o conjunto de sinais da modulação. Suponha que escolhamos o seguinte par ortogonal de vetores para compor um esquema de modulação binário
+#
+# $$
+# \begin{aligned}
+# & \mathbf{s}_1=\left[\sqrt{E_g}, 0\right] \\
+# & \mathbf{s}_2=\left[0, \sqrt{E}_g\right]
+# \end{aligned}
+# $$
+#
+# em que $E_g$ representa a energia de cada um dos sinais. Note que a distância euclidiana entre $\mathbf{s}_1$ e $\mathbf{s}_2$ é $d_{12} = \sqrt{2E_g}$. 
+#
+# Assumindo que o sinal $\mathbf{s}_1$ foi transmitido, as saída do demodulador será dada por
+#
+# $$
+# \begin{equation}
+# \boldsymbol{r}=\left[\sqrt{E_g}+n_1, n_2\right]
+# \end{equation}
+# $$
+#
+# Uma vez que ambos os símbolos são equiprováveis e possuem a mesma energia, a métrica de correlação pode ser utilizada no processo de detecção ótima.
+#
+# $$\begin{equation}
+# P\left(e \mid \mathbf{s}_1\right)=P\left[C\left(\mathbf{r}, \mathbf{s}_2\right)>C\left(\mathbf{r}_1, \mathbf{s}_1\right)\right]=P\left[n_2-n_1>\sqrt{E}_g\right] = P\left[n>\sqrt{E}_g\right]
+# \end{equation}$$
+#
+# Sabe-se que $n_1$ e $n_2$ são variáveis aleatórias gaussianas de média nula e variância $N_0/2$. Portanto, lembrando que a soma (ou subtração) de variáveis aleatórias gaussianas de média nula resulta numa variável aleatória gaussiana de média nula cuja variância é a soma das variâncias individuais, temos que $n$ tem mécia nula e variância $N_0$. Logo,
+#
+# $$
+# \begin{align}
+# P\left(n_2-n_1>\sqrt{E_g}\right) & =\frac{1}{\sqrt{2 \pi N_0}} \int_{\sqrt{E_g}}^{\infty} e^{-x^2 / (2 N_0)} d x \\
+# &=\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# &=Q\left(\sqrt{\frac{E_g}{N_0}}\right)
+# \end{align}
+# $$
+
+# +
+SNRdB = np.arange(0,14.5,0.5)
+SNR = 10**(SNRdB/10)
+
+Pe_anti = Q(np.sqrt(SNR))
+Pe_orto = Q(np.sqrt(SNR/2))
+
+
+plt.figure()
+plt.semilogy(SNRdB, Pe_anti, '-', label='P(e) sinais binários antipodais')
+plt.semilogy(SNRdB, Pe_orto, '-', label='P(e) sinais binários ortogonais')
+plt.xlabel('SNR na entrada do receptor [dB]')
+plt.ylabel('P(e)')
+plt.title('Probabilidade de erro de sinais PAM binários')
+plt.xlim(min(SNRdB), max(SNRdB))
+plt.legend()
+plt.grid();
+# -
+
+# ## Modulações M-PAM
+#
+# $$
+# \begin{equation}
+# s_m=\sqrt{E_g} A_m, \quad m=1,2, \ldots, M
+# \end{equation}
+# $$
+#
+# $$
+# \begin{equation}
+# A_m=(2 m-1-M), \quad m=1,2, \ldots, M
+# \end{equation}
+# $$
+#
+# em que a distância entre símbolos adjacentes é $d=2\sqrt{E_g}$. 
+# $$
+# \sum_{k=1,3,5,...}^n k^2=\frac{n(4n^2-1)}{3}
+# $$
+#
+# $$
+# \begin{align}
+# E_{a v} & =\frac{1}{M} \sum_{m=1}^M E_m \\
+# & =\frac{E_g}{M} \sum_{m=1}^M(2 m-1-M)^2 \\
+# & =\frac{E_g}{M} \frac{M\left(M^2-1\right)}{3} \\
+# & =\left(\frac{M^2-1}{3}\right) E_g
+# \end{align}
+# $$
+#
+# $$
+# \begin{equation}
+# r=s_m+n=\sqrt{E_g} A_m + n
+# \end{equation}
+# $$
+#
+# Se todos os símbolos forem equiprováveis, a probabilidade de erro média é dada pela probabilidade de que $n$ exceda a metade da distância entre símbolos adjacentes, para os símbolos internos, somada à probabilidade de erro para os dois símbolos externos. Desse modo,
+#
+# $$
+# \begin{align}
+# P_M & =\frac{M-2}{M} P\left(\left|r-s_m\right|>\sqrt{E_g}\right) + \frac{1}{M} P\left(r-s_1>\sqrt{E_g}\right) + \frac{1}{M} P\left(r-s_M<\sqrt{E_g}\right)\\
+# & =\frac{M-1}{M} P\left(\left|r-s_m\right|>\sqrt{E_g}\right) \\
+# & =\frac{M-1}{M} \frac{2}{\sqrt{\pi N_0}} \int_{\sqrt{E_g}}^{\infty} e^{-x^2 / N_0} d x \\
+# & =\frac{M-1}{M} \frac{2}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# & =\frac{2(M-1)}{M} Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
+# \end{align}
+# $$
+#
+
+# +
+SNRdB = np.arange(0,35,0.5)
+SNR = 10**(SNRdB/10)
+
+Pe_anti = Q(np.sqrt(SNR))
+Pe_orto = Q(np.sqrt(SNR/2))
+
+Eg = 1
+
+plt.figure()
+for M in [2, 4, 8, 16]:
+    Eav = (M**2-1)/3
+    
+    Pe = 2*(M-1)/M*Q(np.sqrt((6*SNR)/(M**2-1)))
+    
+    plt.semilogy(SNRdB, Pe, '-', label=f'M = {M}-PAM')
+    
+plt.xlabel('SNR na entrada do receptor [dB]')
+plt.ylabel('P(e)')
+plt.title('Probabilidade de erro de sinais M-PAM')
+plt.xlim(min(SNRdB), max(SNRdB))
+plt.ylim(1e-12, 1)
+plt.legend()
+plt.grid();
 # -
 
 # ## Detecção de sequências por máxima verossimilhança
