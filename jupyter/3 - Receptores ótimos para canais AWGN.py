@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -67,7 +67,7 @@ figsize(8, 3)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-equiprovável-3.7"><span class="toc-item-num">3.7&nbsp;&nbsp;</span>Exemplo: sinal M-QAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-não-equiprovável-3.8"><span class="toc-item-num">3.8&nbsp;&nbsp;</span>Exemplo: sinal M-QAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Cálculo-da-probabilidade-de-erro-para-modulações-sem-memória-em-canais-AWGN" data-toc-modified-id="Cálculo-da-probabilidade-de-erro-para-modulações-sem-memória-em-canais-AWGN-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Cálculo da probabilidade de erro para modulações sem memória em canais AWGN</a></span><ul class="toc-item"><li><span><a href="#Modulações-binárias-antipodais" data-toc-modified-id="Modulações-binárias-antipodais-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Modulações binárias antipodais</a></span></li><li><span><a href="#Modulações-binárias-ortogonais" data-toc-modified-id="Modulações-binárias-ortogonais-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Modulações binárias ortogonais</a></span></li></ul></li><li><span><a href="#Modulações-M-PAM" data-toc-modified-id="Modulações-M-PAM-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Modulações M-PAM</a></span></li><li><span><a href="#Detecção-de-sequências-por-máxima-verossimilhança" data-toc-modified-id="Detecção-de-sequências-por-máxima-verossimilhança-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Detecção de sequências por máxima verossimilhança</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-7"><span class="toc-item-num">7&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#O-modelo-de-canal-AWGN" data-toc-modified-id="O-modelo-de-canal-AWGN-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>O modelo de canal AWGN</a></span></li><li><span><a href="#Receptores-e-receptores-ótimos" data-toc-modified-id="Receptores-e-receptores-ótimos-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Receptores e receptores ótimos</a></span><ul class="toc-item"><li><span><a href="#Demodulador-por-correlação" data-toc-modified-id="Demodulador-por-correlação-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Demodulador por correlação</a></span></li><li><span><a href="#Demodulador-por-filtro-casado" data-toc-modified-id="Demodulador-por-filtro-casado-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Demodulador por filtro casado</a></span><ul class="toc-item"><li><span><a href="#Filtro-casado" data-toc-modified-id="Filtro-casado-2.2.1"><span class="toc-item-num">2.2.1&nbsp;&nbsp;</span>Filtro casado</a></span></li><li><span><a href="#Maximização-da-$\mathrm{SNR}$" data-toc-modified-id="Maximização-da-$\mathrm{SNR}$-2.2.2"><span class="toc-item-num">2.2.2&nbsp;&nbsp;</span>Maximização da $\mathrm{SNR}$</a></span></li></ul></li></ul></li><li><span><a href="#Detectores-ótimos" data-toc-modified-id="Detectores-ótimos-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detectores ótimos</a></span><ul class="toc-item"><li><span><a href="#Critério-de-decisão-MAP" data-toc-modified-id="Critério-de-decisão-MAP-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Critério de decisão MAP</a></span></li><li><span><a href="#Critério-de-decisão-ML" data-toc-modified-id="Critério-de-decisão-ML-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Critério de decisão ML</a></span></li><li><span><a href="#Métricas-de-decisão" data-toc-modified-id="Métricas-de-decisão-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Métricas de decisão</a></span></li><li><span><a href="#Implementação-de-detectores-MAP-e-ML" data-toc-modified-id="Implementação-de-detectores-MAP-e-ML-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Implementação de detectores MAP e ML</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-equiprovável-3.5"><span class="toc-item-num">3.5&nbsp;&nbsp;</span>Exemplo: sinal M-PAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-PAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-PAM-não-equiprovável-3.6"><span class="toc-item-num">3.6&nbsp;&nbsp;</span>Exemplo: sinal M-PAM não-equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-equiprovável-3.7"><span class="toc-item-num">3.7&nbsp;&nbsp;</span>Exemplo: sinal M-QAM equiprovável</a></span></li><li><span><a href="#Exemplo:-sinal-M-QAM-não-equiprovável" data-toc-modified-id="Exemplo:-sinal-M-QAM-não-equiprovável-3.8"><span class="toc-item-num">3.8&nbsp;&nbsp;</span>Exemplo: sinal M-QAM não-equiprovável</a></span></li></ul></li><li><span><a href="#Cálculo-da-probabilidade-de-erro-para-modulações-sem-memória-em-canais-AWGN" data-toc-modified-id="Cálculo-da-probabilidade-de-erro-para-modulações-sem-memória-em-canais-AWGN-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Cálculo da probabilidade de erro para modulações sem memória em canais AWGN</a></span><ul class="toc-item"><li><span><a href="#Modulações-binárias-antipodais" data-toc-modified-id="Modulações-binárias-antipodais-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Modulações binárias antipodais</a></span></li><li><span><a href="#Modulações-binárias-ortogonais" data-toc-modified-id="Modulações-binárias-ortogonais-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Modulações binárias ortogonais</a></span></li><li><span><a href="#Modulações-M-PAM" data-toc-modified-id="Modulações-M-PAM-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Modulações M-PAM</a></span></li><li><span><a href="#Modulações-M-PSK" data-toc-modified-id="Modulações-M-PSK-4.4"><span class="toc-item-num">4.4&nbsp;&nbsp;</span>Modulações M-PSK</a></span></li></ul></li><li><span><a href="#Detecção-de-sequências-por-máxima-verossimilhança" data-toc-modified-id="Detecção-de-sequências-por-máxima-verossimilhança-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Detecção de sequências por máxima verossimilhança</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -1227,7 +1227,7 @@ plt.legend()
 plt.grid();
 # -
 
-# ## Modulações M-PAM
+# ### Modulações M-PAM
 #
 # $$
 # \begin{equation}
@@ -1299,6 +1299,60 @@ plt.ylim(1e-12, 1)
 plt.legend()
 plt.grid();
 # -
+
+# ### Modulações M-PSK
+#
+# Os símbolos da constelação M-PSK podem ser representados por $\mathbf{s}_m = \sqrt{E_s}e^{j\theta_m} = \sqrt{E_s}(\cos{\theta_m}+j\operatorname{sen}\theta_m)$, em que $\theta_m = (m-1)\frac{2\pi}{M}$, com $m=1,2,\dots, M$ e $E_s$ é a energia de cada símbolo da constelação.
+#
+# Uma vez que todos os símbolos da constelação possuem a mesma energia. O detector ótimo para esse esquema de modulação no canal AWGN pode ser implementado calculando a métrica de correlação entre o sinal recebido $\mathbf{r} = [r_1, r_2]$ e os símbolos da constelação $\mathbf{s}_m$:
+#
+# $$
+# C\left(\mathbf{r}, \mathbf{s}_m\right)=\mathbf{r} \cdot \mathbf{s}_m, \quad m=1,2, \ldots, M.
+# $$
+#
+# Este detector é equivalente a um detector de fase que calcula a fase do sinal recebido $\theta_r = \tan^{-1} (r_2/r_1)$ e decide pelo símbolo $\mathbf{s}_m$ cuja fase está mais próxima de $\theta_r$. Para determinar a probabilidade de erro, temos que determinar a fdp de $\theta_r$.
+#
+# Considere o caso em que a fase do símbolo transmitido é zero $\theta = 0$. Temos, então: $\mathbf{s}_1 =\left[\sqrt{E_s}, 0\right]$. O sinal recebido terá componentes
+#
+# $$
+# \begin{align}
+# & r_1 = \sqrt{E_s} + n_1 \\
+# & r_2 = n_2
+# \end{align}
+# $$
+#
+# Considerando que $n_1$ e $n_2$ são duas variáveis aleatórias gaussianas idependentes de média nula e variância $\sigma_n^2$, a distribuição condicional conjunta de $[r_1,r_2]$ é dada por
+#
+# $$
+# \begin{equation}\label{gauss_cart}
+# p(r_1, r_2|\mathbf{s}_1) = \frac{1}{2 \pi \sigma_n^2} \exp \left[- \frac{ \left(r_1-\sqrt{E}_s \right)^2 + r_2^2}{2\sigma_n^2}\right]
+# \end{equation}
+# $$
+#
+# A fdp de $\theta_r$ é obtida passando ($\ref{gauss_cart}$) para coordenadas polares. Seja $v = \sqrt{r_1^2 + r_1^2}$, temos então:
+#
+# $$
+# \begin{equation}\label{gauss_polar}
+# p\left(v, \theta_r|\mathbf{s}_1\right)=\frac{v}{2 \pi \sigma_n^2} \exp \left(-\frac{v^2+E_s-2 \sqrt{E_s}v \cos \theta_r}{2 \sigma_n^2}\right)
+# \end{equation}
+# $$
+#
+# Para obter $p\left(\theta_r|\mathbf{s}_1\right)$, integramos ($\ref{gauss_polar}$) em $v$ no intervalo $0$ a $\infty$, ou seja,
+#
+# $$
+# \begin{align}
+# p\left(\theta_r|\mathbf{s}_1\right) & =\int_0^{\infty}p\left(v, \theta_r|\mathbf{s}_1\right) dv \\
+# & =\frac{1}{2 \pi} e^{-2 \gamma_r \sin ^2 \theta_r} \int_0^{\infty} v e^{-\left(v-\sqrt{4 \gamma_r} \cos \theta_r\right)^2 / 2} d v
+# \end{align}
+# $$
+#
+# em que $\gamma_r = \frac{E_s}{N_0}$. Portanto, dado que $\mathbf{s}_1$ foi transmitido, a detecção correta ocorrerá sempre que  $-\pi/M \leq \theta_r \leq \pi/M$. Logo, a probabilidade de erro será dada por
+#
+# $$
+# \begin{equation}
+# P(e|\mathbf{s}_1)=1-\int_{-\pi/M}^{\pi/M} p\left(\theta_r|\mathbf{s}_1\right) d \theta_r
+# \end{equation}
+# $$
 
 # ## Detecção de sequências por máxima verossimilhança
 #
