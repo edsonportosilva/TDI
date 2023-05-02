@@ -1354,6 +1354,77 @@ plt.grid();
 # \end{equation}
 # $$
 
+# +
+import numpy as np
+from scipy.integrate import dblquad, quad
+import matplotlib.pyplot as plt
+from matplotlib import cm
+
+π = np.pi
+
+def gaussPolar(r, θ, σ=0.25, Es=1):
+    return 1/(2*π*σ**2)*np.exp(-(r**2 + Es - 2*np.sqrt(Es)*r*np.cos(θ))/(2*σ**2))
+
+def gaussCart(y, x, σ=0.25, Es=1):
+    return 1/(2*π*σ**2)*np.exp(-((x-np.sqrt(Es))**2 + y**2)/(2*σ**2))
+
+vGaussPolar = np.vectorize(gaussPolar)
+vGaussCart = np.vectorize(gaussCart)
+
+r = np.linspace(0, 3, 1000)
+θ = np.linspace(-π, π, 1000)
+
+r, θ = np.meshgrid(r,θ)
+
+x, y = r*np.cos(θ), r*np.sin(θ)
+pos = np.dstack((x, y))
+
+#z = vGaussPolar(r, θ).reshape(1000,1000)
+z = vGaussCart(y, x).reshape(1000,1000)
+
+fig = plt.figure(figsize=(8,8))
+ax = plt.axes(projection='3d')
+ax.plot_surface(x, y, z, cmap=cm.coolwarm, linewidth=1, antialiased=False,alpha=0.75)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('pdf')
+ax.view_init(elev=30, azim=270)
+plt.show()
+
+# +
+EbN0 = np.arange(0, 20, 1)
+Pe = np.zeros(SNR_values.shape)
+M = 8
+
+for ind, SNRb in enumerate(EbN0): 
+    SNR = SNRb + 10*np.log10(np.log2(M))
+    
+    SNR_lin = 10**(SNR/10)
+    σn = np.sqrt(1/SNR_lin/2)
+    
+    def gaussCart(y, x, σ=σn, Es=1):
+        return 1/(2*π*σ**2) * np.exp(-( (x - np.sqrt(Es) )**2 + y**2) / (2*σ**2) )
+
+    def gUp(x):
+        M = 8
+        return x*np.tan(π/M)
+
+    def gBot(x):
+        M = 8
+        return -x*np.tan(π/M)
+
+    Pe[ind] = 1-dblquad(gaussCart, 0, 15, gBot, gUp, epsrel=1.49e-25)[0]
+        
+    print(f'P(e) = {Pe[ind]:.2e}')
+    #print(f'SNR = {SNR_values[ind]:.2f} dB')
+
+    
+plt.plot(EbN0, np.log10(Pe),'-*');
+plt.xlim(min(EbN0), max(EbN0))
+plt.ylim(-5, 0)
+plt.grid()
+# -
+
 # ## Detecção de sequências por máxima verossimilhança
 #
 # Considere o caso em que sequência de sinais recebidos não está sujeita a nenhum efeito de memória, ou seja, o vetor $\mathbf{r}_k$ observado no intervalo de sinalização $k$ é *estatisticamente independente* dos vetores $\left\lbrace \mathbf{r}_{k'} \right\rbrace_{k'=-\infty}^{\infty}$ e $k' \neq k$, observados nos demais intervalos de sinalização. Neste caso, o detector que opera *símbolo-a-símbolo*, ou seja, que decide utilizando apenas a informação $P(\mathbf{s}_m|\mathbf{r}_k)$ presente no intervalo de sinalização $k$ é o detector ótimo no sentido de minimização da probabilidade de erro.
