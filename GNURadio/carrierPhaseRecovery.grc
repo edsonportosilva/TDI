@@ -33,6 +33,23 @@ options:
     state: enabled
 
 blocks:
+- name: AdaptiveEqualizer
+  id: variable_adaptive_algorithm
+  parameters:
+    comment: ''
+    cons: Constellation
+    delta: '10.0'
+    ffactor: '0.99'
+    modulus: '2'
+    step_size: '.005'
+    type: lms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1160, 8.0]
+    rotation: 0
+    state: true
 - name: BandPass_f_high
   id: variable_qtgui_range
   parameters:
@@ -47,13 +64,13 @@ blocks:
     start: '10'
     step: '1'
     stop: samp_rate/SamplesPerSymbol/2
-    value: '100'
+    value: '200'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1112, 32.0]
+    coordinate: [1040, 8.0]
     rotation: 0
     state: true
 - name: BandPass_f_low
@@ -76,7 +93,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 32.0]
+    coordinate: [928, 8.0]
     rotation: 0
     state: true
 - name: Constellation
@@ -95,7 +112,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 8.0]
+    coordinate: [552, 8.0]
     rotation: 0
     state: true
 - name: SamplesPerSymbol
@@ -107,7 +124,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 88.0]
+    coordinate: [168, 80.0]
     rotation: 0
     state: enabled
 - name: delay
@@ -130,7 +147,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 8.0]
+    coordinate: [344, 8.0]
     rotation: 0
     state: true
 - name: noiseStd
@@ -153,7 +170,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 8.0]
+    coordinate: [448, 8.0]
     rotation: 0
     state: true
 - name: pll_L1
@@ -161,7 +178,7 @@ blocks:
   parameters:
     comment: ''
     gui_hint: ''
-    label: ''
+    label: PLL Loop BW
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     outputmsgname: value
@@ -176,7 +193,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 32.0]
+    coordinate: [816, 8.0]
     rotation: 0
     state: true
 - name: pll_L2
@@ -184,7 +201,7 @@ blocks:
   parameters:
     comment: ''
     gui_hint: ''
-    label: ''
+    label: +B_pll/-B_pll
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     outputmsgname: value
@@ -199,7 +216,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [768, 32.0]
+    coordinate: [704, 8.0]
     rotation: 0
     state: true
 - name: rolloff
@@ -211,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 8.0]
+    coordinate: [256, 8.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -240,7 +257,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 648.0]
+    coordinate: [712, 640.0]
     rotation: 0
     state: true
 - name: analog_noise_source_x_0
@@ -277,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 552.0]
+    coordinate: [672, 552.0]
     rotation: 0
     state: true
 - name: analog_random_source_x_0
@@ -322,7 +339,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 360.0]
+    coordinate: [712, 312.0]
     rotation: 180
     state: true
 - name: blocks_add_xx_0
@@ -377,7 +394,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1088, 576.0]
+    coordinate: [952, 592.0]
     rotation: 0
     state: true
 - name: blocks_exponentiate_const_cci_0
@@ -395,7 +412,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 416.0]
+    coordinate: [1032, 368.0]
     rotation: 180
     state: true
 - name: blocks_freqshift_cc_0
@@ -415,6 +432,24 @@ blocks:
     coordinate: [512, 224.0]
     rotation: 0
     state: true
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '2.5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1464.0, 408]
+    rotation: 90
+    state: true
 - name: blocks_multiply_xx_0
   id: blocks_multiply_xx
   parameters:
@@ -430,7 +465,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1464, 424.0]
+    coordinate: [1304, 432.0]
     rotation: 0
     state: true
 - name: blocks_vco_c_0
@@ -448,7 +483,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 544.0]
+    coordinate: [1096, 496.0]
     rotation: 0
     state: true
 - name: channels_phase_noise_gen_0
@@ -488,6 +523,27 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [168, 192.0]
+    rotation: 0
+    state: true
+- name: digital_linear_equalizer_0
+  id: digital_linear_equalizer
+  parameters:
+    adapt_after_training: 'True'
+    affinity: ''
+    alg: AdaptiveEqualizer
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_taps: '3'
+    sps: '1'
+    training_sequence: '[ ]'
+    training_start_tag: corr_est
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1360, 568.0]
     rotation: 0
     state: true
 - name: filter_fft_rrc_filter_0
@@ -533,7 +589,7 @@ blocks:
     color1: '"blue"'
     color10: '"red"'
     color2: '"red"'
-    color3: '"red"'
+    color3: '"black"'
     color4: '"red"'
     color5: '"red"'
     color6: '"red"'
@@ -543,10 +599,10 @@ blocks:
     comment: ''
     grid: 'False'
     gui_hint: ''
-    label1: ''
+    label1: Received constellation
     label10: ''
-    label2: ''
-    label3: ''
+    label2: After FO comp.
+    label3: After CPR
     label4: ''
     label5: ''
     label6: ''
@@ -565,7 +621,7 @@ blocks:
     marker8: '0'
     marker9: '0'
     name: '""'
-    nconnections: '2'
+    nconnections: '3'
     size: '20000'
     style1: '0'
     style10: '0'
@@ -594,15 +650,15 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    xmax: '2'
-    xmin: '-2'
-    ymax: '2'
-    ymin: '-2'
+    xmax: '2.5'
+    xmin: '-2.5'
+    ymax: '2.5'
+    ymin: '-2.5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1464, 256.0]
+    coordinate: [1512, 256.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -676,14 +732,14 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_RECTANGULAR
     ymax: '10'
     ymin: '-140'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 464.0]
+    coordinate: [416, 480.0]
     rotation: 180
     state: true
 - name: qtgui_number_sink_0
@@ -714,7 +770,7 @@ blocks:
     factor7: '1'
     factor8: '1'
     factor9: '1'
-    graph_type: qtgui.NUM_GRAPH_HORIZ
+    graph_type: qtgui.NUM_GRAPH_NONE
     gui_hint: ''
     label1: ''
     label10: ''
@@ -728,7 +784,7 @@ blocks:
     label9: ''
     max: '1'
     min: '-1'
-    name: '""'
+    name: Estimated frequency offset
     nconnections: '1'
     type: float
     unit1: ''
@@ -746,7 +802,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1184, 688.0]
+    coordinate: [1096, 608.0]
     rotation: 0
     state: true
 
@@ -763,11 +819,14 @@ connections:
 - [blocks_divide_xx_0, '0', qtgui_number_sink_0, '0']
 - [blocks_exponentiate_const_cci_0, '0', band_pass_filter_0, '0']
 - [blocks_freqshift_cc_0, '0', channels_phase_noise_gen_0, '0']
+- [blocks_multiply_const_vxx_0, '0', qtgui_const_sink_x_0, '2']
+- [blocks_multiply_xx_0, '0', digital_linear_equalizer_0, '0']
 - [blocks_multiply_xx_0, '0', qtgui_const_sink_x_0, '1']
 - [blocks_vco_c_0, '0', blocks_multiply_xx_0, '1']
 - [blocks_vco_c_0, '0', qtgui_freq_sink_x_0, '1']
 - [channels_phase_noise_gen_0, '0', blocks_delay_0, '0']
 - [digital_constellation_modulator_0, '0', blocks_add_xx_0, '0']
+- [digital_linear_equalizer_0, '0', blocks_multiply_const_vxx_0, '0']
 - [filter_fft_rrc_filter_0, '0', blocks_exponentiate_const_cci_0, '0']
 - [filter_fft_rrc_filter_0, '0', blocks_multiply_xx_0, '0']
 - [filter_fft_rrc_filter_0, '0', qtgui_const_sink_x_0, '0']
