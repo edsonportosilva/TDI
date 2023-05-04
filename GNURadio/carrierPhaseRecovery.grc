@@ -41,7 +41,7 @@ blocks:
     delta: '10.0'
     ffactor: '0.99'
     modulus: '2'
-    step_size: '.005'
+    step_size: '.0005'
     type: lms
   states:
     bus_sink: false
@@ -257,7 +257,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 640.0]
+    coordinate: [416, 656.0]
     rotation: 0
     state: true
 - name: analog_noise_source_x_0
@@ -294,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 552.0]
+    coordinate: [416, 568.0]
     rotation: 0
     state: true
 - name: analog_random_source_x_0
@@ -339,7 +339,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 312.0]
+    coordinate: [440, 320.0]
     rotation: 180
     state: true
 - name: blocks_add_xx_0
@@ -376,7 +376,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [904, 240.0]
+    coordinate: [888, 240.0]
     rotation: 0
     state: true
 - name: blocks_divide_xx_0
@@ -394,7 +394,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 592.0]
+    coordinate: [680, 592.0]
     rotation: 0
     state: true
 - name: blocks_exponentiate_const_cci_0
@@ -412,7 +412,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 368.0]
+    coordinate: [824, 376.0]
     rotation: 180
     state: true
 - name: blocks_freqshift_cc_0
@@ -447,7 +447,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1464.0, 408]
+    coordinate: [1376.0, 400]
     rotation: 90
     state: true
 - name: blocks_multiply_xx_0
@@ -465,7 +465,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 432.0]
+    coordinate: [1056, 488.0]
     rotation: 0
     state: true
 - name: blocks_vco_c_0
@@ -483,7 +483,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1096, 496.0]
+    coordinate: [832, 496.0]
     rotation: 0
     state: true
 - name: channels_phase_noise_gen_0
@@ -500,7 +500,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 224.0]
+    coordinate: [688, 224.0]
     rotation: 0
     state: true
 - name: digital_constellation_modulator_0
@@ -543,7 +543,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1360, 568.0]
+    coordinate: [1208, 568.0]
     rotation: 0
     state: true
 - name: filter_fft_rrc_filter_0
@@ -566,7 +566,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 200.0]
+    coordinate: [1016, 200.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -658,7 +658,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1512, 256.0]
+    coordinate: [1456, 248.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -739,7 +739,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 480.0]
+    coordinate: [136, 480.0]
     rotation: 180
     state: true
 - name: qtgui_number_sink_0
@@ -802,7 +802,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1096, 608.0]
+    coordinate: [832, 608.0]
     rotation: 0
     state: true
 
