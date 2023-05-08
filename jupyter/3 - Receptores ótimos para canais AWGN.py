@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -1108,17 +1108,17 @@ print(f'SER = {SER:.2e}')
 #
 # $$
 # \begin{align}
-# p\left(r|s_1\right)&=\frac{1}{\sqrt{\pi N_0}} e^{-\left(r+\sqrt{\mathcal{E}_g}\right)^2 / N_0} \\
-# p\left(r|s_2\right)&=\frac{1}{\sqrt{\pi N_0}} e^{-\left(r-\sqrt{\mathcal{E}_g}\right)^2 / N_0}
+# p\left(r|s_1\right)&=\frac{1}{\sqrt{\pi N_0}} e^{-\left(r+\sqrt{\mathcal{E}_g}\right)^2 / N_0} \nonumber\\
+# p\left(r|s_2\right)&=\frac{1}{\sqrt{\pi N_0}} e^{-\left(r-\sqrt{\mathcal{E}_g}\right)^2 / N_0} \nonumber
 # \end{align}
 # $$
 # Seja $P(e)$ a probabilidade de ocorrência de um erro no processo de detecção implementado no receptor, temos que
 #
 # $$
 # \begin{align}
-# P(e|s_1) = P\left(r>0|s_1\right) & =\int_{0}^\infty p\left(r|s_1\right) d r \\
-# & =\frac{1}{\sqrt{\pi N_0}} \int_{0}^\infty e^{-\left(r + \sqrt{E_g}\right)^2 / N_0} d r \\
-# & =\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# P(e|s_1) = P\left(r>0|s_1\right) & =\int_{0}^\infty p\left(r|s_1\right) d r \nonumber\\
+# & =\frac{1}{\sqrt{\pi N_0}} \int_{0}^\infty e^{-\left(r + \sqrt{E_g}\right)^2 / N_0} d r \nonumber\\
+# & =\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \nonumber\\
 # & =Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
 # \end{align}
 # $$
@@ -1129,10 +1129,10 @@ print(f'SER = {SER:.2e}')
 #
 # $$
 # \begin{align}
-# P(e|s_2) = P\left(r<0|s_1\right) & =\int_{-\infty}^0 p\left(r|s_2\right) d r \\
-# & =\frac{1}{\sqrt{\pi N_0}} \int_{-\infty}^0 e^{-\left(r - \sqrt{E_g}\right)^2 / N_0} d r \\
-# & =\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{-\sqrt{2 E_g / N_0}} e^{-x^2 / 2} d x \\
-# & =\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# P(e|s_2) = P\left(r<0|s_1\right) & =\int_{-\infty}^0 p\left(r|s_2\right) d r \nonumber\\
+# & =\frac{1}{\sqrt{\pi N_0}} \int_{-\infty}^0 e^{-\left(r - \sqrt{E_g}\right)^2 / N_0} d r\nonumber \\
+# & =\frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{-\sqrt{2 E_g / N_0}} e^{-x^2 / 2} d x \nonumber\\
+# & =\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \nonumber\\
 # & =Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
 # \end{align}
 # $$
@@ -1202,8 +1202,8 @@ plt.grid();
 #
 # $$
 # \begin{align}
-# P\left(n_2-n_1>\sqrt{E_g}\right) & =\frac{1}{\sqrt{2 \pi N_0}} \int_{\sqrt{E_g}}^{\infty} e^{-x^2 / (2 N_0)} d x \\
-# &=\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# P\left(n_2-n_1>\sqrt{E_g}\right) & =\frac{1}{\sqrt{2 \pi N_0}} \int_{\sqrt{E_g}}^{\infty} e^{-x^2 / (2 N_0)} d x\nonumber \\
+# &=\frac{1}{\sqrt{2 \pi}} \int_{\sqrt{E_g / N_0}}^{\infty} e^{-x^2 / 2} d x\nonumber \\
 # &=Q\left(\sqrt{\frac{E_g}{N_0}}\right)
 # \end{align}
 # $$
@@ -1229,12 +1229,14 @@ plt.grid();
 
 # ### Modulações M-PAM
 #
+# Os símbolos da constelação M-PAM podem ser representados por
+#
 # $$
 # \begin{equation}
 # s_m=\sqrt{E_g} A_m, \quad m=1,2, \ldots, M
 # \end{equation}
 # $$
-#
+# com
 # $$
 # \begin{equation}
 # A_m=(2 m-1-M), \quad m=1,2, \ldots, M
@@ -1242,37 +1244,74 @@ plt.grid();
 # $$
 #
 # em que a distância entre símbolos adjacentes é $d=2\sqrt{E_g}$. 
+#
+# Sabendo que
 # $$
-# \sum_{k=1,3,5,...}^n k^2=\frac{n(4n^2-1)}{3}
+# \sum_{k=1,3,5,...}^n k^2=\frac{n(4n^2-1)}{3},
 # $$
 #
+# podemos calcular a energia média por símbolo da constelação como sendo
 # $$
 # \begin{align}
-# E_{a v} & =\frac{1}{M} \sum_{m=1}^M E_m \\
-# & =\frac{E_g}{M} \sum_{m=1}^M(2 m-1-M)^2 \\
-# & =\frac{E_g}{M} \frac{M\left(M^2-1\right)}{3} \\
+# E_{a v} & =\frac{1}{M} \sum_{m=1}^M E_m \nonumber \\
+# & =\frac{E_g}{M} \sum_{m=1}^M(2 m-1-M)^2 \nonumber  \\
+# & =\frac{E_g}{M} \frac{M\left(M^2-1\right)}{3} \nonumber \\
 # & =\left(\frac{M^2-1}{3}\right) E_g
 # \end{align}
 # $$
 #
+# Logo, considerando o canal AWGN, o decisor deve tomar uma decisão sobre que símbolo foi transmitido baseado no seguinte sinal $r$:
 # $$
 # \begin{equation}
 # r=s_m+n=\sqrt{E_g} A_m + n
 # \end{equation}
 # $$
 #
+# em que $n$ é uma variável aleatória gaussiana de média nula e variância $\sigma^2 = \frac{N_0}{2}.
+#
 # Se todos os símbolos forem equiprováveis, a probabilidade de erro média é dada pela probabilidade de que $n$ exceda a metade da distância entre símbolos adjacentes, para os símbolos internos, somada à probabilidade de erro para os dois símbolos externos. Desse modo,
 #
 # $$
 # \begin{align}
-# P_M & =\frac{M-2}{M} P\left(\left|r-s_m\right|>\sqrt{E_g}\right) + \frac{1}{M} P\left(r-s_1>\sqrt{E_g}\right) + \frac{1}{M} P\left(r-s_M<\sqrt{E_g}\right)\\
-# & =\frac{M-1}{M} P\left(\left|r-s_m\right|>\sqrt{E_g}\right) \\
-# & =\frac{M-1}{M} \frac{2}{\sqrt{\pi N_0}} \int_{\sqrt{E_g}}^{\infty} e^{-x^2 / N_0} d x \\
-# & =\frac{M-1}{M} \frac{2}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x \\
+# P_{e|PAM} & =\frac{M-2}{M} P\left(\left|r-s_m\right|>\sqrt{E_g}\right) + \frac{1}{M} P\left(r-s_1>\sqrt{E_g}\right) + \frac{1}{M} P\left(r-s_M<\sqrt{E_g}\right)\nonumber \\
+# & =\frac{M-1}{M} P\left(\left|r-s_m\right|>\sqrt{E_g}\right)\nonumber  \\
+# & =\frac{M-1}{M} \frac{2}{\sqrt{\pi N_0}} \int_{\sqrt{E_g}}^{\infty} e^{-x^2 / N_0} d x \nonumber \\
+# & =\frac{M-1}{M} \frac{2}{\sqrt{2 \pi}} \int_{\sqrt{2 E_g / N_0}}^{\infty} e^{-x^2 / 2} d x\nonumber  \\
 # & =\frac{2(M-1)}{M} Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)
 # \end{align}
 # $$
 #
+# Logo, podemos escrever $P_{e|PAM}$ em termos de $E_{a v}$ como
+#
+# $$
+# \begin{equation}
+# P_{e|PAM} =\frac{2(M-1)}{M} Q\left(\sqrt{\frac{6}{(M^2-1)}\frac{E_{av}}{N_0}}\right)
+# \end{equation}
+# $$
+#
+# Em termos da energia média por bit $E_b = \frac{E_{av}}{\log_2M}$, temos
+#
+# $$
+# \begin{equation}
+# P_{e|PAM} =\frac{2(M-1)}{M} Q\left(\sqrt{\frac{6\log_2M}{(M^2-1)}\frac{E_b}{N_0}}\right)
+# \end{equation}
+# $$
+#
+# Em termos da $\mathrm{SNR} = \frac{E_{av}}{\sigma^2} = \frac{2E_{av}}{N_0}$, temos
+#
+# $$
+# \begin{equation}
+# P_{e|PAM} =\frac{2(M-1)}{M} Q\left(\sqrt{\frac{3}{(M^2-1)}\mathrm{SNR}}\right)
+# \end{equation}
+# $$
+#
+# e em termos da razão sinal-ruído por bit $\mathrm{SNR}_b = \frac{\mathrm{SNR}}{\log_2M}$
+#
+# $$
+# \begin{equation}
+# P_{e|PAM} =\frac{2(M-1)}{M} Q\left(\sqrt{\frac{3\log_2M}{(M^2-1)}\mathrm{SNR_b}}\right)
+# \end{equation}
+# $$
 
 # +
 SNRdB = np.arange(0,35,0.5)
@@ -1284,7 +1323,7 @@ Pe_orto = Q(np.sqrt(SNR/2))
 Eg = 1
 
 plt.figure()
-for M in [2, 4, 8, 16]:+
+for M in [2, 4, 8, 16]:
     
     Eav = (M**2-1)/3
     
@@ -1293,7 +1332,7 @@ for M in [2, 4, 8, 16]:+
     plt.semilogy(SNRdB, Pe, '-', label=f'M = {M}-PAM')
     
 plt.xlabel('SNR na entrada do receptor [dB]')
-plt.ylabel('P(e)')
+plt.ylabel('$P_{e|PAM}$')
 plt.title('Probabilidade de erro de símbolo de sinais M-PAM')
 plt.xlim(min(SNRdB), max(SNRdB))
 plt.ylim(1e-12, 1)
@@ -1317,8 +1356,8 @@ plt.grid();
 #
 # $$
 # \begin{align}
-# & r_1 = \sqrt{E_s} + n_1 \\
-# & r_2 = n_2
+# & r_1 = \sqrt{E_s} + n_1 \nonumber\\
+# & r_2 = n_2\nonumber
 # \end{align}
 # $$
 #
@@ -1342,7 +1381,7 @@ plt.grid();
 #
 # $$
 # \begin{align}
-# p\left(\theta_r|\mathbf{s}_1\right) & =\int_0^{\infty}p\left(v, \theta_r|\mathbf{s}_1\right) dv \\
+# p\left(\theta_r|\mathbf{s}_1\right) & =\int_0^{\infty}p\left(v, \theta_r|\mathbf{s}_1\right) dv \nonumber\\
 # & =\frac{1}{2 \pi} e^{-2 \gamma_r \sin ^2 \theta_r} \int_0^{\infty} v e^{-\left(v-\sqrt{4 \gamma_r} \cos \theta_r\right)^2 / 2} d v
 # \end{align}
 # $$
@@ -1398,7 +1437,7 @@ for M in [2, 4, 8, 16, 32]:
     plt.semilogy(SNRb_dB, Pe, '-', label=f'M = {M}-PSK')
     
 plt.xlabel('SNR/bit [dB]')
-plt.ylabel('P(e)')
+plt.ylabel('$P_{e|PSK}$')
 plt.title('Probabilidade de erro de sinais M-PSK')
 plt.xlim(min(SNRb_dB), max(SNRb_dB))
 plt.ylim(1e-6, 1)
@@ -1506,15 +1545,15 @@ plt.legend();
 #
 # $$
 # \begin{align}
-# E_{av} &= \frac{1}{M}\sum_{m=1}^{M}\| s_m\|^2 \\
-# &= \sum_{m=1}^{M} (s_{mI}^2 + s_{mQ}^2)\\
-# &=\frac{2\sqrt{M}E_g}{M} \sum_{m=1}^\sqrt{M} (2m-1-\sqrt{M})^2 \\
-# & =\frac{2\sqrt{M}E_g}{M} \frac{\sqrt{M}\left(M-1\right)}{3} \\
-# & =E_g\frac{2\left(M-1\right)}{3} \\
+# E_{av} &= \frac{1}{M}\sum_{m=1}^{M}\| s_m\|^2 \nonumber\\
+# &= \sum_{m=1}^{M} (s_{mI}^2 + s_{mQ}^2)\nonumber\\
+# &=\frac{2\sqrt{M}E_g}{M} \sum_{m=1}^\sqrt{M} (2m-1-\sqrt{M})^2\nonumber \\
+# & =\frac{2\sqrt{M}E_g}{M} \frac{\sqrt{M}\left(M-1\right)}{3}\nonumber \\
+# & =E_g\frac{2\left(M-1\right)}{3}
 # \end{align}
 # $$
 
-# Um erro de símbolo ocorrerá no receptor se qualquer das componentes $s_{mI}$ e $s_{mQ}$ ultrapassar os respectivos limiares de decisão. Seja $P(e)$ a probabilidade média de erro para 
+# Um erro de símbolo ocorrerá no receptor se qualquer das componentes $s_{mI}$ e $s_{mQ}$ ultrapassar os respectivos limiares de decisão. Seja $P_{e|QAM}$ a probabilidade média de erro, temos que
 #
 # $$
 # \begin{align}
@@ -1523,10 +1562,67 @@ plt.legend();
 # & =1 - \left(1-2\left(1 - \frac{1}{\sqrt{M}} \right)Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)\right)^2\nonumber\\
 # & =1 - \left(1-4\left(1 - \frac{1}{\sqrt{M}} \right)Q\left(\sqrt{\frac{2 E_g}{N_0}}\right) + 4\left(1 - \frac{1}{\sqrt{M}} \right)^2Q^2\left(\sqrt{\frac{2 E_g}{N_0}}\right)\right)\nonumber\nonumber\\
 # &=4\left(1 - \frac{1}{\sqrt{M}} \right)Q\left(\sqrt{\frac{2 E_g}{N_0}}\right) - 4\left(1 - \frac{1}{\sqrt{M}} \right)^2Q^2\left(\sqrt{\frac{2 E_g}{N_0}}\right)\nonumber\\
-# &\leq 4\left(1 - \frac{1}{\sqrt{M}} \right)Q\left(\sqrt{\frac{2 E_g}{N_0}}\right) \\
+# &\leq 4\left(1 - \frac{1}{\sqrt{M}} \right)Q\left(\sqrt{\frac{2 E_g}{N_0}}\right) \nonumber\\
 # &\leq 4\left(1 - \frac{1}{\sqrt{M}} \right)Q\left(\sqrt{\frac{3}{(M-1)}\frac{E_{av}}{N_0}}\right) \\
 # \end{align}
 # $$
+
+# +
+SNRdB = np.arange(0,35,0.5)
+SNRb_dB = np.arange(0,25,0.5)
+SNR = 10**(SNRdB/10)
+
+Es = 1
+
+plt.figure()
+for M in [4, 16, 64, 256]:
+        
+    Pe = 4*(1-1/np.sqrt(M))*Q(np.sqrt(3/(M-1)*SNR))
+    
+    plt.semilogy(SNRdB, Pe, '-', label=f'M = {M}-QAM')
+    
+plt.xlabel('SNR [dB]')
+plt.ylabel('$P_{e|QAM}$')
+plt.title('Probabilidade de erro de símbolo para modulações M-QAM ')
+plt.xlim(min(SNRdB), max(SNRdB))
+plt.ylim(1e-6, 1)
+plt.legend()
+plt.grid();
+
+plt.figure()
+for M in [4, 16, 64, 256]:      
+    SNRb = 10**(SNRb_dB/10)
+    k = np.log2(M)
+    
+    Pe = 4*(1-1/np.sqrt(M))*Q(np.sqrt(3*k/(M-1)*(SNRb)))
+    
+    plt.semilogy(SNRb_dB, Pe, '-', label=f'M = {M}-QAM')
+    
+plt.xlabel('SNR/bit [dB]')
+plt.ylabel('$P_{e|QAM}$')
+plt.title('Probabilidade de erro de símbolo para modulações M-QAM')
+plt.xlim(min(SNRb_dB), max(SNRb_dB))
+plt.ylim(1e-6, 1)
+plt.legend()
+plt.grid();
+
+plt.figure()
+for M in [4, 16, 64, 256]:      
+    SNRb = 10**(SNRb_dB/10)
+    k = np.log2(M)
+    
+    Pe = 4*(1-1/np.sqrt(M))*Q(np.sqrt(3*k/(M-1)*(SNRb)))/k
+    
+    plt.semilogy(SNRb_dB, Pe, '-', label=f'M = {M}-QAM')
+    
+plt.xlabel('SNR/bit [dB]')
+plt.ylabel('$P_{b|QAM}$')
+plt.title('Probabilidade de erro de bit para modulações M-QAM (mapeamento Gray)')
+plt.xlim(min(SNRb_dB), max(SNRb_dB))
+plt.ylim(1e-6, 1)
+plt.legend()
+plt.grid();
+# -
 
 # ## Detecção de sequências por máxima verossimilhança
 #
