@@ -1719,6 +1719,7 @@ plt.grid();
 def Pe_squareQAM(M, SNR):
     return 4*(1-1/np.sqrt(M))*Q(np.sqrt(3/(M-1)*SNR))
 
+
 def Pe_bin(d, N0):
     return Q(d/np.sqrt(2*N0))
 
