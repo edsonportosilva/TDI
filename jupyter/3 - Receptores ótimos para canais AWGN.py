@@ -1622,6 +1622,8 @@ plt.xlim(min(SNRb_dB), max(SNRb_dB))
 plt.ylim(1e-6, 1)
 plt.legend()
 plt.grid();
+
+
 # -
 
 # ##  Limitante da união de probabilidades de erro
@@ -1710,6 +1712,55 @@ plt.grid();
 # $$
 #
 # em que $K$ é o número de pares de símbolos que encontram-se separados pela distância mínima $d_{min}$.
+
+# **Exemplo**: aplicação do limitante da união para constelações M-QAM.
+
+# +
+def Pe_squareQAM(M, SNR):
+    return 4*(1-1/np.sqrt(M))*Q(np.sqrt(3/(M-1)*SNR))
+
+def Pe_bin(d, N0):
+    return Q(d/np.sqrt(2*N0))
+
+
+def uniBound_Pe(const, N0):
+    # Calculate the union bound of error probabilities
+    
+    ind = np.arange(const.size)    
+    pair = np.transpose([np.tile(ind, len(ind)), np.repeat(ind, len(ind))])
+    
+    Pe_bound = 0
+    for k in range(len(pair)):
+        if pair[k,0] != pair[k,1]:
+            dist = np.abs(const[pair[k,0]]-const[pair[k,1]]) # calculate the distance between pair of symbols
+            Pe_bound += Pe_bin(dist, N0) # accumulate the binary Pe between the pair of symbols
+    
+    return Pe_bound/M
+
+# plot Pe and union bound as a function of SNR for several different QAM orders
+for M in [4, 16, 64, 256]:
+    constSymb = GrayMapping(M, 'qam')   # Gray constellation mapping
+    
+    SNR_val = np.arange(0,35,1)
+    Pe_uniBound = np.zeros(SNR_val.shape)
+    Pe = np.zeros(SNR_val.shape)
+        
+    for k, SNR in enumerate(SNR_val):
+        N0 = 1/(10**(SNR/10))
+        
+        Pe_uniBound[k] = uniBound_Pe(pnorm(constSymb), N0)
+        Pe[k] = Pe_squareQAM(M, 10**(SNR/10))
+    
+    plt.semilogy(SNR_val, Pe, '-o', label=f'{M}-QAM')
+    plt.semilogy(SNR_val, Pe_uniBound, '-*',label=f'{M}-QAM (bound)')
+    
+plt.xlabel('SNR [dB]')
+plt.ylabel('$P_{e}$')
+plt.xlim(min(SNR_val), max(SNR_val+10))
+plt.ylim(1e-6, 1)
+plt.legend()
+plt.grid();
+# -
 
 # ## Detecção de sequências por máxima verossimilhança
 #
