@@ -1626,11 +1626,90 @@ plt.grid();
 
 # ##  Limitante da união de probabilidades de erro
 #
-# <img src="./figuras/Fig10.png" width="700">
+# Sabemos que para uma constelação binária antipodal $s\in \left\lbrace -\sqrt{E_g}, \sqrt{E_g} \right\rbrace$ a probabilidade de erro é dada por
+#
+# $$
+# \begin{equation}\nonumber
+# P_e^{bin} = Q\left(\sqrt{\frac{2 E_g}{N_0}}\right).
+# \end{equation}
+# $$
+#
+# Considerando que a distância entre os símbolos é $d=2\sqrt{E_g}$, temos $E_g = \frac{d^2}{4}$, de modo que
+#
+# $$
+# \begin{equation}\label{Pe_bin}
+# P_e^{bin} = Q\left(\sqrt{\frac{d^2}{2N_0}}\right).
+# \end{equation}
+# $$
+#
+# ou seja, a probabilidade de erro depende apenas da densidade espectral de potência do ruído e da distância euclideana entre os dois símbolos da constelação.
+#
+# A partir de ($\ref{Pe_bin}$) é possível obter um *limitante superior* da probabilidade de erro de símbolo para constelações arbitrárias, denominado limitante da união.
+#
+# Para exemplificar o uso desse limitante, considere o caso da constelação 4-QAM ilustrada na Fig. 7. 
+#
+# <img src="./figuras/Fig10.png" width="800">
 # <center>Fig.7: Regiões de decisão binárias para a constelação 4-QAM.</center>
 #
-# <img src="./figuras/Fig11.png" width="350">
+# Assumindo $s_1$ como o símbolo transmitido, se calcularmos a probabilidade de erro de símbolo $P_e^{bin}$ para cada um dos demais símbolos da constelação temos
+#
+# $$
+# \begin{align}
+# P_{e_1}^{b i n} &=P\left(\hat{s}=s_2 | s_1\right) = Q\left(\sqrt{\frac{d_1^2}{2N_0}}\right)\\
+# P_{e_2}^{b i n} &=P\left(\hat{s}=s_3 | s_1\right) = Q\left(\sqrt{\frac{d_1^2}{2N_0}}\right)\\
+# P_{e_3}^{b i n} &=P\left(\hat{s}=s_4 | s_1\right) = Q\left(\sqrt{\frac{d_2^2}{2N_0}}\right)\\
+# \end{align}
+# $$
+#
+# <img src="./figuras/Fig11.png" width="600">
 # <center>Fig.8: Sobreposição das regiões de decisão binárias para a constelação 4-QAM.</center>
+#
+# Perceba que a probabilidade de erro exata $P_{e|4-QAM}$ da constelação 4-QAM é dada pela integral da fdp $p(r_1, r_2|s_1)$ em todas as regiões de decisão associadas aos símbolos $s_m\neq s_1$. Desse modo, um limitante superior para o valor dessa integral é dado pelo somatório das integrais utilizadas na determinação de $P_e^{bin}$, ou seja
+
+# $$
+# \begin{align}
+# P_{e|4-QAM} &\leq P_{e_1}^{b i n} + P_{e_2}^{b i n} + P_{e_3}^{b i n}\nonumber\\
+#  &= Q\left(\sqrt{\frac{d_1^2}{2N_0}}\right) + Q\left(\sqrt{\frac{d_1^2}{2N_0}}\right) + Q\left(\sqrt{\frac{d_2^2}{2N_0}}\right)\nonumber\\
+#  &= 2Q\left(\sqrt{\frac{d_1^2}{2N_0}}\right) + Q\left(\sqrt{\frac{d_2^2}{2N_0}}\right)\nonumber\\
+#  &= 2Q\left(\sqrt{\frac{2E_g}{N_0}}\right) + Q\left(\sqrt{\frac{4E_g}{N_0}}\right)\label{limUni_4QAM}
+# \end{align}
+# $$
+
+# Para valores típicos de $\mathrm{SNR}$ em sistemas de comunicações, o segundo termo em ($\ref{limUni_4QAM}$) tende a ser muito menor do que o primeiro. Dessa forma, podemos constatar que a probabilidade de erro é dominada pela probabilidade de erro para os símbolos na vizinhança mais próxima do símbolo $s_1$. Se compararmos ($\ref{limUni_4QAM}$) com a probabilidade de erro exata $P_{e|4-QAM}=2 Q\left(\sqrt{\frac{2 E_g}{N_0}}\right)-Q^2\left(\sqrt{\frac{2 E_g}{N_0}}\right)$, vemos que os mesmos termos dominantes aparecem nas duas expressões.
+#
+#
+# De modo geral, podemos escrever:
+#
+# $$
+# \begin{equation}
+# P_{e}=\sum_{i=1}^M P(\hat{s} \neq s_i| s_i) P(s_i) = \frac{1}{M} \sum_{i=1}^M P(\hat{s} \neq s_i| s_i)
+# \end{equation}
+# $$
+#
+# em que a segunda igualdade é válida no caso de símbolos equiprováveis e 
+# $$
+# \begin{align}
+# P(\hat{s} \neq s_i| s_i) & \leq \sum_{k \neq i} P_e^{bin}(\hat{s} = s_k| s_i) \\
+# & =\sum_{k \neq i} Q\left(\frac{\left\|s_k-s_i\right\|}{\sqrt{2 N_0}}\right)
+# \end{align}
+# $$
+#
+# ou seja,
+#
+# $$
+# \begin{equation}
+# P_{e}\leq \frac{1}{M} \sum_{i=1}^M \sum_{k \neq i} Q\left(\frac{\left\|s_k-s_i\right\|}{\sqrt{2 N_0}}\right)
+# \end{equation}
+# $$
+#
+# Finalmente, podemos considerar apenas os termos dominantes fazendo
+# $$
+# \begin{equation}
+# P_e \leq \frac{2 K}{M} Q\left(\frac{d_{\min }}{\sqrt{2 N_0}}\right)
+# \end{equation}
+# $$
+#
+# em que $K$ é o número de pares de símbolos que encontram-se separados pela distância mínima $d_{min}$.
 
 # ## Detecção de sequências por máxima verossimilhança
 #
