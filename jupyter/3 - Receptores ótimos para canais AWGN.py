@@ -1664,7 +1664,7 @@ plt.grid();
 # $$
 #
 # <img src="./figuras/Fig11.png" width="600">
-# <center>Fig.8: Sobreposição das regiões de decisão binárias para a constelação 4-QAM.</center>
+# <center>Fig.8: (a) Sobreposição das regiões de decisão binárias para a constelação 4-QAM. (b) Regiões de decisão para a constelação 4-QAM.</center>
 #
 # Perceba que a probabilidade de erro exata $P_{e|4-QAM}$ da constelação 4-QAM é dada pela integral da fdp $p(r_1, r_2|s_1)$ em todas as regiões de decisão associadas aos símbolos $s_m\neq s_1$. Desse modo, um limitante superior para o valor dessa integral é dado pelo somatório das integrais utilizadas na determinação de $P_e^{bin}$, ou seja
 
