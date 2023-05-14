@@ -77,12 +77,30 @@ figsize(8, 3)
 
 # ##  Canais limitados em banda
 
-# Na maioria das situações práticas, a transmissão digital deve ser estabelecida por meio de um canal cuja banda de frequências disponível para comunicação é limitada. Em outras palavras, existirão restrições sobre o conteúdo de frequências que os sinais transmitidos e recebidos poderão conter. 
+# Na maioria das situações práticas, a transmissão digital deve ser estabelecida por meio de um canal cuja banda de frequências disponível para comunicação é limitada. Desse modo, existirão restrições sobre o conteúdo de frequências que os sinais transmitidos e recebidos poderão conter. 
+#
+# Na análise que segue, considere que o canal de comunicações pode ser modelado como um sistema linear com uma resposta ao impulso $h(t)$ e resposta em frequência $H(f)$ limitada a uma banda de $B$ Hz, de modo que 
+#
+# $$
+# \begin{equation}
+# H(f) = \begin{cases}|H(f)|e^{\theta(f)}, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}
+# \end{equation}
+# $$
+#
+# e $H(f) = \int_{-\infty}^{\infty}h(t)e^{-2\pi f t} dt$, $|H(f)|$ é a resposta de amplitude e $\theta(f)$ a resposta de fase do canal. A partir da resposta de fase podemos definir o *atraso de grupo* como 
+#
+# $$
+# \begin{equation}
+# \tau(f)=-\frac{1}{2 \pi} \frac{d \theta(f)}{d f}.
+# \end{equation}
+# $$
+#
+# O atraso de grupo corresponde ao intervalo de tempo com que cada componente de frequência do sinal transmitido atravessa o canal linear. Um canal linear não causará distorção nos sinais por ele transmitidos se, por todo o espectro do sinal transmitido, $|H(f)|$ for constante e $\theta(f)$ for uma função linear de $f$, ou seja, se o atraso de grupo for constante.
 
 # Considere o modelo de canal em que os sinais transmitidos são afetados apenas por ruído branco gaussiano aditivo (*additive white Gaussian noise* - AWGN). Nesse modelo, o ruído é representado por um processo aleatório gaussiano, ou seja, para cada instante $t$ no tempo, o ruído $n(t)$ adicionado ao sinal é dado por uma variável aleatória gaussiana de média $\mu$ igual a zero e com uma certa variância $\sigma^2$. Desse modo, seja $s(t)$ o sinal enviado pelo transmissor ao canal, o modelo de canal AWGN assume que um ruído $n(t)$ será adicionado ao sinal de informação durante o processo de comunicação, como indicado na figura a seguir
 
-# <img src="./figuras/Fig3.png" width="700">
-# <center>Fig.2: Esquemático de um sistema de transmissão digital via canal AWGN.</center>
+# <img src="./figuras/Fig12.png" width="700">
+# <center>Fig.2: Esquemático de um sistema de transmissão digital via canal linear e AWGN.</center>
 
 # em que $r(t)$ representa o sinal ruidoso na entrada do receptor.
 #
