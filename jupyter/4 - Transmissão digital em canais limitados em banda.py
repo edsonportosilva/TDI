@@ -111,7 +111,7 @@ figsize(8, 3)
 # em que $n(t)$ é uma função amostra de um processo estocástico gaussiano com densidade espectral de potência $S_n(f)=\frac{N_0}{2}$.
 
 # +
-M = 4
+M = 2
 
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
@@ -120,16 +120,20 @@ Ts  = 1/Rs          # Período de símbolo em segundos
 Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
-# generate pseudo-random bit sequence
+# gera sequência pseudo-aleatória de bits
 bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 
-# generate ook modulated symbol sequence
+# gera sequência de símbolos modulados
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
 symbTx = np.insert(symbTx,0, 0)
 
+# resposta do canal linear
+h_ch = np.array([0, 0.25, 1, 0.25])
+
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
+h_ch_Up = upsample(h_ch, SpS)
 
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
@@ -147,22 +151,26 @@ symbolsUp[symbolsUp==0] = np.nan
 
 plt.figure(2)
 plt.plot(t, sigTx,'-',linewidth=2)
-plt.plot(t, symbolsUp.real,'o')
+plt.plot(t, symbolsUp.real,'ko')
 plt.xlabel('tempo [ns]')
 plt.ylabel('amplitude')
 plt.title('sinal '+str(M)+'-PAM')
 plt.grid()
 
+# canal linear
+sigRx = firFilter(h_ch_Up, sigTx)
+sigRx = sigRx.real
+
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.0050  # variância
+σ2  = 0.000050  # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2) 
 ruido  = normal(μ, σ, Namostras)
 
 plt.figure(2)
-plt.plot(t, sigTx + ruido,'b-',alpha=0.5, linewidth=1)
+plt.plot(t, sigRx + ruido,'r--',alpha=1, linewidth=2)
 
 t = (0.5*Ts + np.arange(0, symbTx.size+1)*Ts)/1e-9
 plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
@@ -176,8 +184,12 @@ bitsTx = np.random.randint(2, size = int(250000*np.log2(M)))
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
 
+# resposta do canal linear
+h_ch = np.array([0, 0.25, 1, 0.25])
+
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
+h_ch_Up = upsample(h_ch, SpS)
 
 # pulso 
 pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
@@ -185,11 +197,15 @@ pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
 sigTx = firFilter(pulse, symbolsUp)
-sigTx = sigTx.real
+sigTx = pnorm(sigTx.real)
+
+# canal linear
+sigRx = firFilter(h_ch_Up, sigTx)
+sigRx = pnorm(sigRx.real)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.0050 # variância
+σ2  = 0.00050 # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2*SpS) 
@@ -197,22 +213,16 @@ ruido  = normal(μ, σ, Namostras)
 
 # diagrama de olho
 Nsamples = sigTx.size
-eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
-eyediagram(firFilter(pulse, sigTx+ruido), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+eyediagram(firFilter(pulse, sigTx), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+eyediagram(firFilter(pulse, sigRx+ruido), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 
-# + hide_input=true
+# + hide_input=false
 # plot PSD
 plt.figure();
-plt.xlim(-4*Rs,4*Rs);
-plt.ylim(-250,-50);
-plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx '+ str(M) +'-PAM')
-plt.legend(loc='upper left');
-
-plt.figure();
-plt.xlim(-4*Rs,4*Rs);
-plt.ylim(-250,-50);
-plt.psd(sigTx+ruido,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (entrada do filtro) '+ str(M) +'-PAM')
-plt.psd(pnorm(firFilter(pulse, sigTx+ruido)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do filtro)  '+ str(M) +'-PAM')
+plt.xlim(-2*Rs,2*Rs);
+plt.ylim(-250,-20);
+plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx (entrada do canal) '+ str(M) +'-PAM')
+plt.psd(pnorm(firFilter(pulse, sigRx)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do canal) '+ str(M) +'-PAM')
 plt.legend(loc='upper left');
 # -
 
