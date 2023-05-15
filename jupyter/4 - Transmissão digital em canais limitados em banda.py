@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.14.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -19,9 +19,6 @@ import sympy as sp
 import numpy as np
 from numpy.random import normal
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from sympy import cos, sin, exp, Matrix, sqrt
-from sympy.simplify.fu import TR10, TR9
 import pandas as pd
 
 from IPython.display import display, Math
@@ -35,7 +32,7 @@ from commpy.utilities import upsample
 from optic.modulation import modulateGray, demodulateGray, GrayMapping
 from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
 from optic.metrics import signal_power
-from optic.plot import eyediagram
+from optic.plot import eyediagram, pconst
 # -
 
 pd.set_option('display.max_columns', 500)
@@ -67,7 +64,7 @@ figsize(8, 3)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -97,21 +94,70 @@ figsize(8, 3)
 #
 # O atraso de grupo corresponde ao intervalo de tempo com que cada componente de frequência do sinal transmitido atravessa o canal linear. Um canal linear não causará distorção nos sinais por ele transmitidos se, por todo o espectro do sinal transmitido, $|H(f)|$ for constante e $\theta(f)$ for uma função linear de $f$, ou seja, se o atraso de grupo for constante.
 
-# Considere o modelo de canal em que os sinais transmitidos são afetados apenas por ruído branco gaussiano aditivo (*additive white Gaussian noise* - AWGN). Nesse modelo, o ruído é representado por um processo aleatório gaussiano, ou seja, para cada instante $t$ no tempo, o ruído $n(t)$ adicionado ao sinal é dado por uma variável aleatória gaussiana de média $\mu$ igual a zero e com uma certa variância $\sigma^2$. Desse modo, seja $s(t)$ o sinal enviado pelo transmissor ao canal, o modelo de canal AWGN assume que um ruído $n(t)$ será adicionado ao sinal de informação durante o processo de comunicação, como indicado na figura a seguir
+# ## Sinalização para canais limitados em banda
+#
+# Assuma que em cada intervalo de sinalização $T_s$, o transmissor envia um sinal $s_m(t)$ dentre os $M$ possíveis do esquema de modulação utilizado, i.e. $\left\lbrace s_m(t), m = 1,2,\dots, M\right\rbrace$. Considere que no intervalo de $0\leq t \leq T_s$ o transmissor enviou a sinal $s_m(t)$. Após a filtragem do canal os sinais transmitidos são afetados apenas por AWGN, como ilustrado na Fig. 2. 
 
-# <img src="./figuras/Fig12.png" width="700">
+# <img src="./figuras/Fig12.png" width="600">
+#
 # <center>Fig.2: Esquemático de um sistema de transmissão digital via canal linear e AWGN.</center>
 
-# em que $r(t)$ representa o sinal ruidoso na entrada do receptor.
+# Desse modo, o sinal $r(t)$ que chega a entrada do receptor pode ser representado por
 #
-# Assuma que em cada intervalo de sinalização $T_s$, o transmissor envia um sinal $s_m(t)$ dentre os $M$ possíveis do esquema de modulação utilizado, i.e. $\left\lbrace s_m(t), m = 1,2,\dots, M\right\rbrace$. Considere que no intervalo de $0\leq t \leq T_s$ o transmissor enviou a sinal $s_m(t)$. Uma vez que o canal adiciona ruído ao sinal transmitido, o sinal recebido $r(t)$ no intervalo $0\leq t \leq T_s$ pode ser expresso como
 #
-# $$\begin{equation}\label{awgnch_eq1} r(t) = s_m(t) + n(t)\end{equation}$$
+# $$
+# \begin{align}
+# r(t) & =\left[\sum_{k=-\infty}^{\infty} s_k p\left(t-k T_s\right)\right] \ast h(t) + n(t)\nonumber \\
+# & =\sum_{k=-\infty}^{\infty} s_k p(t)\ast \delta\left(t-k T_s\right) \ast h(t) + n(t)\nonumber \\
+# & =\sum_{k=-\infty}^{\infty} s_k p(t)\ast h(t)\ast\delta\left(t-k T_s\right)  + n(t)\nonumber \\
+# & =\sum_{k=-\infty}^{\infty} s_k g(t)\ast\delta\left(t-k T_s\right)  + n(t)\nonumber \\
+# & =\sum_{k=-\infty}^{\infty} s_k g\left(t-k T_s\right)  + n(t) \label{ch_model_1}\\
+# \end{align}
+# $$
 #
-# em que $n(t)$ é uma função amostra de um processo estocástico gaussiano com densidade espectral de potência $S_n(f)=\frac{N_0}{2}$.
+# em que $g(t)$ é o pulso resultante da convolução de $p(t)$ com a resposta ao impulso do canal $h(t)$.
+#
+# ### Interferência intersimbólica (ISI)
+#
+# Assuma que no receptor o sinal $r(t)$ é filtrado e amostrado nos instantes $t=qT_s + \tau_{0}, q=0, 1, \ldots$. Seja a saída do filtro do receptor dada por
+#
+# $$
+# \begin{equation}
+# y(t)=\sum_{k=-\infty}^{\infty} s_k x(t-kT_s) + u(t)
+# \end{equation}
+# $$
+#
+# temos
+#
+# $$
+# \begin{equation}
+# y\left(q T_s+\tau_0\right) \equiv y_q=\sum_{k=-\infty}^{\infty} s_k x\left(qT_s- kT_s+\tau_0\right) + u\left(qT_s+\tau_0\right)
+# \end{equation}
+# $$
+#
+# em que $\tau_{0}$ é o atraso de propagação do sinal pelo canal. Considerando apenas a representação discreta do sinal, temos 
+#
+# $$
+# \begin{align}
+# y_q&=\sum_{k=-\infty}^{\infty} s_k x_{q-k}+u_q, \quad q=0,1, \ldots.\nonumber\\
+# &= x_0\left(s_q+\frac{1}{x_0} \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}\right)+u_q, \quad q=0,1, \ldots
+# \end{align}
+# $$
+#
+# em que $x_0$ é um fator de escala arbitrário que pode ser considerado igual à unidade por conveniência, de modo que
+#
+# $$
+# \begin{equation}\label{ISI_eq1}
+# y_q=s_q + \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k} + u_q, \quad q=0,1, \ldots
+# \end{equation}
+# $$
+#
+# Em ($\ref{ISI_eq1}$), temos que $s_q$ é o símbolo transmitido no intervalo de sinalização $q$. Já o termo $\sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}$ representa a interferência causada em $s_q$ pelos demais símbolos transmitidos, denominada **interferência intersimbólica** (*intersymbol interference* - ISI). Por fim, $u_q$ é uma variável aleatória representado o ruído AWGN no instante de sinalização $q$.
+#
 
 # +
-M = 2
+M = 4
+constType = 'qam'
 
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
@@ -124,16 +170,17 @@ Ta  = 1/Fa          # Período de amostragem
 bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 
 # gera sequência de símbolos modulados
-symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = modulateGray(bitsTx, M, constType)    
 symbTx = pnorm(symbTx) # power normalization
 symbTx = np.insert(symbTx,0, 0)
 
 # resposta do canal linear
-h_ch = np.array([0, 0.25, 1, 0.25])
+h_ch = np.array([0, 0.1, 1, 0.1])
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 h_ch_Up = upsample(h_ch, SpS)
+h_ch_Up = h_ch_Up.real
 
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
@@ -141,90 +188,133 @@ pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
 sigTx = firFilter(pulse, symbolsUp)
-sigTx = sigTx.real
 
-t = np.arange(0, sigTx.size)*(1/Fa)/1e-9
+t = np.arange(sigTx.size)*Ta/1e-9
 
 # instantes centrais dos intervalos de sinalização
 symbolsUp = upsample(symbTx, SpS)
-symbolsUp[symbolsUp==0] = np.nan
+symbolsUp[symbolsUp==0+1j*0] = np.nan + 1j*np.nan
 
-plt.figure(2)
-plt.plot(t, sigTx,'-',linewidth=2)
-plt.plot(t, symbolsUp.real,'ko')
-plt.xlabel('tempo [ns]')
-plt.ylabel('amplitude')
-plt.title('sinal '+str(M)+'-PAM')
-plt.grid()
+if constType == 'pam':
+    plt.figure(2)
+    plt.plot(t, sigTx,'-',linewidth=2)
+    plt.plot(t, symbolsUp.real,'ko')
+    plt.xlabel('tempo [ns]')
+    plt.ylabel('amplitude')
+    plt.title('sinal '+str(M)+'-PAM')
+    plt.grid()
+else:
+    plt.figure(2)
+    plt.plot(t, sigTx.real,'-',linewidth=3, label = '$Re\{s_n\}$')
+    plt.plot(t, symbolsUp.real,'o')
+    plt.xlabel('tempo [ns]')
+    plt.ylabel('amplitude')
+    plt.title('sinal '+str(M)+'-QAM')
+    plt.grid()
+    
+    plt.figure(3)
+    plt.plot(t, sigTx.imag,'-',linewidth=3, label = '$Im\{s_n\}$')
+    plt.plot(t, symbolsUp.imag,'o')
+    plt.xlabel('tempo [ns]')
+    plt.ylabel('amplitude')
+    plt.title('sinal '+str(M)+'-QAM')
+    plt.grid()
 
 # canal linear
 sigRx = firFilter(h_ch_Up, sigTx)
-sigRx = sigRx.real
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.000050  # variância
+σ2  = 1e-6  # variância
 μ   = 0      # média
 
-σ      = sqrt(σ2) 
+σ      = np.sqrt(σ2) 
 ruido  = normal(μ, σ, Namostras)
+ruidoC  = (normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))/np.sqrt(2)
 
-plt.figure(2)
-plt.plot(t, sigRx + ruido,'r--',alpha=1, linewidth=2)
-
-t = (0.5*Ts + np.arange(0, symbTx.size+1)*Ts)/1e-9
-plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
-plt.xlim(min(t), max(t));
+t = np.arange(sigTx.size)*Ta/1e-9
+if constType == 'pam':
+    plt.figure(2)
+    plt.plot(t, (sigRx + ruido).real,'r--',alpha=1, linewidth=2)
+    t = (0.5*Ts + np.arange(0, symbTx.size+1)*Ts)/1e-9
+    plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
+    plt.xlim(min(t), max(t));
+else:
+    plt.figure(2)
+    plt.plot(t, (sigRx + ruidoC).real,'r--',alpha=1, linewidth=2)
+    plt.plot(t, symbolsUp.real,'o')
+    plt.figure(3)
+    plt.plot(t, (sigRx + ruidoC).imag,'r--',alpha=1, linewidth=2)
+    plt.plot(t, symbolsUp.imag,'o')
+    t = (0.5*Ts + np.arange(0, symbTx.size+1)*Ts)/1e-9
+    plt.figure(2)
+    plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
+    plt.xlim(min(t), max(t));
+    plt.figure(3)
+    plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
+    plt.xlim(min(t), max(t));
 
 # +
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size = int(250000*np.log2(M)))
 
 # generate ook modulated symbol sequence
-symbTx = modulateGray(bitsTx, M, 'pam')    
+symbTx = modulateGray(bitsTx, M, constType)    
 symbTx = pnorm(symbTx) # power normalization
 
 # resposta do canal linear
-h_ch = np.array([0, 0.25, 1, 0.25])
+h_ch = np.array([0, 0.1, 1, 0.1])
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 h_ch_Up = upsample(h_ch, SpS)
+h_ch_Up = h_ch_Up
 
-# pulso 
-pulse = pulseShape('rrc', SpS, N=4096, alpha=0.01)
+# pulso NRZ típico
+pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
 sigTx = firFilter(pulse, symbolsUp)
-sigTx = pnorm(sigTx.real)
+sigTx = pnorm(sigTx)
 
 # canal linear
 sigRx = firFilter(h_ch_Up, sigTx)
-sigRx = pnorm(sigRx.real)
+sigRx = pnorm(sigRx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.00050 # variância
-μ   = 0      # média
+σ2  = 1e-7 # variância
+μ   = 0         # média
 
-σ      = sqrt(σ2*SpS) 
+σ      = np.sqrt(σ2*SpS)
 ruido  = normal(μ, σ, Namostras)
+ruidoC  = (normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))/np.sqrt(2)
 
 # diagrama de olho
 Nsamples = sigTx.size
-eyediagram(firFilter(pulse, sigTx), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
-eyediagram(firFilter(pulse, sigRx+ruido), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+if constType == 'pam':
+    eyediagram(sigTx.real, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+    eyediagram((sigRx + ruido).real, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+else:
+    eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
+    eyediagram(sigRx + ruidoC, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
+    
+pconst(pnorm((sigRx + ruidoC)[10*SpS:-10*SpS:SpS]), pType='fast', R=1.5);
 
 # + hide_input=false
 # plot PSD
 plt.figure();
 plt.xlim(-2*Rs,2*Rs);
 plt.ylim(-250,-20);
-plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx (entrada do canal) '+ str(M) +'-PAM')
-plt.psd(pnorm(firFilter(pulse, sigRx)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do canal) '+ str(M) +'-PAM')
+plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx (entrada do canal)')
+plt.psd(pnorm(firFilter(pulse, sigRx)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do canal)')
 plt.legend(loc='upper left');
 # -
+
+# ### Critério de Nyquist para ausência de interferência intersimbólica
+#
+#
 
 # ## Referências
 #
