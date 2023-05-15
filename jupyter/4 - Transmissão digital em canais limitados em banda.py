@@ -314,7 +314,94 @@ plt.legend(loc='upper left');
 
 # ### Critério de Nyquist para ausência de interferência intersimbólica
 #
+# Considere que a resposta em frequência $H(f)$ é ideal e limitada em banda, de maneira que
 #
+# $$
+# \begin{equation}
+# |H(f)| = \begin{cases}1, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}.
+# \end{equation}
+# $$
+#
+# Logo, assumindo que o receptor aplica um filtro casado ao pulso $p(t)$ transmitido, temos que $X(f) = |P(f)|^2$, em que
+#
+# $$
+# \begin{equation}
+# x(t) = \int_{-B}^{B}X(f)e^{2\pi f t} df.
+# \end{equation}
+# $$
+#
+# Desejamos encontrar as condições que $p(t)$ deve atender e, por consequência, $x(t)$, para que a interferência intersimbólica seja nula. Sabemos que
+#
+# $$
+# \begin{equation}\label{ISI_eq2}
+# y_q=s_q + \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k} + u_q, \quad q=0,1, \ldots,
+# \end{equation}
+# $$
+#
+# o que implica que a condição para ausência de ISI é dada por
+#
+# $$
+# \begin{equation}
+# x(t=q T_s) \equiv x_q= \begin{cases}1, & q=0 \\ 0, & q \neq 0\end{cases}
+# \end{equation}
+# $$
+#
+# Esta condição é conhecida como critério de Nyquist para ausência de interferência intersimbólica.
+#
+# Prova:
+#
+# $$
+# \begin{equation}
+# x(t)=\int_{-\infty}^{\infty} X(f) e^{j 2 \pi f t} d f
+# \end{equation}
+# $$
+#
+# $$
+# \begin{equation}
+# x(kT_s)=\int_{-\infty}^{\infty} X(f) e^{j 2 \pi f k T_s} d f
+# \end{equation}
+# $$
+#
+# $$
+# \begin{align}
+# x(kT_s) & =\sum_{m=-\infty}^{\infty} \int_{(2 m-1) / 2 T_s}^{(2 m+1) / 2 T_s} X(f) e^{j 2 \pi f kT_s} d f \\
+# & =\sum_{m=-\infty}^{\infty} \int_{-1 / 2 T_s}^{1 / 2 T_s} X(f+ m / T_s) e^{j 2 \pi f kT_s} d t \\
+# & =\int_{-1 / 2 T_s}^{1 / 2 T_s}\left[\sum_{m=-\infty}^{\infty} X(f+m / T_s)\right] e^{j 2 \pi f kT_s} d f \\
+# & =\int_{-1 / 2 T_s}^{1 / 2 T_s} B(f) e^{j 2 \pi f kT_s} d f
+# \end{align}
+# $$
+#
+# $$
+# \begin{equation}
+# B(f)=\sum_{m=-\infty}^{\infty} X(f+m/T_s)
+# \end{equation}
+# $$
+#
+# $$
+# \begin{align}
+# B(f)&=\sum_{k=-\infty}^{\infty} b_k e^{j 2 \pi k f T_s} \\
+# b_k&=T \int_{-1 / 2 T_s}^{1 / 2 T_s} B(f) e^{-j 2 \pi k f T_s} d f
+# \end{align}
+# $$
+#
+# $$
+# \begin{equation}
+# b_k=T_s x(-k T_s)
+# \end{equation}
+# $$
+#
+# $$
+# \begin{equation}
+# b_k=\begin{cases}T_s, & k=0 \\ 0, & k \neq 0\end{cases}.
+# \end{equation}
+# $$
+#
+# $$
+# \begin{align}
+# B(f)&=T_s\\
+# \sum_{m=-\infty}^{\infty} X(f+m / T_s)&=T_s
+# \end{align}
+# $$
 
 # ## Referências
 #
