@@ -35,7 +35,7 @@ from commpy.utilities import upsample
 from optic.modulation import modulateGray, demodulateGray, GrayMapping
 from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
 from optic.metrics import signal_power
-from optic.plot import eyediagram
+from optic.plot import eyediagram, pconst
 # -
 
 pd.set_option('display.max_columns', 500)
@@ -1761,6 +1761,59 @@ plt.xlim(min(SNR_val), max(SNR_val+10))
 plt.ylim(1e-6, 1)
 plt.legend()
 plt.grid();
+
+# +
+import pandas as pd
+def dec2bit(dec, bitL):
+    bits = bin(dec)[2:]  # Convert decimal to binary string
+    bits = bits.zfill(bitL)  # Pad with leading zeros
+    return [int(bit) for bit in bits]
+
+L = len(h)
+bits = np.zeros((M**L, L), dtype=int)
+
+for k, dec in enumerate(range(M**L)):    
+    bits[k,:] = dec2bit(dec, L)
+
+symb = 2*bits-1
+
+x = np.sum(symb*h, axis=1)
+
+sig = pd.DataFrame(data=symb, index=np.arange(M**L))
+pd.options.display.float_format = '{:,.2f}'.format
+# -
+
+sig = pd.DataFrame(data=bits, index=[i for i in range(symb.shape[0])], columns=[f'b{-i}' for i in range(symb.shape[1])])
+
+# +
+#  for i in range(symb.shape[1]):
+#     sig[f's{i}'] = symb[:,i]
+# -
+
+sig['r'] = x
+
+# $$
+# \begin{array}{|l|r|r|r|}
+# \hline
+# {} &  b_0 &  b_{-1} &     r \\
+# \hline
+# 0 &   0 &    0 & -1.10 \\
+# \hline
+# 1 &   0 &    1 & -0.70 \\
+# \hline
+# 2 &   1 &    0 &  0.70 \\
+# \hline
+# 3 &   1 &    1 &  1.10 \\
+# \hline
+# \end{array}
+# $$
+
+# +
+# # Convert DataFrame to markdown table
+# markdown_table = sig.to_latex()
+
+# # Print the markdown table
+# print(markdown_table)
 # -
 
 # ## Detecção de sequências por máxima verossimilhança
@@ -1772,6 +1825,7 @@ plt.grid();
 # <img src="./figuras/Fig8.png" width="300">
 # <center>Fig.9: Modulação NRZI.</center>
 
+# + [markdown] hide_input=true
 # $$
 # \begin{aligned}
 # \begin{array}{|c|c|c|c|}
@@ -1789,6 +1843,7 @@ plt.grid();
 # \end{array}
 # \end{aligned}
 # $$
+# -
 
 # <img src="./figuras/Fig9.png" width="700">
 # <center>Fig.10: Treliça representando a evolução de estados da modulação NRZI.</center>
