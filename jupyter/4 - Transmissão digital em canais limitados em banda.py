@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -459,9 +459,9 @@ plt.legend(loc='upper left');
 # $$
 
 # +
-Rs = 1000
+Rs = 100e6
 Ts = 1/Rs
-α = 0.5
+α = 0.01
 π = sp.pi
 
 f, t = sp.symbols('f, t', real=True)
