@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.1
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -341,12 +341,19 @@ plt.legend(loc='upper left');
 # o que implica que a condição para ausência de ISI é dada por
 #
 # $$
-# \begin{equation}
+# \begin{equation}\label{isi_x}
 # x(t=q T_s) \equiv x_q= \begin{cases}1, & q=0 \\ 0, & q \neq 0\end{cases}
 # \end{equation}
 # $$
 #
 # Esta condição é conhecida como critério de Nyquist para ausência de interferência intersimbólica.
+#
+# **Critério de Nyquist**: uma condição necessária e suficiente para a ausência de interferência intersimbólica, ou seja, para $x(t)$ satisfazer ($\ref{isi_x}$) é que sua transformada de Fourier $X(f)$ satisfaça
+#
+# $$
+# \sum_{m=-\infty}^{\infty} X(f+m R_s)=T_s.
+# $$
+#
 #
 # Prova:
 #
@@ -356,52 +363,121 @@ plt.legend(loc='upper left');
 # \end{equation}
 # $$
 #
+# Considerando que as amostras são tomadas ao final de cada intervalo de sinalização $t=kT_s$, temos que
 # $$
 # \begin{equation}
-# x(kT_s)=\int_{-\infty}^{\infty} X(f) e^{j 2 \pi f k T_s} d f
+# x(kT_s)=\int_{-\infty}^{\infty} X(f) e^{j 2 \pi f k T_s} d f.
 # \end{equation}
 # $$
+#
+# A taxa de sinalização, ou taxa de símbolos, $R_s$ é dada por $R_s = 1/T_s$, de modo que
+
+# $$
+# \begin{align}
+# x(kT_s) & =\sum_{m=-\infty}^{\infty} \int_{(2 m-1) R_s/2}^{(2 m+1) R_s/2} X(f) e^{j 2 \pi f kT_s} d f\nonumber \\
+# & =\sum_{m=-\infty}^{\infty} \int_{-R_s/2}^{R_s/2} X(f+ m R_s) e^{j 2 \pi f kT_s} d f \nonumber\\
+# & =\int_{-R_s/2}^{R_s/2}\left[\sum_{m=-\infty}^{\infty} X(f+m R_s)\right] e^{j 2 \pi f kT_s} d f \nonumber\\
+# & =\int_{-R_s/2}^{R_s/2} B(f) e^{j 2 \pi f kT_s} d f\label{nyq_1}
+# \end{align}
+# $$
+
+# Em que a função $B(f)$ é dada por
+# $$
+# \begin{equation}
+# B(f)=\sum_{m=-\infty}^{\infty} X(f+mR_s).
+# \end{equation}
+# $$
+#
+# Como $B(f)$ é periódica em $f$ com período $R_s$, esta admite representação em termos de uma série de Fourier
 #
 # $$
 # \begin{align}
-# x(kT_s) & =\sum_{m=-\infty}^{\infty} \int_{(2 m-1) / 2 T_s}^{(2 m+1) / 2 T_s} X(f) e^{j 2 \pi f kT_s} d f \\
-# & =\sum_{m=-\infty}^{\infty} \int_{-1 / 2 T_s}^{1 / 2 T_s} X(f+ m / T_s) e^{j 2 \pi f kT_s} d t \\
-# & =\int_{-1 / 2 T_s}^{1 / 2 T_s}\left[\sum_{m=-\infty}^{\infty} X(f+m / T_s)\right] e^{j 2 \pi f kT_s} d f \\
-# & =\int_{-1 / 2 T_s}^{1 / 2 T_s} B(f) e^{j 2 \pi f kT_s} d f
+# B(f)&=\sum_{k=-\infty}^{\infty} b_k e^{j 2 \pi k f T_s} \nonumber \\
+# b_k&=\frac{1}{R_s} \int_{-R_s / 2}^{R_s/ 2} B(f) e^{-\frac{j2 \pi k f}{R_s}} d f = T_s \int_{-R_s / 2}^{R_s/ 2} B(f) e^{-j2 \pi k f T_s} d f \label{nyq_2}
 # \end{align}
 # $$
 #
-# $$
-# \begin{equation}
-# B(f)=\sum_{m=-\infty}^{\infty} X(f+m/T_s)
-# \end{equation}
-# $$
-#
-# $$
-# \begin{align}
-# B(f)&=\sum_{k=-\infty}^{\infty} b_k e^{j 2 \pi k f T_s} \\
-# b_k&=T \int_{-1 / 2 T_s}^{1 / 2 T_s} B(f) e^{-j 2 \pi k f T_s} d f
-# \end{align}
-# $$
+# Logo, comparando ($\ref{nyq_1}$) e ($\ref{nyq_2}$), temos que
 #
 # $$
 # \begin{equation}
-# b_k=T_s x(-k T_s)
+# b_k=T_s x(-k T_s).
 # \end{equation}
 # $$
 #
+# Desse modo, na ausência de ISI, os coeficientes $b_k$ devem ser dados por
 # $$
 # \begin{equation}
 # b_k=\begin{cases}T_s, & k=0 \\ 0, & k \neq 0\end{cases}.
 # \end{equation}
 # $$
 #
+# o que implica em
+#
 # $$
 # \begin{align}
 # B(f)&=T_s\\
-# \sum_{m=-\infty}^{\infty} X(f+m / T_s)&=T_s
+# \sum_{m=-\infty}^{\infty} X(f+m R_s)&=T_s.
 # \end{align}
 # $$
+
+# Supondo que o canal tem banda $B$, teremos então três casos 
+#
+# 1. Se $R_s > 2B$, as cópias de $X(f)$ espaçadas de $R_s$ no domínio da frequência não se sobrepõem, de modo que não há nenhuma escolha possível de $x(t)$ que permita que $\sum_{m=-\infty}^{\infty} X(f+m R_s)$ seja uma função constante. Como consequência, não existe nenhuma função $x(t)$ que permita a transmissão livre de ISI.
+#
+# 2. Se $R_s = 2B$, o somatório $\sum_{m=-\infty}^{\infty} X(f+m R_s)$ será uma constante apenas se $X(f)$ for uma função porta
+# $$
+# \begin{equation}
+# X(f)= \begin{cases}T_s & |f|<B \\ 0, & \text { c.c. }\end{cases}
+# \end{equation}
+# $$
+#
+# ou seja, se $x(t)$ for uma função sinc
+#
+# $$
+# \begin{equation}
+# x(t)=\operatorname{sinc}\left(\frac{t}{T_s}\right).
+# \end{equation}
+# $$
+#
+# 3. Se $R_s < 2B$, os temos do somatório $\sum_{m=-\infty}^{\infty} X(f+m R_s)$ se sobrepõem, de modo que existirão diversas escolhas de $x(t)$ que o mesmo seja constante.
+#
+#
+# $$
+# \begin{equation}
+# X_{r c}(f)= \begin{cases}T_s, & 0 \leq|f| \leq(1-\alpha) / 2 T_s \\ \frac{T_s}{2}\left[1+\cos \frac{\pi T_s}{\alpha}\left(|f|-\frac{1-\alpha}{2 T_s}\right)\right], & \frac{1-\alpha}{2 T_s} \leq|f| \leq \frac{1+\alpha}{2 T_s} \\ 0, & |f|>\frac{1+\alpha}{2 T_s}\end{cases}
+# \end{equation}
+# $$
+#
+# $$
+# \begin{align}
+# x(t) & =\frac{\operatorname{sen} (\pi t / T_s)}{\pi t / T_s} \frac{\cos (\pi \alpha t / T_s)}{1-4 \alpha^2 t^2 / T_s^2}\nonumber \\
+# & =\operatorname{sinc}(t / T_s)\frac{\cos (\pi \alpha t / T_s)}{1-4 \alpha^2 t^2 / T_s^2}
+# \end{align}
+# $$
+
+# +
+Rs = 1000
+Ts = 1/Rs
+α = 0.5
+π = sp.pi
+
+f, t = sp.symbols('f, t', real=True)
+
+X = sp.Piecewise((0, ( f  <= -(1 + α)/(2*Ts) ) ), 
+                  ((Ts/2)*(1 + sp.cos(π*Ts/α*(sp.Abs(f)-(1-α)/(2*Ts)))), ( f  > -(1 + α)/(2*Ts) )&( f <= -(1-α)/(2*Ts)  ) ) , 
+                  (Ts, ( f  > -(1-α)/(2*Ts) )&( f <= (1-α)/(2*Ts))  ) ,
+                  ((Ts/2)*(1 + sp.cos(π*Ts/α*(sp.Abs(f)-(1-α)/(2*Ts)))), ( f  > (1-α)/(2*Ts) )&( f <= (1+α)/(2*Ts))  ),
+                  (0, ( f  > (1+α)/(2*Ts) ) ) ) 
+
+x = sp.sinc(t/Ts)*sp.cos(π*α*t/Ts)/(1-4*α**2*t**2/Ts**2)
+
+finterval = np.arange(-2, 2, 0.01)*(1/Ts)
+symplot(f, X, finterval, '$X_{rc}$(f)', xlabel = 'f[Hz]');
+
+tinterval = np.arange(-20, 20, 0.01)*Ts
+symplot(t, x, tinterval, '$x_{rc}$(t)', xlabel = 't[s]');
+# -
 
 # ## Referências
 #
