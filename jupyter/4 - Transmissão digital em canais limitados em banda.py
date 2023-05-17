@@ -443,6 +443,8 @@ plt.legend(loc='upper left');
 # 3. Se $R_s < 2B$, os temos do somatório $\sum_{m=-\infty}^{\infty} X(f+m R_s)$ se sobrepõem, de modo que existirão diversas escolhas de $x(t)$ que o mesmo seja constante.
 #
 #
+# **Família de pulsos cosseno levantado**:
+#
 # $$
 # \begin{equation}
 # X_{r c}(f)= \begin{cases}T_s, & 0 \leq|f| \leq(1-\alpha) / 2 T_s \\ \frac{T_s}{2}\left[1+\cos \frac{\pi T_s}{\alpha}\left(|f|-\frac{1-\alpha}{2 T_s}\right)\right], & \frac{1-\alpha}{2 T_s} \leq|f| \leq \frac{1+\alpha}{2 T_s} \\ 0, & |f|>\frac{1+\alpha}{2 T_s}\end{cases}
@@ -470,7 +472,7 @@ X = sp.Piecewise((0, ( f  <= -(1 + α)/(2*Ts) ) ),
                   ((Ts/2)*(1 + sp.cos(π*Ts/α*(sp.Abs(f)-(1-α)/(2*Ts)))), ( f  > (1-α)/(2*Ts) )&( f <= (1+α)/(2*Ts))  ),
                   (0, ( f  > (1+α)/(2*Ts) ) ) ) 
 
-x = sp.sinc(t/Ts)*sp.cos(π*α*t/Ts)/(1-4*α**2*t**2/Ts**2)
+x = sp.sinc(π*t/Ts)*sp.cos(π*α*t/Ts)/(1-4*α**2*t**2/Ts**2)
 
 finterval = np.arange(-2, 2, 0.01)*(1/Ts)
 symplot(f, X, finterval, '$X_{rc}$(f)', xlabel = 'f[Hz]');
