@@ -314,12 +314,12 @@ blocks:
   id: channels_fading_model
   parameters:
     K: '4.0'
-    LOS: 'False'
+    LOS: 'True'
     N: '64'
     affinity: ''
     alias: ''
     comment: ''
-    fDTs: 0.05/samp_rate
+    fDTs: 0.005/samp_rate
     maxoutbuf: '0'
     minoutbuf: '0'
     seed: '0'
