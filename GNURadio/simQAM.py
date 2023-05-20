@@ -316,7 +316,7 @@ class simQAM(gr.top_block, Qt.QWidget):
             verbose=False,
             log=False,
             truncate=False)
-        self.channels_fading_model_0 = channels.fading_model( 64, (0.05/samp_rate), False, 4.0, 0 )
+        self.channels_fading_model_0 = channels.fading_model( 64, (0.005/samp_rate), True, 4.0, 0 )
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, numTaps)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, delay)
@@ -363,7 +363,7 @@ class simQAM(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
-        self.channels_fading_model_0.set_fDTs((0.05/self.samp_rate))
+        self.channels_fading_model_0.set_fDTs((0.005/self.samp_rate))
         self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
         self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.chBW, 10, window.WIN_HAMMING, 6.76))
