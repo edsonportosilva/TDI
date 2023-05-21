@@ -213,7 +213,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [708.0, 528]
+    coordinate: [176.0, 384]
     rotation: 90
     state: true
 - name: analog_random_source_x_0
@@ -251,7 +251,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 328.0]
+    coordinate: [648, 296.0]
     rotation: 0
     state: true
 - name: blocks_delay_0
@@ -271,7 +271,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 344.0]
+    coordinate: [776, 336.0]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -289,7 +289,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1516.0, 304]
+    coordinate: [1552.0, 304]
     rotation: 270
     state: true
 - name: blocks_vector_to_stream_0
@@ -327,7 +327,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 464.0]
+    coordinate: [864, 424.0]
     rotation: 0
     state: enabled
 - name: digital_constellation_modulator_0
@@ -370,7 +370,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1256, 160.0]
+    coordinate: [1304, 160.0]
     rotation: 0
     state: true
 - name: filter_fft_rrc_filter_0
@@ -393,7 +393,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 240.0]
+    coordinate: [1056, 224.0]
     rotation: 0
     state: true
 - name: filter_fft_rrc_filter_0_0
@@ -416,7 +416,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 432.0]
+    coordinate: [336, 464.0]
     rotation: 0
     state: true
 - name: fir_filter_xxx_0
@@ -435,7 +435,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1232, 496.0]
+    coordinate: [1296, 472.0]
     rotation: 0
     state: true
 - name: low_pass_filter_0
@@ -459,7 +459,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 248.0]
+    coordinate: [464, 176.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -551,7 +551,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1416.0, 280]
+    coordinate: [1472.0, 280]
     rotation: 90
     state: true
 - name: qtgui_eye_sink_x_0
@@ -647,7 +647,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 556.0]
+    coordinate: [608, 496.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_1
@@ -728,7 +728,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 128.0]
+    coordinate: [824, 152.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_1
