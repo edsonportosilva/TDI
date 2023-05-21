@@ -74,11 +74,11 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.Constellation = Constellation = digital.constellation_qpsk().base()
         self.rolloff = rolloff = 0.9
         self.preconv = preconv = digital.adaptive_algorithm_cma( Constellation, 0.005, 2).base()
-        self.numTaps = numTaps = 15
+        self.numTaps = numTaps = 45
         self.noiseStd = noiseStd = 0.01
         self.delay = delay = 2
         self.chBW = chBW = 0.75*samp_rate/SamplesPerSymbol
-        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.005).base()
+        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.0005).base()
 
         ##################################################
         # Blocks
