@@ -41,7 +41,7 @@ blocks:
     delta: '10.0'
     ffactor: '0.99'
     modulus: '8'
-    step_size: '0.005'
+    step_size: '0.0005'
     type: lms
   states:
     bus_sink: false
@@ -128,13 +128,13 @@ blocks:
   parameters:
     comment: ''
     gui_hint: ''
-    label: ''
+    label: Noise std
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
     step: '0.01'
-    stop: '1'
+    stop: '10'
     value: '0.01'
     widget: counter_slider
   states:
@@ -148,7 +148,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '15'
+    value: '45'
   states:
     bus_sink: false
     bus_source: false
