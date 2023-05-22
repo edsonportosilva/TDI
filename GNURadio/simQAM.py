@@ -72,13 +72,13 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 32000
         self.SamplesPerSymbol = SamplesPerSymbol = 16
         self.Constellation = Constellation = digital.constellation_qpsk().base()
-        self.rolloff = rolloff = 0.01
+        self.rolloff = rolloff = 1
         self.preconv = preconv = digital.adaptive_algorithm_cma( Constellation, 0.005, 2).base()
-        self.numTaps = numTaps = 75
+        self.numTaps = numTaps = 45
         self.noiseStd = noiseStd = 0.01
         self.delay = delay = 2
         self.chBW = chBW = 0.75*samp_rate/SamplesPerSymbol
-        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.00005).base()
+        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.0005).base()
 
         ##################################################
         # Blocks
@@ -88,7 +88,7 @@ class simQAM(gr.top_block, Qt.QWidget):
         self._noiseStd_win = RangeWidget(self._noiseStd_range, self.set_noiseStd, "Noise std", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._noiseStd_win)
         self._delay_range = Range(0, 32, 1, 2, 200)
-        self._delay_win = RangeWidget(self._delay_range, self.set_delay, "'delay'", "counter_slider", int, QtCore.Qt.Horizontal)
+        self._delay_win = RangeWidget(self._delay_range, self.set_delay, "Sampling delay", "counter_slider", int, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._delay_win)
         self._chBW_range = Range(10, samp_rate/2, 10, 0.75*samp_rate/SamplesPerSymbol, 200)
         self._chBW_win = RangeWidget(self._chBW_range, self.set_chBW, "channel BW", "counter_slider", float, QtCore.Qt.Horizontal)
@@ -149,7 +149,7 @@ class simQAM(gr.top_block, Qt.QWidget):
         for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_freq_sink_x_1 = qtgui.freq_sink_c(
-            2048, #size
+            1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
@@ -163,7 +163,7 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_1.enable_autoscale(False)
         self.qtgui_freq_sink_x_1.enable_grid(False)
-        self.qtgui_freq_sink_x_1.set_fft_average(0.1)
+        self.qtgui_freq_sink_x_1.set_fft_average(0.2)
         self.qtgui_freq_sink_x_1.enable_axis_labels(True)
         self.qtgui_freq_sink_x_1.enable_control_panel(False)
         self.qtgui_freq_sink_x_1.set_fft_window_normalized(False)
@@ -306,7 +306,7 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.fir_filter_xxx_0.declare_sample_delay(0)
         self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
         self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc((SamplesPerSymbol//2), firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
-        self.digital_linear_equalizer_0 = digital.linear_equalizer(numTaps, 1, AdaptiveEqualizer, True, [ ], 'corr_est')
+        self.digital_linear_equalizer_0 = digital.linear_equalizer(numTaps, 2, AdaptiveEqualizer, True, [ ], 'corr_est')
         self.digital_constellation_modulator_0 = digital.generic_mod(
             constellation=Constellation,
             differential=False,
@@ -316,11 +316,10 @@ class simQAM(gr.top_block, Qt.QWidget):
             verbose=False,
             log=False,
             truncate=False)
+        self.channels_fading_model_0 = channels.fading_model( 64, (0.005/samp_rate), True, 4.0, 0 )
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, numTaps)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1)
-        self.blocks_delay_0_0 = blocks.delay(gr.sizeof_gr_complex*1, SamplesPerSymbol)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, delay)
-        self.blocks_add_xx_0_0 = blocks.add_vcc(1)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 40000))), True)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noiseStd, 0)
@@ -334,19 +333,17 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.filter_fft_rrc_filter_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_freq_sink_x_1, 2))
-        self.connect((self.blocks_add_xx_0_0, 0), (self.low_pass_filter_0, 0))
-        self.connect((self.blocks_add_xx_0_0, 0), (self.qtgui_freq_sink_x_1, 0))
-        self.connect((self.blocks_delay_0, 0), (self.filter_fft_rrc_filter_0, 0))
-        self.connect((self.blocks_delay_0_0, 0), (self.blocks_add_xx_0_0, 1))
+        self.connect((self.blocks_delay_0, 0), (self.channels_fading_model_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_const_sink_x_0, 1))
         self.connect((self.blocks_vector_to_stream_0, 0), (self.qtgui_time_sink_x_1, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_add_xx_0_0, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_delay_0_0, 0))
+        self.connect((self.channels_fading_model_0, 0), (self.filter_fft_rrc_filter_0, 0))
+        self.connect((self.digital_constellation_modulator_0, 0), (self.low_pass_filter_0, 0))
+        self.connect((self.digital_constellation_modulator_0, 0), (self.qtgui_freq_sink_x_1, 0))
         self.connect((self.digital_linear_equalizer_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.digital_linear_equalizer_0, 1), (self.blocks_vector_to_stream_0, 0))
+        self.connect((self.filter_fft_rrc_filter_0, 0), (self.digital_linear_equalizer_0, 0))
         self.connect((self.filter_fft_rrc_filter_0, 0), (self.fir_filter_xxx_0, 0))
         self.connect((self.filter_fft_rrc_filter_0_0, 0), (self.qtgui_eye_sink_x_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.digital_linear_equalizer_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_1, 1))
@@ -380,7 +377,6 @@ class simQAM(gr.top_block, Qt.QWidget):
     def set_SamplesPerSymbol(self, SamplesPerSymbol):
         self.SamplesPerSymbol = SamplesPerSymbol
         self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
-        self.blocks_delay_0_0.set_dly(int(self.SamplesPerSymbol))
         self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
         self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
         self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.SamplesPerSymbol)
