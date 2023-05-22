@@ -612,7 +612,7 @@ symplot(f, sp.Abs(X), finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 # X(f)= \begin{cases}\frac{1}{2 B} \sum_{n=-\infty}^x x\left(\frac{n}{2 B}\right) e^{-j n \pi f / B} & |f| \leqslant B \\ 0 & |f| \leqslant B\end{cases}
 # $$
 #
-# sâo denominados pulsos ou sinais de resposta parcial. A utilização de tais pulsos na transmissão significa a introdução controlada de ISI por meio da introdução de duas ou mais amostras não-nulas $x\left(\frac{n}{2 B}\right)$. Tais pulsos permitem a taxa de sinalização da transmissão sa taxa de Nyquist, ou seja, $R_s = 2B$
+# sâo denominados pulsos ou sinais de resposta parcial. A utilização de tais pulsos na transmissão significa a introdução controlada de ISI por meio da introdução de duas ou mais amostras não-nulas $x\left(\frac{n}{2 B}\right)$. Tais pulsos permitem a taxa de sinalização da transmissão seja igual a taxa de Nyquist, ou seja, $R_s = 2B$.
 
 # ## Referências
 #
