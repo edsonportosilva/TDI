@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.14.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -58,13 +58,13 @@ HTML("""
 # %load_ext autoreload
 # %autoreload 2
 
-figsize(8, 3)
+figsize(6, 3)
 
 # # Transmissão Digital da Informação
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li><li><span><a href="#Família-de-pulsos-cosseno-levantado-(raised-cosine)" data-toc-modified-id="Família-de-pulsos-cosseno-levantado-(raised-cosine)-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Família de pulsos cosseno levantado (<em>raised cosine</em>)</a></span></li><li><span><a href="#Transmissão-de-sinais-com-resposta-parcial" data-toc-modified-id="Transmissão-de-sinais-com-resposta-parcial-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Transmissão de sinais com <em>resposta parcial</em></a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -348,7 +348,7 @@ plt.legend(loc='upper left');
 #
 # Esta condição é conhecida como critério de Nyquist para ausência de interferência intersimbólica.
 #
-# **Critério de Nyquist**: uma condição necessária e suficiente para a ausência de interferência intersimbólica, ou seja, para $x(t)$ satisfazer ($\ref{isi_x}$) é que sua transformada de Fourier $X(f)$ satisfaça
+# **Teorema (Critério de Nyquist)**: uma condição necessária e suficiente para a ausência de interferência intersimbólica, ou seja, para $x(t)$ satisfazer ($\ref{isi_x}$) é que sua transformada de Fourier $X(f)$ satisfaça
 #
 # $$
 # \sum_{m=-\infty}^{\infty} X(f+m R_s)=T_s.
@@ -407,7 +407,7 @@ plt.legend(loc='upper left');
 #
 # Desse modo, na ausência de ISI, os coeficientes $b_k$ devem ser dados por
 # $$
-# \begin{equation}
+# \begin{equation}\label{fourier_coeffs}
 # b_k=\begin{cases}T_s, & k=0 \\ 0, & k \neq 0\end{cases}.
 # \end{equation}
 # $$
@@ -443,25 +443,28 @@ plt.legend(loc='upper left');
 # 3. Se $R_s < 2B$, os temos do somatório $\sum_{m=-\infty}^{\infty} X(f+m R_s)$ se sobrepõem, de modo que existirão diversas escolhas de $x(t)$ que o mesmo seja constante.
 #
 #
-# **Família de pulsos cosseno levantado**:
+# ### Família de pulsos cosseno levantado (*raised cosine*)
 #
+# Um conjunto de pulsos que atendem ao critério de Nyquist de ISI nula correponde à família de pulsos cosseno levantado, que pode ser definida no domínio da frequência como
 # $$
 # \begin{equation}
 # X_{r c}(f)= \begin{cases}T_s, & 0 \leq|f| \leq(1-\alpha) / 2 T_s \\ \frac{T_s}{2}\left[1+\cos \frac{\pi T_s}{\alpha}\left(|f|-\frac{1-\alpha}{2 T_s}\right)\right], & \frac{1-\alpha}{2 T_s} \leq|f| \leq \frac{1+\alpha}{2 T_s} \\ 0, & |f|>\frac{1+\alpha}{2 T_s}\end{cases}
 # \end{equation}
 # $$
-#
+# e no domínio do tempo como
 # $$
 # \begin{align}
 # x(t) & =\frac{\operatorname{sen} (\pi t / T_s)}{\pi t / T_s} \frac{\cos (\pi \alpha t / T_s)}{1-4 \alpha^2 t^2 / T_s^2}\nonumber \\
-# & =\operatorname{sinc}(t / T_s)\frac{\cos (\pi \alpha t / T_s)}{1-4 \alpha^2 t^2 / T_s^2}
+# & =\operatorname{sinc}(t / T_s)\frac{\cos (\pi \alpha t / T_s)}{1-4 \alpha^2 t^2 / T_s^2},
 # \end{align}
 # $$
+#
+# em que $0<\alpha<1$ é denominado de parâmetro de *rolloff* ou *excesso de banda*.
 
-# +
+# + hide_input=false
 Rs = 100e6
 Ts = 1/Rs
-α = 0.01
+α = 0.1
 π = sp.pi
 
 f, t = sp.symbols('f, t', real=True)
@@ -480,6 +483,136 @@ symplot(f, X, finterval, '$X_{rc}$(f)', xlabel = 'f[Hz]');
 tinterval = np.arange(-20, 20, 0.01)*Ts
 symplot(t, x, tinterval, '$x_{rc}$(t)', xlabel = 't[s]');
 # -
+
+# Duas vantagens importantes:
+#
+# 1. Devido às características suaves de transição de $x_{rc}(t)$ estes pulsos podem ser implementados na prática por filtros lineares formatadores de pulso.
+#
+# 2. As bordas laterais dos pulsos $x_{rc}(t)$ convergem para 0 a uma taxa proporcional a $1/t^3$, para $\alpha>0$, diferentemente da função $\operatorname{sinc}(t)$, que convege a $1/t$. Essa proprieadade permite que pequenos desvios do instante de amostragem ótimo façam com que a ISI convirja para um valor finito no caso do pulso $x_{rc}(t)$, enquanto a mesma diverge no caso de pulsos $\operatorname{sinc}(t)$. Assim, pulsos $x_{rc}(t)$ são em geral mais robustos à erros de sincronização do que pulsos $\operatorname{sinc}(t)$.
+#
+# 3. A complexidade do processamento requerido para a implementação de $x_{rc}(t)$ pode ser dividida entre transmissor e receptor. Considerando a situação ideal em que $$
+# \begin{equation}\nonumber
+# H(f) = \begin{cases}1, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}
+# \end{equation}
+# $$Sejam $P_T(f)$ e $P_R(f) = P_T^*(f)$ os filtro formatador de pulso do transmissor e o filtro casado correspondente no receptor, respectivamente, temos que$$
+# \begin{align}
+# P_T(f)H(f)P_R(f) &= X_{rc}(f)\nonumber\\
+# P_T(f)P_R(f) &= X_{rc}(f)\nonumber\\
+# |P_T(f)|^2 &= X_{rc}(f)\nonumber\\
+# \end{align}
+# $$
+# ou seja, $X_{rc}(f)$ pode ser alcançada fazendo-se $P_T(f) = P_R^*(f) = \sqrt{X_{rc}(f)} = P_{rrc}(f)$. O pulso cujo espectro é dado por $P_{rrc}(f) = \sqrt{X_{rc}(f)}$ é conhecido como raiz do cosseno levantado (*root raised cosine* - RRC) e é definido no domínio do tempo por
+#
+# $$
+# p_{rrc}(t)= \begin{cases}\frac{1}{T_s}\left(1+\alpha\left(\frac{4}{\pi}-1\right)\right), & t=0 \\ \frac{\alpha}{T_s \sqrt{2}}\left[\left(1+\frac{2}{\pi}\right) \sin \left(\frac{\pi}{4 \alpha}\right)+\left(1-\frac{2}{\pi}\right) \cos \left(\frac{\pi}{4 \alpha}\right)\right], & t= \pm \frac{T_s}{4 \alpha} \\ \frac{1}{T_s} \frac{\sin \left[\pi \frac{t}{T_s}(1-\alpha)\right]+4 \alpha \frac{t}{T_s} \cos \left[\pi \frac{t}{T_s}(1+\alpha)\right]}{\pi \frac{t}{T_s}\left[1-\left(4 \alpha \frac{t}{T_s}\right)^2\right]}, & \text { caso contrário.}\end{cases}
+# $$
+
+# ### Transmissão de sinais com *resposta parcial*
+#
+# Para efeitos práticos, o critério de Nyquist nos indica que é possível projetar formas de pulso para eliminar a presença de ISI no receptor, desde que a taxa de sinalização $R_s$ da transmissão em símbolos/segundo seja tal que $R_s < 2B$, em que $B$ é a banda do canal de comunicações em Hz.
+#
+# Entretanto, transmitir a uma taxa de $R_s = 2B$ sem ter que recorrer à utilização de pulsos $\operatorname{sinc}(t)$ ainda será possível, desde que uma determinada quantidade controlada de ISI possa ser tolerada no receptor. Por exemplo, suponha que
+#
+# $$
+# x(k T_s)= \begin{cases} 1, & k=0,1 \\ 0, & \text { caso contrário. }\end{cases}
+# $$
+#
+# e então, os coeficientes em ($\ref{fourier_coeffs}$) serão dados por 
+#
+# $$
+# b_k= \begin{cases}T_s & k=0,-1 \\ 0 & \text { caso contrário, }\end{cases}
+# $$
+#
+# de maneira que $B(f)=T_s + T_s e^{j 2 \pi f T_s} = T_s\left(1 + e^{j 2 \pi f T_s}\right)$
+#
+# Se $R_s > 2B$, o problema continua sem solução. Já no caso de $R_s=2B$, $B(f)$ pode ser alcançado se fizermos 
+#
+# $$
+# \begin{align} 
+# X(f) & = \begin{cases}\frac{1}{2 B}\left(1+e^{-j \pi f / B}\right) & |f|<B \\ 0 & \text { caso contrário} \end{cases}\nonumber \\ 
+# & = \begin{cases}\frac{1}{B} e^{-j \pi f / 2 B} \cos\left( \frac{\pi f}{2 B}\right) & |f|<B \\ 0 & \text { caso contrário}\end{cases}. \nonumber\end{align}
+# $$
+
+# +
+Rs = 100e6
+Ts = 1/Rs
+B = Rs/2
+
+π = sp.pi
+
+f, t = sp.symbols('f, t', real=True)
+
+Bf = Ts + Ts*sp.exp(1j*2*π*f*Ts)
+
+X = sp.Piecewise((1/(2*B)*(1 + sp.exp(1j*π*f/B)), (-B<= f)&(f<= B)), (0, ( f > B )& (f< -B) )) 
+
+finterval = np.arange(-2, 2, 0.01)*2*B
+symplot(f, [sp.re(X), sp.im(X)], finterval, ['$\Re{X(f)}$', '$\Im{X(f)}$'], xlabel = 'f[Hz]');
+symplot(f, [sp.re(Bf), sp.im(Bf)], finterval, ['$\Re{B(f)}$','$\Im{B(f)}$'], xlabel = 'f[Hz]');
+# -
+
+# No domínio do tempo, o pulso associado a $X(f)$ é dado por
+#
+# $$
+# x(t)=\operatorname{sinc}(2 \pi B t)+\operatorname{sinc}\left(2\pi B(t-T_s)\right)
+# $$
+#
+# que é conhecido como *pulso duobinário*.
+#
+
+# +
+x = sp.sinc(2*B*π*t)+sp.sinc(2*B*π*(t-Ts))
+
+tinterval = np.arange(-5, 5, 0.01)*Ts
+symplot(t, x, tinterval, '$x_{duob}$(t)', xlabel = 't[s]');
+
+finterval = np.arange(-2, 2.01, 0.001)*B
+symplot(f, sp.Abs(X), finterval, '$|X(f)|$', xlabel = 'f[Hz]');
+# -
+
+# Outra possibilidade é fazer
+#
+# $$
+# x(kT_s)= \begin{cases} 1, & k=-1 \\ -1, & k =1\\ 0, & \text { caso contrário. }\end{cases}
+# $$
+#
+# que resultará no pulso
+#
+# $$
+# x(t)=\operatorname{sinc}\left[2\pi B(t+T_s)\right]-\operatorname{sinc}\left[2\pi B(t-T_s)\right]
+# $$
+#
+# cujo espectro é dado por
+#
+# $$
+# X(f)= \begin{cases}\frac{1}{2 B}\left(e^{i \pi f / B}-e^{-j \pi f/ B}\right)=\frac{j}{B} \sin \left(\frac{\pi f}{B}\right) & |f|\leqslant B \\ 0 & |f| > B\end{cases}
+# $$
+
+# +
+x = sp.sinc(2*B*π*(t+Ts))-sp.sinc(2*B*π*(t-Ts))
+
+X = sp.Piecewise((1/(2*B)*(sp.exp(1j*π*f/B) - sp.exp(-1j*π*f/B)), (-B<= f)&(f<= B)), (0, ( f > B )& (f< -B) )) 
+
+tinterval = np.arange(-5, 5, 0.0001)*Ts
+symplot(t, x, tinterval, '$x_{duob}$(t)', xlabel = 't[s]');
+
+finterval = np.arange(-2, 2.01, 0.001)*B
+symplot(f, sp.Abs(X), finterval, '$|X(f)|$', xlabel = 'f[Hz]');
+# -
+
+# De maneira geral, os pulsos pertencentes ao conjunto de sinais limitados em banda dados por
+#
+# $$
+# x(t)=\sum_{n=-\infty}^x x\left(\frac{n}{2 B}\right) \operatorname{sinc}\left[2 \pi B\left(t-\frac{n}{2 B}\right)\right]
+# $$
+#
+# com espectro correspondente
+#
+# $$
+# X(f)= \begin{cases}\frac{1}{2 B} \sum_{n=-\infty}^x x\left(\frac{n}{2 B}\right) e^{-j n \pi f / B} & |f| \leqslant B \\ 0 & |f| \leqslant B\end{cases}
+# $$
+#
+# sâo denominados pulsos ou sinais de resposta parcial. A utilização de tais pulsos na transmissão significa a introdução controlada de ISI por meio da introdução de duas ou mais amostras não-nulas $x\left(\frac{n}{2 B}\right)$. Tais pulsos permitem a taxa de sinalização da transmissão sa taxa de Nyquist, ou seja, $R_s = 2B$
 
 # ## Referências
 #
