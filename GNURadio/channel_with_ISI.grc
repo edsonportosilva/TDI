@@ -107,7 +107,7 @@ blocks:
   parameters:
     comment: ''
     gui_hint: ''
-    label: ''
+    label: Sampling delay
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     rangeType: int
@@ -153,7 +153,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 8.0]
+    coordinate: [728, 16.0]
     rotation: 0
     state: enabled
 - name: preconv
@@ -177,7 +177,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.9'
+    value: '1'
   states:
     bus_sink: false
     bus_source: false
@@ -213,7 +213,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176.0, 384]
+    coordinate: [208.0, 392]
     rotation: 90
     state: true
 - name: analog_random_source_x_0
@@ -251,7 +251,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 296.0]
+    coordinate: [768, 312.0]
     rotation: 0
     state: true
 - name: blocks_delay_0
@@ -271,7 +271,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 336.0]
+    coordinate: [832, 448.0]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -327,9 +327,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 424.0]
+    coordinate: [952, 416.0]
     rotation: 0
-    state: enabled
+    state: bypassed
 - name: digital_constellation_modulator_0
   id: digital_constellation_modulator
   parameters:
@@ -349,7 +349,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 200.0]
+    coordinate: [200, 200.0]
     rotation: 0
     state: true
 - name: digital_linear_equalizer_0
@@ -393,7 +393,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1056, 224.0]
+    coordinate: [1080, 224.0]
     rotation: 0
     state: true
 - name: filter_fft_rrc_filter_0_0
@@ -416,7 +416,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 464.0]
+    coordinate: [576, 504.0]
     rotation: 0
     state: true
 - name: fir_filter_xxx_0
@@ -459,7 +459,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 176.0]
+    coordinate: [584, 176.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -477,7 +477,7 @@ blocks:
     alpha7: '1.0'
     alpha8: '1.0'
     alpha9: '1.0'
-    autoscale: 'False'
+    autoscale: 'True'
     axislabels: 'True'
     color1: '"blue"'
     color10: '"red"'
@@ -647,7 +647,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 496.0]
+    coordinate: [848, 552.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_1
@@ -672,7 +672,7 @@ blocks:
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"black"'
-    color3: '"green"'
+    color3: '"red"'
     color4: '"black"'
     color5: '"cyan"'
     color6: '"magenta"'
@@ -711,10 +711,10 @@ blocks:
     type: complex
     units: dB
     update_time: '0.10'
-    width1: '1'
+    width1: '2'
     width10: '1'
-    width2: '1'
-    width3: '1'
+    width2: '2'
+    width3: '2'
     width4: '1'
     width5: '1'
     width6: '1'
@@ -728,7 +728,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 152.0]
+    coordinate: [912, 120.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_1
@@ -787,7 +787,7 @@ blocks:
     name: '""'
     nconnections: '1'
     size: numTaps
-    srate: samp_rate
+    srate: samp_rate/SamplesPerSymbol
     stemplot: 'True'
     style1: '1'
     style10: '1'
