@@ -1,6 +1,6 @@
 options:
   parameters:
-    author: edson
+    author: Edson Porto da Silva
     catch_exceptions: 'True'
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: simQAM
+    id: simDuo
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Phase and frequency offset in 16QAM
+    title: Transmission with doubinary
     window_size: (1000,1000)
   states:
     bus_sink: false
