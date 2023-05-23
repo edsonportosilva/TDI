@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -544,7 +544,7 @@ f, t = sp.symbols('f, t', real=True)
 
 Bf = Ts + Ts*sp.exp(1j*2*π*f*Ts)
 
-X = sp.Piecewise((1/(2*B)*(1 + sp.exp(1j*π*f/B)), (-B<= f)&(f<= B)), (0, ( f > B )& (f< -B) )) 
+X = sp.Piecewise((1/(2*B)*(1 + sp.exp(1j*π*f/B)), (-B<= f)&(f<= B)), (0, True)) 
 
 finterval = np.arange(-2, 2, 0.01)*2*B
 symplot(f, [sp.re(X), sp.im(X)], finterval, ['$\Re{X(f)}$', '$\Im{X(f)}$'], xlabel = 'f[Hz]');
@@ -563,11 +563,13 @@ symplot(f, [sp.re(Bf), sp.im(Bf)], finterval, ['$\Re{B(f)}$','$\Im{B(f)}$'], xla
 # +
 x = sp.sinc(2*B*π*t)+sp.sinc(2*B*π*(t-Ts))
 
+Xabs = sp.piecewise_fold(sp.Abs(X)).simplify()
+
 tinterval = np.arange(-5, 5, 0.01)*Ts
 symplot(t, x, tinterval, '$x_{duob}$(t)', xlabel = 't[s]');
 
 finterval = np.arange(-2, 2.01, 0.001)*B
-symplot(f, sp.Abs(X), finterval, '$|X(f)|$', xlabel = 'f[Hz]');
+symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 # -
 
 # Outra possibilidade é fazer
@@ -591,28 +593,109 @@ symplot(f, sp.Abs(X), finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 # +
 x = sp.sinc(2*B*π*(t+Ts))-sp.sinc(2*B*π*(t-Ts))
 
-X = sp.Piecewise((1/(2*B)*(sp.exp(1j*π*f/B) - sp.exp(-1j*π*f/B)), (-B<= f)&(f<= B)), (0, ( f > B )& (f< -B) )) 
+X = sp.Piecewise((1/(2*B)*(sp.exp(1j*π*f/B) - sp.exp(-1j*π*f/B)), (-B<= f)&(f<= B)), (0, True)) 
+
+Xabs = sp.piecewise_fold(sp.Abs(X)).simplify()
 
 tinterval = np.arange(-5, 5, 0.0001)*Ts
 symplot(t, x, tinterval, '$x_{duob}$(t)', xlabel = 't[s]');
 
 finterval = np.arange(-2, 2.01, 0.001)*B
-symplot(f, sp.Abs(X), finterval, '$|X(f)|$', xlabel = 'f[Hz]');
+symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
+
+
 # -
 
-# De maneira geral, os pulsos pertencentes ao conjunto de sinais limitados em banda dados por
+# De maneira geral, os pulsos pertencentes ao conjunto de sinais limitados em banda que são definidos como
 #
 # $$
-# x(t)=\sum_{n=-\infty}^x x\left(\frac{n}{2 B}\right) \operatorname{sinc}\left[2 \pi B\left(t-\frac{n}{2 B}\right)\right]
+# x(t)=\sum_{n=-\infty}^{\infty} x\left(\frac{n}{2 B}\right) \operatorname{sinc}\left[2 \pi B\left(t-\frac{n}{2 B}\right)\right]
 # $$
 #
-# com espectro correspondente
+# e com espectro correspondente
 #
 # $$
-# X(f)= \begin{cases}\frac{1}{2 B} \sum_{n=-\infty}^x x\left(\frac{n}{2 B}\right) e^{-j n \pi f / B} & |f| \leqslant B \\ 0 & |f| \leqslant B\end{cases}
+# X(f)= \begin{cases}\frac{1}{2 B} \sum_{n=-\infty}^{\infty} x\left(\frac{n}{2 B}\right) e^{-j n \pi f / B} & |f| \leqslant B \\ 0, & \text{caso contrário.}\end{cases}
 # $$
 #
-# sâo denominados pulsos ou sinais de resposta parcial. A utilização de tais pulsos na transmissão significa a introdução controlada de ISI por meio da introdução de duas ou mais amostras não-nulas $x\left(\frac{n}{2 B}\right)$. Tais pulsos permitem a taxa de sinalização da transmissão seja igual a taxa de Nyquist, ou seja, $R_s = 2B$.
+# são denominados pulsos ou sinais de *resposta parcial*. A utilização de tais pulsos na transmissão significa que há uma adição controlada de ISI por meio da introdução de duas ou mais amostras não-nulas $x\left(\frac{n}{2 B}\right)$. Tais pulsos permitem a taxa de sinalização da transmissão seja igual a taxa de Nyquist, ou seja, $R_s = 2B$.
+
+# +
+def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):    
+       
+    p = pulseShape('rrc', SpS, N=Nsamples+2*SpS, alpha=alpha)
+    
+    x = p + np.roll(p, SpS)
+    
+    if reverse:
+        indrev = np.arange(len(p)-1, -1, -1)
+        x = x[indrev]        
+        
+    return x[SpS:-SpS]
+
+x = duob(16, 1024, reverse=True)
+plt.plot(x, '-')
+# plt.plot(p[400:600], '--')
+# -
+
+help(pulseShape)
+
+# +
+M = 4
+constType = 'qam'
+
+# parâmetros da simulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
+# gera sequência pseudo-aleatória de bits
+bitsTx = np.random.randint(2, size = int(100000*np.log2(M)))
+
+# gera sequência de símbolos modulados
+symbTx = modulateGray(bitsTx, M, constType)    
+symbTx = pnorm(symbTx) # power normalization
+symbTx = np.insert(symbTx,0, 0)
+
+# upsampling
+symbolsUp = upsample(symbTx, SpS)
+
+# pulso duobinário
+pulseDoub = duob(SpS, Nsamples=2048, reverse=False, alpha=0.01)
+pulse = pulseShape('rrc', SpS, N=2048, alpha=0.01) 
+pulse = pulse/max(abs(pulse))
+
+# formatação de pulso
+sigTx = firFilter(pulseDoub, symbolsUp)
+
+t = np.arange(sigTx.size)*Ta/1e-9
+
+# filtro casado
+sigRx = firFilter(pulse, sigTx)
+sigRx = pnorm(sigRx)
+
+# ruído gaussiano branco
+Namostras = sigTx.size
+σ2  = 1e-7 # variância
+μ   = 0         # média
+
+σ      = np.sqrt(σ2*SpS)
+ruido  = normal(μ, σ, Namostras)
+ruidoC  = (normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))/np.sqrt(2)
+
+# diagrama de olho
+Nsamples = sigTx.size
+if constType == 'pam':
+    eyediagram(sigTx.real, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+    eyediagram((sigRx + ruido).real, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+else:
+    eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
+    eyediagram(sigRx + ruidoC, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
+    
+pconst(pnorm((sigRx + ruidoC)[10*SpS+2:-10*SpS:SpS]), pType='fast', R=1.5);
+# -
 
 # ## Referências
 #
