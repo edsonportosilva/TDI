@@ -7,31 +7,43 @@
 # GNU Radio Python Flow Graph
 # Title: Intesymbol Interference
 # Author: Edson P. da Silva
-# GNU Radio version: 3.10.6.0
+# GNU Radio version: 3.9.4.0
 
-from packaging.version import Version as StrictVersion
+from distutils.version import StrictVersion
+
+if __name__ == '__main__':
+    import ctypes
+    import sys
+    if sys.platform.startswith('linux'):
+        try:
+            x11 = ctypes.cdll.LoadLibrary('libX11.so')
+            x11.XInitThreads()
+        except:
+            print("Warning: failed to XInitThreads()")
+
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio.filter import firdes
+import sip
 from gnuradio import analog
 from gnuradio import blocks
 import numpy
 from gnuradio import channels
 from gnuradio import digital
 from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
-import sip
 
 
+
+from gnuradio import qtgui
 
 class simQPSK_ISI(gr.top_block, Qt.QWidget):
 
@@ -42,8 +54,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        except:
+            pass
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -63,8 +75,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        except:
+            pass
 
         ##################################################
         # Variables
@@ -72,7 +84,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 32000
         self.SamplesPerSymbol = SamplesPerSymbol = 16
         self.Constellation = Constellation = digital.constellation_qpsk().base()
-        self.rolloff = rolloff = 1
+        self.rolloff = rolloff = 0.5
         self.preconv = preconv = digital.adaptive_algorithm_cma( Constellation, 0.005, 2).base()
         self.numTaps = numTaps = 45
         self.noiseStd = noiseStd = 0.01
@@ -83,7 +95,6 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-
         self._noiseStd_range = Range(0, 10, 0.01, 0.01, 200)
         self._noiseStd_win = RangeWidget(self._noiseStd_range, self.set_noiseStd, "Noise std", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._noiseStd_win)
@@ -158,7 +169,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_1.set_update_time(0.10)
-        self.qtgui_freq_sink_x_1.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_1.set_y_axis(-140, 10)
         self.qtgui_freq_sink_x_1.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_1.enable_autoscale(False)
@@ -195,7 +206,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_eye_sink_x_0 = qtgui.eye_sink_c(
-            (1024*16), #size
+            1024*16, #size
             samp_rate, #samp_rate
             1, #number of inputs
             None
@@ -255,8 +266,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis((-2.5), 2.5)
-        self.qtgui_const_sink_x_0.set_x_axis((-2.5), 2.5)
+        self.qtgui_const_sink_x_0.set_y_axis(-2.5, 2.5)
+        self.qtgui_const_sink_x_0.set_x_axis(-2.5, 2.5)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0.enable_autoscale(True)
         self.qtgui_const_sink_x_0.enable_grid(False)
@@ -304,8 +315,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
                 6.76))
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(2, [1, 0])
         self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
-        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc((SamplesPerSymbol//2), firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
+        self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
+        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol//2, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
         self.digital_linear_equalizer_0 = digital.linear_equalizer(numTaps, 2, AdaptiveEqualizer, True, [ ], 'corr_est')
         self.digital_constellation_modulator_0 = digital.generic_mod(
             constellation=Constellation,
@@ -316,13 +327,14 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
             verbose=False,
             log=False,
             truncate=False)
-        self.channels_fading_model_0 = channels.fading_model( 64, (0.005/samp_rate), True, 4.0, 0 )
+        self.channels_fading_model_0 = channels.fading_model( 64, 0.005/samp_rate, True, 4.0, 0 )
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, numTaps)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, delay)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 40000))), True)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noiseStd, 0)
+
 
 
         ##################################################
@@ -363,9 +375,9 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
-        self.channels_fading_model_0.set_fDTs((0.005/self.samp_rate))
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.channels_fading_model_0.set_fDTs(0.005/self.samp_rate)
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.chBW, 10, window.WIN_HAMMING, 6.76))
         self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
@@ -377,8 +389,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
     def set_SamplesPerSymbol(self, SamplesPerSymbol):
         self.SamplesPerSymbol = SamplesPerSymbol
         self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
         self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.SamplesPerSymbol)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate/self.SamplesPerSymbol)
 
@@ -393,8 +405,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
 
     def set_rolloff(self, rolloff):
         self.rolloff = rolloff
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
 
     def get_preconv(self):
         return self.preconv
@@ -420,7 +432,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
 
     def set_delay(self, delay):
         self.delay = delay
-        self.blocks_delay_0.set_dly(int(self.delay))
+        self.blocks_delay_0.set_dly(self.delay)
 
     def get_chBW(self):
         return self.chBW
