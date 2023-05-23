@@ -32,7 +32,7 @@ def round_expr(expr, numDig):
 
 
 # Função para plot de funções do sympy
-def symplot(t, F, interval, funLabel, xlabel="tempo [s]", ylabel="", fig=None):
+def symplot(t, F, interval, funLabel, xlabel="tempo [s]", ylabel="", linewidth=1.5, fig=None):
     """
     Create plots of sympy symbolic functions.
 
@@ -41,26 +41,26 @@ def symplot(t, F, interval, funLabel, xlabel="tempo [s]", ylabel="", fig=None):
     :param interval: array of values of t where F should be evaluated [np.array]
     :funLabel: curve label be displayed in the plot [string].
     """
-    if fig == None:
+    if fig is None:
         fig = plt.figure()
-        
+
     if type(F) == list:
         for indLabel, f in enumerate(F):
-            plotFunc(t, f, interval, funLabel[indLabel], xlabel, ylabel)
+            plotFunc(t, f, interval, funLabel[indLabel], xlabel, ylabel, linewidth)
     else:
-        plotFunc(t, F, interval, funLabel, xlabel, ylabel)
+        plotFunc(t, F, interval, funLabel, xlabel, ylabel, linewidth)
     plt.grid()
     #plt.close()
     return fig
 
 
-def plotFunc(t, F, interval, funLabel, xlabel, ylabel):
+def plotFunc(t, F, interval, funLabel, xlabel, ylabel, linewidth):
     func = lambdify(
         t, F, modules=["numpy", {"Heaviside": lambda t: np.heaviside(t, 0)}]
     )
     f_num = func(interval)
-
-    plt.plot(interval, f_num, label=funLabel)
+   
+    plt.plot(interval, f_num, label=funLabel, linewidth=linewidth)
     plt.legend(loc="upper right")
     plt.xlim([min(interval), max(interval)])
     plt.xlabel(xlabel)
@@ -103,7 +103,7 @@ def genGIF(x, y, figName, xlabel=[], ylabel=[], fram=200, inter=20):
         return (line,)
 
     def animate(i):
-        line.set_data(x[0 : indx[i]], y[0 : indx[i]])
+        line.set_data(x[:indx[i]], y[:indx[i]])
         return (line,)
 
     anim = FuncAnimation(
