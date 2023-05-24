@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.1
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -631,54 +631,115 @@ symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 # Note que, se $a_{k-1}$ for conhecido, o receptor pode simplesmente subtrair seu valor de $r_k$, de modo a eliminar o efeito da ISI. Entretanto, se o receptor cometeu um erro na detecção de $a_{k-1}$, a subtração tenderá a não eliminarar a ISI em $r_k$, podendo até mesmo amplificar o efeito da ISI. Tal fenômeno é conhecido como *propagação de erros*.
 #
 # A propagação de erros pode ser evitada utilizando-se uma pré-codificação na sequência de bits a ser transmitida.
+#
+# Considere que a partir de uma sequência de bits $b_k$, uma nova sequência $c_k$ seja gerada fazendo
+#
+# $$\begin{equation}\label{precod}
+# c_k = b_k \ominus c_{k-1}, \quad k = 1, 2, \ldots
+# \end{equation}
+# $$
+#
+# em que $\ominus$ representa a operação de subtração módulo-2 (que é idêntica à operação $\oplus$ adição módulo-2, ou XOR). 
+#
+# Considerando que a modulação utilizada é a 2-PAM antipodal, temos que a sequência correspondente de amplitudes da modulação é dada por
+#
+# $$
+# a_k = 2c_k -1.
+# $$
+#
+# Consequentemente, a sequência de amplitudes do sinal *duobinário* produzido a partir de $a_k$ é dada por
+#
+# $$
+# r_k = a_k + a_{k-1}.
+# $$
+#
+# Temos então que
+#
+# $$\begin{align}
+# r_k &= a_k + a_{k-1}\nonumber\\
+# &= (2c_k -1) + (2c_{k-1} -1)\nonumber\\
+# &= 2(c_k + c_{k-1}-1)\nonumber\\
+# \end{align}$$
+#
+# ou seja,
+#
+# $$
+# c_k + c_{k-1} = \frac{r_k}{2} + 1
+# $$
+#
+# De ($\ref{precod}$) temos que $c_k \oplus c_{k-1} = b_k$, de modo que 
+#
+# $$
+# b_k=\frac{r_k}{2}-1 (\bmod 2)
+# $$
 
 # +
 # gera sequência pseudo-aleatória de bits
-bn = np.random.randint(2, size = int(10*np.log2(M)))
-cn = np.zeros(bn.shape, dtype=int)
-r = np.zeros(bn.shape, dtype=int)
-dn = np.zeros(bn.shape, dtype=int)
+bk = np.random.randint(2, size = 20)
 
-for k in range(len(bn)):
+ck = np.zeros(bk.shape, dtype=int)
+rk = np.zeros(bk.shape, dtype=int)
+dk = np.zeros(bk.shape, dtype=int)
+
+for k in range(len(bk)):
     if k == 0:
-        cn[k] = bn[k]
+        ck[k] = bk[k]
     else:
-        cn[k] = bn[k]^cn[k-1]
+        ck[k] = bk[k]^ck[k-1]
 
-a = 2*cn-1
+ak = 2*ck-1
 
-for k in range(len(bn)):
+for k in range(len(bk)):
     if k == 0:
-        r[k] = a[k]
+        rk[k] = ak[k]
     else:
-        r[k] = a[k] + a[k-1]
+        rk[k] = ak[k] + ak[k-1]
         
         
-for k in range(len(dn)):
-    dn[k] = (r[k]/2 + 1)%2
+for k in range(len(dk)):
+    dk[k] = (rk[k]/2 + 1)%2
     
-print(bn)
-print(cn)
-print(a)
-print(r)
-print(dn)
+print(f'Bits (bk):{bk}\n')
+print(f'Bits após pré-codificação (ck):{ck}\n')
+print(f'Amplitudes sinal 2-PAM (ak):{ak}\n')
+print(f'Amplitudes sinal 2-PAM duobinário (rk) :{rk}\n')
+print(f'Bits após decodificação (dk) :{dk}\n')
+
+
+# -
+
+# A regra de decisão no receptor torna-se, então
+#
+# $$
+# b_k = \begin{cases}0, & r_k = +2, -2\\
+# 1, & r_k = 0.
+# \end{cases}
+# $$
+#
+# Com a presença de ruído, as amostras observadas pelo receptor são dadas por $y_k = r_k + v_k$, de modo que a decisão pode ser tomada baseada na comparação do sinal recebido com dois limiares de decisão posicionados em +1 e -1, ou seja
+#
+# $$
+# b_k= \begin{cases}1, & \text { se }-1<y_k<1 \\ 0, & \text { se }\left|y_k\right| \geq 1\end{cases}
+# $$
+#
 
 # +
-# def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):    
+def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):    
        
-#     p = pulseShape('rrc', SpS, N=Nsamples+2*SpS, alpha=alpha)
+    p = pulseShape('rrc', SpS, N=Nsamples+2*SpS, alpha=alpha)
     
-#     x = p + np.roll(p, SpS)
+    x = p + np.roll(p, -SpS)
     
-#     if reverse:
-#         indrev = np.arange(len(p)-1, -1, -1)
-#         x = x[indrev]        
+    if reverse:
+        indrev = np.arange(len(p)-1, -1, -1)
+        x = x[indrev]        
         
-#     return x[SpS:-SpS]
+    return x[SpS:-SpS]
 
 # x = duob(16, 1024, reverse=True)
 # plt.plot(x, '-')
 # # plt.plot(p[400:600], '--')
+
 
 # +
 M = 2
@@ -693,11 +754,18 @@ Ta  = 1/Fa          # Período de amostragem
 
 # gera sequência pseudo-aleatória de bits
 bitsTx = np.random.randint(2, size = int(100000*np.log2(M)))
+cbitsTx = np.zeros(bitsTx.shape, dtype=int)
+
+# pré-codificação
+for k in range(len(bitsTx)):
+    if k == 0:
+        cbitsTx[k] = bitsTx[k]
+    else:
+        cbitsTx[k] = bitsTx[k]^cbitsTx[k-1]
 
 # gera sequência de símbolos modulados
-symbTx = modulateGray(bitsTx, M, constType)    
+symbTx = modulateGray(cbitsTx, M, constType)    
 symbTx = pnorm(symbTx) # power normalization
-symbTx = np.insert(symbTx,0, 0)
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
@@ -718,23 +786,39 @@ sigRx = pnorm(sigRx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 1e-7 # variância
+σ2  = 0.00075 # variância
 μ   = 0         # média
 
 σ      = np.sqrt(σ2*SpS)
 ruido  = normal(μ, σ, Namostras)
 ruidoC  = (normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))/np.sqrt(2)
 
+pconst(pnorm((sigRx + ruidoC)[2:-10*SpS:SpS]), pType='fast', R=1.5);
+
+lmax = np.max(sigRx.real)
+lmin = np.min(sigRx.real)
+
 # diagrama de olho
 Nsamples = sigTx.size
 if constType == 'pam':
     eyediagram(sigTx.real, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
     eyediagram((sigRx + ruido).real, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+    sigRx = sigRx + ruido
 else:
     eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
     eyediagram(sigRx + ruidoC, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
-    
-pconst(pnorm((sigRx + ruidoC)[10*SpS+2:-10*SpS:SpS]), pType='fast', R=1.5);
+    sigRx = sigRx + ruidoC   
+
+sigRx = sigRx[2::SpS].real
+
+bitsRx = np.ones(bitsTx.shape, dtype=int)
+bitsRx[sigRx>=lmax/2] = 0
+bitsRx[sigRx<=lmin/2] = 0
+
+discard = 100
+
+BER = np.mean(np.roll(bitsRx,1)[discard:-discard]^bitsTx[discard:-discard])
+print(f'BER = {BER:.2e}')
 # -
 
 # ## Referências
