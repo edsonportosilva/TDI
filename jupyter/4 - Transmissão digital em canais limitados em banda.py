@@ -738,7 +738,9 @@ def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):
 
 # x = duob(16, 1024, reverse=True)
 # plt.plot(x, '-')
-# # plt.plot(p[400:600], '--')
+# plt.plot(p[400:600], '--')
+# -
+
 
 
 # +
@@ -751,6 +753,7 @@ Rs  = 100e6         # Taxa de símbolos
 Ts  = 1/Rs          # Período de símbolo em segundos
 Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
+rolloff = 0.005
 
 # gera sequência pseudo-aleatória de bits
 bitsTx = np.random.randint(2, size = int(100000*np.log2(M)))
@@ -771,8 +774,8 @@ symbTx = pnorm(symbTx) # power normalization
 symbolsUp = upsample(symbTx, SpS)
 
 # pulso duobinário
-pulseDoub = duob(SpS, Nsamples=2048, reverse=False, alpha=0.1)
-pulse = pulseShape('rrc', SpS, N=2048, alpha=0.01) 
+pulseDoub = duob(SpS, Nsamples=2048, reverse=False, alpha=rolloff)
+pulse = pulseShape('rrc', SpS, N=2048, alpha=rolloff) 
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
@@ -786,14 +789,14 @@ sigRx = pnorm(sigRx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.003 # variância
+σ2  = 0.00025 # variância
 μ   = 0         # média
 
 σ      = np.sqrt(σ2*SpS)
 ruido  = normal(μ, σ, Namostras)
 ruidoC  = (normal(μ, σ, Namostras) + 1j*normal(μ, σ, Namostras))/np.sqrt(2)
 
-pconst(pnorm((sigRx + ruidoC)[2:-10*SpS:SpS]), pType='fast', R=1.5);
+pconst(pnorm((sigRx + ruidoC)[2:-10*SpS:SpS]), pType='fast', R=2.5);
 
 lmax = np.max(sigRx.real)
 lmin = np.min(sigRx.real)

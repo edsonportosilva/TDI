@@ -210,7 +210,7 @@ def genConvGIF(
         line2.set_data(figx.get_axes()[0].lines[0].get_data())
 
         if plotConv:
-            line3.set_data(totalTime[0 : ind[i]], y_num[0 : ind[i]])
+            line3.set_data(totalTime[:ind[i]], y_num[:ind[i]])
 
         plt.close(figx)
         return line2, line3
