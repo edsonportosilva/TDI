@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -64,7 +64,7 @@ figsize(6, 2)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li><li><span><a href="#Família-de-pulsos-cosseno-levantado-(raised-cosine)" data-toc-modified-id="Família-de-pulsos-cosseno-levantado-(raised-cosine)-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Família de pulsos cosseno levantado (<em>raised cosine</em>)</a></span></li><li><span><a href="#Transmissão-de-sinais-com-resposta-parcial" data-toc-modified-id="Transmissão-de-sinais-com-resposta-parcial-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Transmissão de sinais com <em>resposta parcial</em></a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li><li><span><a href="#Família-de-pulsos-cosseno-levantado-(raised-cosine)" data-toc-modified-id="Família-de-pulsos-cosseno-levantado-(raised-cosine)-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Família de pulsos cosseno levantado (<em>raised cosine</em>)</a></span></li><li><span><a href="#Transmissão-de-sinais-com-resposta-parcial" data-toc-modified-id="Transmissão-de-sinais-com-resposta-parcial-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Transmissão de sinais com <em>resposta parcial</em></a></span></li><li><span><a href="#Detecção-símbolo-a-símbolo-de-sinais-com-ISI-controlada" data-toc-modified-id="Detecção-símbolo-a-símbolo-de-sinais-com-ISI-controlada-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>Detecção símbolo-a-símbolo de sinais com ISI controlada</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -602,8 +602,6 @@ symplot(t, x, tinterval, '$x_{duob}$(t)', xlabel = 't[s]');
 
 finterval = np.arange(-2, 2.01, 0.001)*B
 symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
-
-
 # -
 
 # De maneira geral, os pulsos pertencentes ao conjunto de sinais limitados em banda que são definidos como
@@ -620,29 +618,71 @@ symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 #
 # são denominados pulsos ou sinais de *resposta parcial*. A utilização de tais pulsos na transmissão significa que há uma adição controlada de ISI por meio da introdução de duas ou mais amostras não-nulas $x\left(\frac{n}{2 B}\right)$. Tais pulsos permitem a taxa de sinalização da transmissão seja igual a taxa de Nyquist, ou seja, $R_s = 2B$.
 
+# ### Detecção símbolo-a-símbolo de sinais com ISI controlada
+#
+# Considere uma transmissão duobinária tal que a amostra $y_k$ capturada em cada instante de sinalização $t=kT_s$ seja dada por
+#
+# $$
+# y_k = r_k + v_k = a_k + a_{k-1} + v_k
+# $$
+#
+# em que \{$a_k$\} é a sequência de amplitudes transmitidas e \{$v_k$\} a sequência de amostras de ruído aditivo gaussiano. Considere que $a_k=\pm 1$, com a mesma probabilidade, de modo que $r_k=-2,0,2$ com probabilidades $1/4$, $1/2$ e $1/4$.
+#
+# Note que, se $a_{k-1}$ for conhecido, o receptor pode simplesmente subtrair seu valor de $r_k$, de modo a eliminar o efeito da ISI. Entretanto, se o receptor cometeu um erro na detecção de $a_{k-1}$, a subtração tenderá a não eliminarar a ISI em $r_k$, podendo até mesmo amplificar o efeito da ISI. Tal fenômeno é conhecido como *propagação de erros*.
+#
+# A propagação de erros pode ser evitada utilizando-se uma pré-codificação na sequência de bits a ser transmitida.
+
 # +
-def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):    
-       
-    p = pulseShape('rrc', SpS, N=Nsamples+2*SpS, alpha=alpha)
-    
-    x = p + np.roll(p, SpS)
-    
-    if reverse:
-        indrev = np.arange(len(p)-1, -1, -1)
-        x = x[indrev]        
+# gera sequência pseudo-aleatória de bits
+bn = np.random.randint(2, size = int(10*np.log2(M)))
+cn = np.zeros(bn.shape, dtype=int)
+r = np.zeros(bn.shape, dtype=int)
+dn = np.zeros(bn.shape, dtype=int)
+
+for k in range(len(bn)):
+    if k == 0:
+        cn[k] = bn[k]
+    else:
+        cn[k] = bn[k]^cn[k-1]
+
+a = 2*cn-1
+
+for k in range(len(bn)):
+    if k == 0:
+        r[k] = a[k]
+    else:
+        r[k] = a[k] + a[k-1]
         
-    return x[SpS:-SpS]
-
-x = duob(16, 1024, reverse=True)
-plt.plot(x, '-')
-# plt.plot(p[400:600], '--')
-# -
-
-help(pulseShape)
+        
+for k in range(len(dn)):
+    dn[k] = (r[k]/2 + 1)%2
+    
+print(bn)
+print(cn)
+print(a)
+print(r)
+print(dn)
 
 # +
-M = 4
-constType = 'qam'
+# def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):    
+       
+#     p = pulseShape('rrc', SpS, N=Nsamples+2*SpS, alpha=alpha)
+    
+#     x = p + np.roll(p, SpS)
+    
+#     if reverse:
+#         indrev = np.arange(len(p)-1, -1, -1)
+#         x = x[indrev]        
+        
+#     return x[SpS:-SpS]
+
+# x = duob(16, 1024, reverse=True)
+# plt.plot(x, '-')
+# # plt.plot(p[400:600], '--')
+
+# +
+M = 2
+constType = 'pam'
 
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
@@ -663,7 +703,7 @@ symbTx = np.insert(symbTx,0, 0)
 symbolsUp = upsample(symbTx, SpS)
 
 # pulso duobinário
-pulseDoub = duob(SpS, Nsamples=2048, reverse=False, alpha=0.01)
+pulseDoub = duob(SpS, Nsamples=2048, reverse=False, alpha=0.1)
 pulse = pulseShape('rrc', SpS, N=2048, alpha=0.01) 
 pulse = pulse/max(abs(pulse))
 
