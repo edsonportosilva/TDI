@@ -786,7 +786,7 @@ sigRx = pnorm(sigRx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.00075 # variância
+σ2  = 0.003 # variância
 μ   = 0         # média
 
 σ      = np.sqrt(σ2*SpS)
@@ -809,6 +809,8 @@ else:
     eyediagram(sigRx + ruidoC, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
     sigRx = sigRx + ruidoC   
 
+
+# detecção
 sigRx = sigRx[2::SpS].real
 
 bitsRx = np.ones(bitsTx.shape, dtype=int)
