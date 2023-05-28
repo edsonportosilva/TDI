@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -64,7 +64,7 @@ figsize(6, 2)
 
 # + [markdown] toc=true
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li><li><span><a href="#Família-de-pulsos-cosseno-levantado-(raised-cosine)" data-toc-modified-id="Família-de-pulsos-cosseno-levantado-(raised-cosine)-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Família de pulsos cosseno levantado (<em>raised cosine</em>)</a></span></li><li><span><a href="#Transmissão-de-sinais-com-resposta-parcial" data-toc-modified-id="Transmissão-de-sinais-com-resposta-parcial-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Transmissão de sinais com <em>resposta parcial</em></a></span></li><li><span><a href="#Detecção-símbolo-a-símbolo-de-sinais-com-ISI-controlada" data-toc-modified-id="Detecção-símbolo-a-símbolo-de-sinais-com-ISI-controlada-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>Detecção símbolo-a-símbolo de sinais com ISI controlada</a></span></li></ul></li><li><span><a href="#Referências" data-toc-modified-id="Referências-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Canais-limitados-em-banda" data-toc-modified-id="Canais-limitados-em-banda-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Canais limitados em banda</a></span></li><li><span><a href="#Sinalização-para-canais-limitados-em-banda" data-toc-modified-id="Sinalização-para-canais-limitados-em-banda-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Sinalização para canais limitados em banda</a></span><ul class="toc-item"><li><span><a href="#Interferência-intersimbólica-(ISI)" data-toc-modified-id="Interferência-intersimbólica-(ISI)-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Interferência intersimbólica (ISI)</a></span></li><li><span><a href="#Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica" data-toc-modified-id="Critério-de-Nyquist-para-ausência-de-interferência-intersimbólica-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Critério de Nyquist para ausência de interferência intersimbólica</a></span></li><li><span><a href="#Família-de-pulsos-cosseno-levantado-(raised-cosine)" data-toc-modified-id="Família-de-pulsos-cosseno-levantado-(raised-cosine)-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Família de pulsos cosseno levantado (<em>raised cosine</em>)</a></span></li><li><span><a href="#Transmissão-de-sinais-com-resposta-parcial" data-toc-modified-id="Transmissão-de-sinais-com-resposta-parcial-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Transmissão de sinais com <em>resposta parcial</em></a></span></li><li><span><a href="#Detecção-símbolo-a-símbolo-de-sinais-com-ISI-controlada" data-toc-modified-id="Detecção-símbolo-a-símbolo-de-sinais-com-ISI-controlada-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>Detecção símbolo-a-símbolo de sinais com ISI controlada</a></span></li></ul></li><li><span><a href="#Detecção-de-sequências-por-máxima-verossimilhança" data-toc-modified-id="Detecção-de-sequências-por-máxima-verossimilhança-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Detecção de sequências por máxima verossimilhança</a></span></li><li><span><a href="#Referências" data-toc-modified-id="Referências-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Referências</a></span></li></ul></div>
 # -
 
 # # Receptores ótimos para canais AWGN
@@ -739,10 +739,6 @@ def duob(SpS=2, Nsamples=16, reverse=False, alpha=0.01):
 # x = duob(16, 1024, reverse=True)
 # plt.plot(x, '-')
 # plt.plot(p[400:600], '--')
-# -
-
-
-
 # +
 M = 2
 constType = 'pam'
@@ -825,6 +821,53 @@ discard = 100
 BER = np.mean(np.roll(bitsRx,1)[discard:-discard]^bitsTx[discard:-discard])
 print(f'BER = {BER:.2e}')
 # -
+
+# ## Detecção de sequências por máxima verossimilhança
+#
+# Considere o caso em que sequência de sinais recebidos não está sujeita a nenhum efeito de memória, ou seja, o vetor $\mathbf{r}_k$ observado no intervalo de sinalização $k$ é *estatisticamente independente* dos vetores $\left\lbrace \mathbf{r}_{k'} \right\rbrace_{k'=-\infty}^{\infty}$ e $k' \neq k$, observados nos demais intervalos de sinalização. Neste caso, o detector que opera *símbolo-a-símbolo*, ou seja, que decide utilizando apenas a informação $P(\mathbf{s}_m|\mathbf{r}_k)$ presente no intervalo de sinalização $k$ é o detector ótimo no sentido de minimização da probabilidade de erro.
+#
+# Entretanto, na presença de memórioa, ou seja, caso exista *dependência estatística* entre a sequência de sinais $\left\lbrace \mathbf{r}_{k} \right\rbrace_{k=-\infty}^{\infty}$, o detector ótimo para o sinal recebido no intervalo de sinalização $k$ deverá levar em conta não apenas este intervalo de sinalização, mas uma sequência de intervalos de sinalização consecutivos.
+
+# $$
+# \begin{aligned}
+# \begin{array}{|c|c|c|c|}
+#   \hline
+#   a_{k-1} & a_{k} & r_{k} = a_k + a_{k-1}  \\
+#   \hline
+#   -1 & -1 & -2 \\
+#   \hline
+#   1 & -1 & 0  \\
+#   \hline
+#   -1 & 1 & 0 \\
+#   \hline
+#   1 & 1 & 2 \\
+#   \hline
+# \end{array}
+# \end{aligned}
+# $$
+
+# <img src="./figuras/Fig13.png" width="600">
+# <center>Fig.10: Treliça representando a evolução de estados da modulação 2-PAM duobinário.</center>
+
+# $$\mathbf{y} = \mathbf{r} + \mathbf{n}$$
+#
+# $\mathbf{a} = [a_1, a_2, \dots, a_N]^T$, $\mathbf{y} = [y_1, y_2, \dots, y_N]^T$, $\mathbf{r} = [r_1, r_2, \dots, r_N]^T$
+#
+# $\mathbf{n}\sim \mathcal{N}(\mathbf{0}, \Sigma)$
+#
+# $$
+# p(\mathbf{y}|\mathbf{a}) = \frac{1}{(2\pi |\Sigma|)^{N/2}} \exp \left[-\frac{1}{2} (\mathbf{y}-\mathbf{r})^T \Sigma^{-1} (\mathbf{y}-\mathbf{r}) \right]
+# $$
+#
+# $$
+# P(\mathbf{a}|\mathbf{y}) = \frac{p(\mathbf{y}|\mathbf{a})P(\mathbf{a})}{p(\mathbf{y})} \propto p(\mathbf{y}|\mathbf{a})P(\mathbf{a}) 
+# $$
+#
+# $$
+# \ln p(\mathbf{y}|\mathbf{a}) = -\frac{N}{2}\ln(2\pi |\Sigma|) -\frac{1}{2} (\mathbf{y}-\mathbf{r})^T \Sigma^{-1} (\mathbf{y}-\mathbf{r})
+# $$
+#
+# Maximizar $\ln p(\mathbf{y}|\mathbf{a})$ equivale a encontrar a sequência $\mathbf{a}$ que minimiza $(\mathbf{y}-\mathbf{r})^T \Sigma^{-1} (\mathbf{y}-\mathbf{r})$
 
 # ## Referências
 #
