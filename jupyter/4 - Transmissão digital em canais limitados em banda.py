@@ -98,7 +98,7 @@ figsize(6, 2)
 #
 # Assuma que em cada intervalo de sinalização $T_s$, o transmissor envia um sinal $s_m(t)$ dentre os $M$ possíveis do esquema de modulação utilizado, i.e. $\left\lbrace s_m(t), m = 1,2,\dots, M\right\rbrace$. Considere que no intervalo de $0\leq t \leq T_s$ o transmissor enviou a sinal $s_m(t)$. Após a filtragem do canal os sinais transmitidos são afetados apenas por AWGN, como ilustrado na Fig. 2. 
 
-# <img src="./figuras/Fig12.png" width="600">
+# <img src="./figuras/Fig14.png" width="800">
 #
 # <center>Fig.2: Esquemático de um sistema de transmissão digital via canal linear e AWGN.</center>
 
@@ -827,6 +827,8 @@ print(f'BER = {BER:.2e}')
 # Considere o caso em que sequência de sinais recebidos não está sujeita a nenhum efeito de memória, ou seja, o vetor $\mathbf{r}_k$ observado no intervalo de sinalização $k$ é *estatisticamente independente* dos vetores $\left\lbrace \mathbf{r}_{k'} \right\rbrace_{k'=-\infty}^{\infty}$ e $k' \neq k$, observados nos demais intervalos de sinalização. Neste caso, o detector que opera *símbolo-a-símbolo*, ou seja, que decide utilizando apenas a informação $P(\mathbf{s}_m|\mathbf{r}_k)$ presente no intervalo de sinalização $k$ é o detector ótimo no sentido de minimização da probabilidade de erro.
 #
 # Entretanto, na presença de memórioa, ou seja, caso exista *dependência estatística* entre a sequência de sinais $\left\lbrace \mathbf{r}_{k} \right\rbrace_{k=-\infty}^{\infty}$, o detector ótimo para o sinal recebido no intervalo de sinalização $k$ deverá levar em conta não apenas este intervalo de sinalização, mas uma sequência de intervalos de sinalização consecutivos.
+#
+# Como exemplo, considere o caso da transmissão duobinária 2-PAM. Seja $L$ o intervalo de mémoria, em intervalos de sinalização, presente na transmissão, para um sinal duobinário temos que $L=1$.
 
 # $$
 # \begin{aligned}
@@ -849,25 +851,54 @@ print(f'BER = {BER:.2e}')
 # <img src="./figuras/Fig13.png" width="600">
 # <center>Fig.10: Treliça representando a evolução de estados da modulação 2-PAM duobinário.</center>
 
-# $$\mathbf{y} = \mathbf{r} + \mathbf{n}$$
+# Considere um vetor $\boldsymbol{y}$ composto pela sequência de amostras da saída do filtro do receptor sobre $N$ intervalos de sinalização $\boldsymbol{y} = [y_1, y_2, \dots, y_N]^T$. Temos que
 #
-# $\mathbf{a} = [a_1, a_2, \dots, a_N]^T$, $\mathbf{y} = [y_1, y_2, \dots, y_N]^T$, $\mathbf{r} = [r_1, r_2, \dots, r_N]^T$
 #
-# $\mathbf{n}\sim \mathcal{N}(\mathbf{0}, \Sigma)$
+# $$\boldsymbol{y} = \boldsymbol{r} + \boldsymbol{v}$$
 #
-# $$
-# p(\mathbf{y}|\mathbf{a}) = \frac{1}{(2\pi |\Sigma|)^{N/2}} \exp \left[-\frac{1}{2} (\mathbf{y}-\mathbf{r})^T \Sigma^{-1} (\mathbf{y}-\mathbf{r}) \right]
-# $$
 #
-# $$
-# P(\mathbf{a}|\mathbf{y}) = \frac{p(\mathbf{y}|\mathbf{a})P(\mathbf{a})}{p(\mathbf{y})} \propto p(\mathbf{y}|\mathbf{a})P(\mathbf{a}) 
-# $$
+# em que $\boldsymbol{r} = [r_1, r_2, \dots, r_N]^T$ é a sequência de amplitudes do sinal duobinário livres de ruído, $\boldsymbol{v} = [v_1, v_2, \dots, v_N]^T$ é a sequência de amostras de ruído gaussiano, i.e. $\boldsymbol{v}\sim \mathcal{N}(\mathbf{0}, \Sigma_v)$.
+#
+# Seja  $\boldsymbol{a} = [a_1, a_2, \dots, a_N]^T$ a sequência de amplitudes binárias transmitidas, a fdp condicional $p(\boldsymbol{y}|\boldsymbol{a})$ pode ser escrita como
 #
 # $$
-# \ln p(\mathbf{y}|\mathbf{a}) = -\frac{N}{2}\ln(2\pi |\Sigma|) -\frac{1}{2} (\mathbf{y}-\mathbf{r})^T \Sigma^{-1} (\mathbf{y}-\mathbf{r})
+# p(\boldsymbol{y}|\boldsymbol{a}) = \frac{1}{(2\pi |\Sigma_v|)^{N/2}} \exp \left[-\frac{1}{2} (\boldsymbol{y}-\boldsymbol{r})^T \Sigma_v^{-1} (\boldsymbol{y}-\boldsymbol{r}) \right].
 # $$
 #
-# Maximizar $\ln p(\mathbf{y}|\mathbf{a})$ equivale a encontrar a sequência $\mathbf{a}$ que minimiza $(\mathbf{y}-\mathbf{r})^T \Sigma^{-1} (\mathbf{y}-\mathbf{r})$
+# Desse modo, temos que a probabilidade da sequência $\boldsymbol{a}$ ter sido transmitida condicionada à sequência de observações $\boldsymbol{y}$ pode ser escrita como
+# $$
+# P(\boldsymbol{a}|\boldsymbol{y}) = \frac{p(\boldsymbol{y}|\boldsymbol{a})P(\boldsymbol{a})}{p(\boldsymbol{y})} \propto p(\boldsymbol{y}|\boldsymbol{a})P(\boldsymbol{a})
+# $$
+#
+# Assumindo que o detector decidirá por uma sequência $\boldsymbol{\hat{a}}$, a decisão ótima será tal que
+#
+# $$\boldsymbol{\hat{a}} = \underset{\boldsymbol{a}}{\operatorname{argmax}} p(\boldsymbol{y}|\boldsymbol{a})P(\boldsymbol{a})$$.
+#
+# correspondendo ao critério MAP.
+#
+# Considerando que todas as sequências são equiprováveis
+#
+# $$
+# P(\boldsymbol{a}|\boldsymbol{y}) \propto p(\boldsymbol{y}|\boldsymbol{a})
+# $$
+#
+# de modo que
+#
+# $$\boldsymbol{\hat{a}} = \underset{\boldsymbol{a}}{\operatorname{argmax}} p(\boldsymbol{y}|\boldsymbol{a})$$,
+#
+# que corresponde ao critério de decisão ML.
+#
+# $$
+# \ln p(\boldsymbol{y}|\boldsymbol{a}) = -\frac{N}{2}\ln(2\pi |\Sigma_v|) -\frac{1}{2} (\boldsymbol{y}-\boldsymbol{r})^T \Sigma_v^{-1} (\boldsymbol{y}-\boldsymbol{r})
+# $$
+#
+# Maximizar $\ln p(\boldsymbol{y}|\boldsymbol{a})$ equivale a encontrar a sequência $\boldsymbol{a}$ que minimiza $(\boldsymbol{y}-\boldsymbol{r})^T \Sigma_v^{-1} (\boldsymbol{y}-\boldsymbol{r})$
+#
+# $$\boldsymbol{\hat{a}} = \underset{\boldsymbol{a}}{\operatorname{argmin}} (\boldsymbol{y}-\boldsymbol{r})^T \Sigma_v^{-1} (\boldsymbol{y}-\boldsymbol{r})$$,
+#
+# como $r_k =x_0a_k + x_1a_{k-1} + \dots =  \sum_{q=0}^{L}x_qa_{k-q}$
+#
+# $$\boldsymbol{\hat{a}} = \underset{\boldsymbol{a}}{\operatorname{argmin}} \left[ \sum_{m=1}^{N}\left(y_m - \sum_{q=0}^{L}x_qa_{m-q}\right)^2\right]$$,
 
 # ## Referências
 #
