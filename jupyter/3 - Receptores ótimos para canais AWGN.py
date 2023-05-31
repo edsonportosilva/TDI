@@ -589,28 +589,6 @@ ax2.set_xlim(min(x), max(x));
 from numba import njit
 
 @njit
-def MLdetector(r, constSymb):   
-       
-    decided = np.zeros(r.size, dtype=np.complex64) 
-    indDec = np.zeros(r.size, dtype=np.int64) 
-    π = np.pi  
-    
-    for ii, ri in enumerate(r): # for each received symbol        
-        distMetric = np.zeros(constSymb.size)        
-        # calculate distance metric   
-        
-        # calculate |r-sm|**2, for m= 1,2,...,M
-        distMetric = np.abs(ri - constSymb)**2
-        
-        # find the constellation symbol with the largest P(sm|r)       
-        indDec[ii] = np.argmin(distMetric)
-        
-        # make the decision in favor of the symbol with the smallest metric
-        decided[ii] = constSymb[indDec[ii]]
-    
-    return decided, indDec
-
-@njit
 def detector(r, σ2, constSymb, px=None, rule='MAP'):        
     
     if px is None or rule == 'ML':
