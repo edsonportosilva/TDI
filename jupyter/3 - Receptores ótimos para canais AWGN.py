@@ -589,28 +589,6 @@ ax2.set_xlim(min(x), max(x));
 from numba import njit
 
 @njit
-def MLdetector(r, constSymb):   
-       
-    decided = np.zeros(r.size, dtype=np.complex64) 
-    indDec = np.zeros(r.size, dtype=np.int64) 
-    π = np.pi  
-    
-    for ii, ri in enumerate(r): # for each received symbol        
-        distMetric = np.zeros(constSymb.size)        
-        # calculate distance metric   
-        
-        # calculate |r-sm|**2, for m= 1,2,...,M
-        distMetric = np.abs(ri - constSymb)**2
-        
-        # find the constellation symbol with the largest P(sm|r)       
-        indDec[ii] = np.argmin(distMetric)
-        
-        # make the decision in favor of the symbol with the smallest metric
-        decided[ii] = constSymb[indDec[ii]]
-    
-    return decided, indDec
-
-@njit
 def detector(r, σ2, constSymb, px=None, rule='MAP'):        
     
     if px is None or rule == 'ML':
@@ -1761,92 +1739,7 @@ plt.xlim(min(SNR_val), max(SNR_val+10))
 plt.ylim(1e-6, 1)
 plt.legend()
 plt.grid();
-
-# +
-import pandas as pd
-def dec2bit(dec, bitL):
-    bits = bin(dec)[2:]  # Convert decimal to binary string
-    bits = bits.zfill(bitL)  # Pad with leading zeros
-    return [int(bit) for bit in bits]
-
-L = len(h)
-bits = np.zeros((M**L, L), dtype=int)
-
-for k, dec in enumerate(range(M**L)):    
-    bits[k,:] = dec2bit(dec, L)
-
-symb = 2*bits-1
-
-x = np.sum(symb*h, axis=1)
-
-sig = pd.DataFrame(data=symb, index=np.arange(M**L))
-pd.options.display.float_format = '{:,.2f}'.format
 # -
-
-sig = pd.DataFrame(data=bits, index=[i for i in range(symb.shape[0])], columns=[f'b{-i}' for i in range(symb.shape[1])])
-
-# +
-#  for i in range(symb.shape[1]):
-#     sig[f's{i}'] = symb[:,i]
-# -
-
-sig['r'] = x
-
-# $$
-# \begin{array}{|l|r|r|r|}
-# \hline
-# {} &  b_0 &  b_{-1} &     r \\
-# \hline
-# 0 &   0 &    0 & -1.10 \\
-# \hline
-# 1 &   0 &    1 & -0.70 \\
-# \hline
-# 2 &   1 &    0 &  0.70 \\
-# \hline
-# 3 &   1 &    1 &  1.10 \\
-# \hline
-# \end{array}
-# $$
-
-# +
-# # Convert DataFrame to markdown table
-# markdown_table = sig.to_latex()
-
-# # Print the markdown table
-# print(markdown_table)
-# -
-
-# ## Detecção de sequências por máxima verossimilhança
-#
-# Considere o caso em que sequência de sinais recebidos não está sujeita a nenhum efeito de memória, ou seja, o vetor $\mathbf{r}_k$ observado no intervalo de sinalização $k$ é *estatisticamente independente* dos vetores $\left\lbrace \mathbf{r}_{k'} \right\rbrace_{k'=-\infty}^{\infty}$ e $k' \neq k$, observados nos demais intervalos de sinalização. Neste caso, o detector que opera *símbolo-a-símbolo*, ou seja, que decide utilizando apenas a informação $P(\mathbf{s}_m|\mathbf{r}_k)$ presente no intervalo de sinalização $k$ é o detector ótimo no sentido de minimização da probabilidade de erro.
-#
-# Entretanto, na presença de memórioa, ou seja, caso exista *dependência estatística* entre a sequência de sinais $\left\lbrace \mathbf{r}_{k} \right\rbrace_{k=-\infty}^{\infty}$, o detector ótimo para o sinal recebido no intervalo de sinalização $k$ deverá levar em conta não apenas este intervalo de sinalização, mas uma sequência de intervalos de sinalização consecutivos.
-
-# <img src="./figuras/Fig8.png" width="300">
-# <center>Fig.9: Modulação NRZI.</center>
-
-# + [markdown] hide_input=true
-# $$
-# \begin{aligned}
-# \begin{array}{|c|c|c|c|}
-#   \hline
-#   a_k & b_{k-1} & a_k \oplus b_{k-1} & s_{mk} \\
-#   \hline
-#   0 & 0 & 0 & s_1 \\
-#   \hline
-#   0 & 1 & 1 & s_2 \\
-#   \hline
-#   1 & 0 & 1 & s_2 \\
-#   \hline
-#   1 & 1 & 0 & s_1 \\
-#   \hline
-# \end{array}
-# \end{aligned}
-# $$
-# -
-
-# <img src="./figuras/Fig9.png" width="700">
-# <center>Fig.10: Treliça representando a evolução de estados da modulação NRZI.</center>
 
 # ## Referências
 #
