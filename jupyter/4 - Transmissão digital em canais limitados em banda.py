@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.13.8
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -123,7 +123,7 @@ figsize(6, 2)
 #
 # $$
 # \begin{equation}
-# y(t)=\sum_{k=-\infty}^{\infty} s_k x(t-kT_s) + u(t)
+# y(t)=\sum_{k=-\infty}^{\infty} s_k x(t-kT_s) + v(t)
 # \end{equation}
 # $$
 #
@@ -131,7 +131,7 @@ figsize(6, 2)
 #
 # $$
 # \begin{equation}
-# y\left(q T_s+\tau_0\right) \equiv y_q=\sum_{k=-\infty}^{\infty} s_k x\left(qT_s- kT_s+\tau_0\right) + u\left(qT_s+\tau_0\right)
+# y\left(q T_s+\tau_0\right) \equiv y_q=\sum_{k=-\infty}^{\infty} s_k x\left(qT_s- kT_s+\tau_0\right) + v\left(qT_s+\tau_0\right)
 # \end{equation}
 # $$
 #
@@ -140,7 +140,7 @@ figsize(6, 2)
 # $$
 # \begin{align}
 # y_q&=\sum_{k=-\infty}^{\infty} s_k x_{q-k}+u_q, \quad q=0,1, \ldots.\nonumber\\
-# &= x_0\left(s_q+\frac{1}{x_0} \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}\right)+u_q, \quad q=0,1, \ldots
+# &= x_0\left(s_q+\frac{1}{x_0} \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}\right)+v_q, \quad q=0,1, \ldots
 # \end{align}
 # $$
 #
@@ -148,11 +148,11 @@ figsize(6, 2)
 #
 # $$
 # \begin{equation}\label{ISI_eq1}
-# y_q=s_q + \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k} + u_q, \quad q=0,1, \ldots
+# y_q=s_q + \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k} + v_q, \quad q=0,1, \ldots
 # \end{equation}
 # $$
 #
-# Em ($\ref{ISI_eq1}$), temos que $s_q$ é o símbolo transmitido no intervalo de sinalização $q$. Já o termo $\sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}$ representa a interferência causada em $s_q$ pelos demais símbolos transmitidos, denominada **interferência intersimbólica** (*intersymbol interference* - ISI). Por fim, $u_q$ é uma variável aleatória representado o ruído AWGN no instante de sinalização $q$.
+# Em ($\ref{ISI_eq1}$), temos que $s_q$ é o símbolo transmitido no intervalo de sinalização $q$. Já o termo $\sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}$ representa a interferência causada em $s_q$ pelos demais símbolos transmitidos, denominada **interferência intersimbólica** (*intersymbol interference* - ISI). Por fim, $v_q$ é uma variável aleatória representado o ruído AWGN no instante de sinalização $q$.
 #
 
 # +
@@ -334,7 +334,7 @@ plt.legend(loc='upper left');
 #
 # $$
 # \begin{equation}\label{ISI_eq2}
-# y_q=s_q + \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k} + u_q, \quad q=0,1, \ldots,
+# y_q=s_q + \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k} + v_q, \quad q=0,1, \ldots,
 # \end{equation}
 # $$
 #
