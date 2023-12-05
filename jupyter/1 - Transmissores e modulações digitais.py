@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.1
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -28,11 +28,10 @@ from utils import symdisp, symplot
 import ipywidgets as widgets
 from ipywidgets import interact
 
-from commpy.utilities import upsample
 
-from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
-from optic.metrics import signal_power
+from optic.comm.modulation import modulateGray, demodulateGray, GrayMapping
+from optic.dsp.core import firFilter, pulseShape, lowPassFIR, pnorm, upsample
+from optic.comm.metrics import signal_power
 from optic.plot import eyediagram
 # -
 
@@ -157,7 +156,7 @@ symdisp('A_Q = ', A_Q)
 
 # ### Diagramas de constelação
 
-# + hide_input=false
+# + hide_input=true
 M = 16 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 
@@ -330,7 +329,32 @@ plt.figure();
 plt.psd(x_psd, Fs=Fa, NFFT = 16*1024, sides='twosided')
 plt.xlim(-Fa/2, Fa/2);
 
-# +
+
+# + hide_input=true
+def sincInterp(x, fa):
+    
+    fa_sinc = 32*fa
+    Ta_sinc = 1/fa_sinc
+    Ta = 1/fa
+    t = np.arange(0, x.size*32)*Ta_sinc
+    
+    plt.figure()  
+    y = upsample(x,32)
+    y[y==0] = np.nan
+    plt.plot(t,y.real,'ko', label='x[k]')
+    
+    x_sum = 0
+    for k in range(0, x.size):
+        xk_interp = x[k]*np.sinc((t-k*Ta)/Ta)
+        x_sum += xk_interp
+        plt.plot(t, xk_interp)           
+    
+    plt.legend(loc="upper right")
+    plt.xlim(min(t), max(t))
+    plt.grid()
+    
+    return x_sum, t
+
 x_interp, t_interp = sincInterp(xa, Fa);
 
 plt.figure()
@@ -396,7 +420,7 @@ bits   = np.random.randint(2, size=20)
 n      = np.arange(bits.size)
 
 # mapeia bits para símbolos binários
-symbTx = 2*bits-1
+symbTx = 2*bits-1.0
 
 plt.figure(1)
 plt.title('Sequência de bits gerados:')
@@ -459,7 +483,7 @@ sigTx  = sigTx.real
 t = np.arange(sigTx.size)*(Ta/1e-9)
 
 # instantes centrais dos intervalos de sinalização
-symbolsUp = upsample(2*bits-1, SpS)
+symbolsUp = upsample(2*bits-1.0, SpS)
 symbolsUp[symbolsUp==0] = np.nan
 
 plt.figure(2)
@@ -515,7 +539,7 @@ sigTx = sigTx.real
 t = np.arange(sigTx.size)*(Ta/1e-9)
 
 # instantes centrais dos intervalos de sinalização
-symbolsUp = upsample(2*bits-1, SpS)
+symbolsUp = upsample(2*bits-1.0, SpS)
 symbolsUp[symbolsUp==0] = np.nan
 
 plt.figure(2)
@@ -555,18 +579,18 @@ def plotRC(β):
     Rs = 100e6
     T = 1/Rs
     SpS = 16
-    Ns = 600    
+    Ns = 4096    
     π = np.pi
     Ta = 1/(Rs*SpS)
     Ta = (Ta/1e-9)
     T = T/1e-9     
     
     pulse = pulseShape('rc', SpS, Ns, β, T)
-    pulse = pulse/max(abs(pulse))
+    pulse = pnorm(pulse) #/max(abs(pulse))
     
     t = np.arange(pulse.size)*Ta
     
-    P = np.fft.fftshift(np.fft.fft(pulse))
+    P = np.fft.fftshift(np.fft.fft(pulse))/np.sqrt(len(pulse))
     freqs = np.fft.fftshift(np.fft.fftfreq(P.size, d=Ta))
     plt.figure(1)
     plt.plot(freqs, 20*np.log10(np.abs(P)), label='|P(f)|')
@@ -575,6 +599,7 @@ def plotRC(β):
     plt.xlabel('f [GHz]')
     plt.legend()
     plt.xlim(min(freqs)/(SpS/4), max(freqs)/(SpS/4))
+    plt.ylim(-150, 20)
     
     plt.figure(2)
     plt.plot(t,pulse, label='p(t)')
@@ -624,7 +649,7 @@ sigTx = sigTx.real
 t = np.arange(sigTx.size)*(Ta/1e-9)
 
 # instantes centrais dos intervalos de sinalização
-symbolsUp = upsample(2*bits-1, SpS)
+symbolsUp = upsample(2*bits-1.0, SpS)
 symbolsUp[symbolsUp==0] = np.nan
 
 plt.figure(2)
