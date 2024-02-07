@@ -7,14 +7,14 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.15.1
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
-# +
+# + hide_input=true jupyter={"source_hidden": true}
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,17 +29,17 @@ import ipywidgets as widgets
 from ipywidgets import interact
 
 
-from optic.comm.modulation import modulateGray, demodulateGray, GrayMapping
+from optic.comm.modulation import modulateGray, demodulateGray, grayMapping
 from optic.dsp.core import firFilter, pulseShape, lowPassFIR, pnorm, upsample
 from optic.comm.metrics import signal_power
 from optic.plot import eyediagram
-# -
 
+# + hide_input=true jupyter={"source_hidden": true}
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 2000)
 pd.options.display.float_format = '{:,d}'.format
 
-# +
+# + hide_input=true jupyter={"source_hidden": true}
 from IPython.core.display import HTML
 from IPython.core.pylabtools import figsize
 from IPython.display import display
@@ -53,13 +53,16 @@ HTML("""
 }
 </style>
 """)
-# -
 
+# + hide_input=true jupyter={"source_hidden": true}
 # %load_ext autoreload
 # %autoreload 2
 
+# + hide_input=true
 figsize(10, 4)
 
+
+# -
 
 # # Transmissão Digital da Informação
 
@@ -83,7 +86,7 @@ figsize(10, 4)
 #
 # em que $t$ é o tempo em segundos, $f_{c}$ em hertz é a frequência de oscilação, $A$ a amplitude e $\theta$ a fase da onda portadora.
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 def plotCarrier(amp, fase, freq):
     π = np.pi
     t = np.arange(0,0.0025,1e-6)
@@ -100,7 +103,7 @@ interact(plotCarrier, amp=(1e-8,10,0.1), fase=(0,2*np.pi,0.1), freq=(1e-3,10010,
 
 # Podemos também escrever de forma alternativa: $$ \begin{aligned}c(t) &= A \cos \left(2\pi f_c t + \theta\right)\\ &= \operatorname{Re}\left[A e^{j \theta} e^{j2\pi f_c t}\right] \end{aligned} $$
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 A, fc, t, θ = sp.symbols('A, f_c, t, θ', real=True)
 π = sp.pi
 j = sp.I
@@ -110,11 +113,11 @@ c = sp.re( A * exp(j*θ) * exp(j * 2 * π * fc * t) )
 symdisp('c(t) = ', c)
 symdisp('c(t) = ', c.simplify())
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 c = TR10(c.simplify()).expand()
 symdisp('c(t) = ', c)
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 print('Portadora:')
 symdisp('c(t) = ', c)
 
@@ -135,7 +138,7 @@ symdisp('A_Q = ', A_Q)
 
 # -
 
-# ## Modulações digitais
+# ## Modulações digitais lineares
 #
 # Uma modulação digital é uma função $F$ que mapeia bits ou conjuntos de bits a símbolos (fasores) no plano complexo
 #
@@ -156,7 +159,7 @@ symdisp('A_Q = ', A_Q)
 
 # ### Diagramas de constelação
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 M = 16 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 
@@ -168,9 +171,9 @@ def genConst(M, constType, plotBits):
         plt.ylabel('$A_Q$', fontsize=14)
         plt.xlabel('$A_I$', fontsize=14)
         plt.axis('square')
-
+        
         # plot modulation bit-to-symbol mapping    
-        constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+        constSymb = grayMapping(M, constType)             # Gray constellation mapping
         bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
         bitMap = bitMap.reshape(-1, int(np.log2(M)))
 
@@ -198,7 +201,7 @@ def genConst(M, constType, plotBits):
             plt.plot(symbTx.real, symbTx.imag,'o', markersize=10);                
       
         plt.title('Constelação '+str(M)+'-'+constType.upper());
-        
+                
         if plotBits:
             if M>=64:
                 fontSize = 6
@@ -212,10 +215,10 @@ def genConst(M, constType, plotBits):
     except:
         return    
     
-interact(genConst, M=[2, 4, 8, 16, 64, 256, 1024], constType=['ook','pam','psk','qam'], plotBits=[True, False]);
+interact(genConst, M=[2, 4, 8, 16, 64, 256, 1024], constType=['ook','pam','psk','apsk','qam'], plotBits=[True, False]);
 # -
 
-# ### Parâmetros importantes das modulações digitais
+# ### Parâmetros importantes das modulações digitais lineares
 
 # #### Energia média dos símbolos da constelação ($E_s$)
 #
@@ -269,7 +272,7 @@ interact(genConst, M=[2, 4, 8, 16, 64, 256, 1024], constType=['ook','pam','psk',
 #
 # $$R_b = kR_s $$
 
-# +
+# + jupyter={"source_hidden": true}
 Rs  = 100e6  # Taxa de símbolos [baud]
 Ts  = 1/Rs  # Período de símbolo em segundos
 N   = 10    # número de intervalos de sinalização
@@ -303,7 +306,7 @@ plt.xlim(0, t.max());
 
 # ### Exemplo 1: função sinc(t)
 
-# +
+# + jupyter={"source_hidden": true}
 Fa = 400   # frequência de amostragem
 B  = 100   # banda da sinc
 Ta = 1/Fa  # período de amostragem
@@ -330,7 +333,7 @@ plt.psd(x_psd, Fs=Fa, NFFT = 16*1024, sides='twosided')
 plt.xlim(-Fa/2, Fa/2);
 
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 def sincInterp(x, fa):
     
     fa_sinc = 32*fa
@@ -367,7 +370,7 @@ plt.legend();
 
 # ### Exemplo 2: chirp de frequência linear
 
-# +
+# + jupyter={"source_hidden": true}
 from scipy.signal import chirp
 
 Fa = 150   # frequência de amostragem
@@ -396,7 +399,7 @@ plt.figure();
 plt.psd(xa, Fs=Fa, NFFT = 16*1024, sides='twosided')
 plt.xlim(-Fa/2, Fa/2);
 
-# +
+# + jupyter={"source_hidden": true}
 x_interp, t_interp = sincInterp(xa, Fa);
 
 plt.figure()
@@ -408,13 +411,28 @@ plt.grid()
 plt.legend(loc='upper right');
 # -
 
-# ## Transmissão digital com sinais binários
+# ## Formatação de pulso e sinais digitais em banda base
 #
-# $ E(t)=\operatorname{Re}\left[A(t) e^{j \theta} \exp \left(j \omega_c t\right)\right]$
+# Partindo de uma sequência de símbolos gerados a partir de um esquema de modulação digital podemos construir um sinal em banda base na forma de um trem de pulsos. Seja $s(t)$ o sinal modulado em banda base representando a sequência de símbolos $s_{k}$ formatada com um pulso $p(t)$, temos que
 #
-# $$ \begin{align} A(t) &= \left[ \sum_{n} s_{n} \delta \left(t-n T_{s}\right)\right] \ast p(t) \nonumber \\ & = \sum_{n} s_{n} p\left(t-n T_{s}\right)\end{align}$$
+# $$\begin{equation} s(t) = \sum_{k=-\infty}^{\infty} s_{k} p\left(t-kT_{s}\right)\end{equation},$$
+#
+# com o processo de geração de $s(t)$ ilustrado na figura a seguir.
+#
+# <img src="./figuras/Fig1-1.png" width="600">
+#
+# Perceba que $s(t)$ pode ser gerado a partir de uma convolução entre um trem de impulsos e o pulso $p(t)$, i.e.
+#
+# $$ \begin{align} s(t) &= \left[ \sum_{k=-\infty}^{\infty} s_{k} \delta \left(t-k T_{s}\right)\right] \ast p(t) \nonumber \\ & = \sum_{k=-\infty}^{\infty} s_{k} p\left(t-k T_{s}\right)\end{align}$$
+#
+# O sinal $s_{k}$, por sua vez, poderá ser transmitido diretamente na banda base ou utilizado na modulação de uma onda portadora.
 
-# +
+# $$ \begin{align} E(t)&=\operatorname{Re}\left[s(t) \exp \left(j \omega_c t\right)\right]\nonumber\\
+# &= \operatorname{Re}\left[\sum_{k=-\infty}^{\infty} s_{k} p\left(t-kT_{s}\right)\exp \left(j \omega_c t\right)\right]\nonumber\\
+# &= \left[\sum_{k=-\infty}^{\infty} \operatorname{Re}[s_{k}] p\left(t-kT_{s}\right)\right]\cos\left(\omega_c t\right) - \left[\sum_{k=-\infty}^{\infty} \operatorname{Im}[s_{k}] p\left(t-kT_{s}\right)\right] \sin\left(\omega_c t\right)
+# \end{align}$$
+
+# + jupyter={"source_hidden": true}
 # gera sequência de bits pseudo-aleatórios
 bits   = np.random.randint(2, size=20)    
 n      = np.arange(bits.size)
@@ -441,7 +459,7 @@ plt.xticks(np.arange(0, symbTx.size));
 
 # ### Pulso retangular ideal
 
-# +
+# + jupyter={"source_hidden": true}
 # parâmetros da simulação
 Rs = 100e6         # Taxa de símbolos
 Ts = 1/Rs          # Período de símbolo em segundos
@@ -474,7 +492,7 @@ plt.xlim(-2,2)
 plt.plot(freqs, np.abs(P), label='|P(f)|')
 plt.grid()
 
-# +
+# + jupyter={"source_hidden": true}
 # formatação de pulso retangular
 sigTx  = firFilter(pulse, symbolsUp)
 sigTx  = sigTx.real
@@ -501,7 +519,7 @@ plt.xlim(0, max(t));
 
 # ### Pulso NRZ típico
 
-# +
+# + jupyter={"source_hidden": true}
 SpS   = 128           # amostras por símbolo
 Fa    = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta    = 1/Fa          # Período de amostragem
@@ -528,7 +546,7 @@ plt.xlim(-2,2)
 plt.plot(freqs, np.abs(P), label='|P(f)|')
 plt.grid()
 
-# +
+# + jupyter={"source_hidden": true}
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
@@ -572,7 +590,7 @@ plt.xlim(0, np.max(t));
 # \end{array}\right.
 # $$
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 from ipywidgets import FloatSlider
 
 def plotRC(β):
@@ -613,7 +631,7 @@ def plotRC(β):
 interact(plotRC, β=[0.99, 0.9, 0.8,0.7,0.6,0.5,0.4,0.3,0.2, 0.1, 0.01, 0.001, 0.0001]);
 #interact(plotRC, β = FloatSlider(min=1e-3, max=1, step=1e-3, continuous_update=False));
 
-# +
+# + jupyter={"source_hidden": true}
 SpS   = 32            # amostras por símbolo
 Fa    = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta    = 1/Fa          # Período de amostragem
@@ -638,7 +656,7 @@ plt.legend()
 t = (0.0*Ts + np.arange(0, (Ncoeffs/SpS)*Ts, Ts))/1e-9
 plt.vlines(t + 0.5*(Ts/1e-9), -0.2, 1, linestyles='dashed', color = 'k');
 
-# +
+# + jupyter={"source_hidden": true}
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
@@ -862,7 +880,7 @@ plt.xlim(0, max(t));
 
 # ### Exemplos de densidade espectral de potência de sinais modulados
 
-# +
+# + jupyter={"source_hidden": true}
 # gera sequência de bits pseudo-aleatórios
 bits   = np.random.randint(2, size=200000)    
 n      = np.arange(0, bits.size)
@@ -918,7 +936,7 @@ plt.legend(loc='upper left');
 
 # ### Diagramas de constelação
 
-# + hide_input=false
+# + hide_input=false jupyter={"source_hidden": true}
 M = 8 # order of the modulation format
 constType = 'pam' # 'qam', 'psk', 'pam' or 'ook'
 
@@ -931,7 +949,7 @@ plt.xlabel('$A_I$', fontsize=14)
 plt.axis('square')
 
 # plot modulation bit-to-symbol mapping
-constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+constSymb = grayMapping(M, constType)             # Gray constellation mapping
 bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
 bitMap = bitMap.reshape(-1, int(np.log2(M)))
 
@@ -957,7 +975,7 @@ for ind, symb in enumerate(pnorm(constSymb)):
 
 # ### Mapeando bits para símbolos
 
-# +
+# + jupyter={"source_hidden": true}
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
 Rs  = 100e6         # Taxa de símbolos
@@ -985,7 +1003,7 @@ for b in range(int(np.log2(M))):
 
 display(df.T)
 
-# +
+# + jupyter={"source_hidden": true}
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
@@ -996,7 +1014,7 @@ plt.grid()
 plt.legend(loc='upper right')
 plt.xticks(np.arange(0, 5*SpS, SpS));
 
-# +
+# + jupyter={"source_hidden": true}
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
@@ -1023,7 +1041,7 @@ t = (0.5*Ts + np.arange(0, symbTx.size*Ts, Ts))/1e-9
 plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
 plt.xlim(0, max(t));
 
-# +
+# + jupyter={"source_hidden": true}
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size=int(np.log2(M)*500000))
 
@@ -1051,16 +1069,18 @@ plt.legend(loc='upper left');
 
 # ### Diagramas de olho
 
+# + jupyter={"source_hidden": true}
 # diagrama de olho
 Nsamples = sigTx.size
 eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
+# -
 
 
 # ## Modulação M-QAM
 
 # ### Diagramas de constelação
 
-# + hide_input=true
+# + hide_input=true jupyter={"source_hidden": true}
 M = 4 # order of the modulation format
 constType = 'qam' # 'qam', 'psk', 'pam' or 'ook'
 
@@ -1073,7 +1093,7 @@ plt.xlabel('$A_I$', fontsize=14)
 plt.axis('square')
 
 # plot modulation bit-to-symbol mapping
-constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+constSymb = grayMapping(M, constType)             # Gray constellation mapping
 bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
 bitMap = bitMap.reshape(-1, int(np.log2(M)))
 
@@ -1099,7 +1119,7 @@ for ind, symb in enumerate(pnorm(constSymb)):
 
 # ### Mapeando bits para símbolos
 
-# +
+# + jupyter={"source_hidden": true}
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
 Rs  = 100e6         # Taxa de símbolos
@@ -1135,7 +1155,7 @@ for b in range(int(np.log2(M))):
 
 display(df.T)
 
-# +
+# + jupyter={"source_hidden": true}
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
@@ -1155,7 +1175,7 @@ plt.grid()
 plt.legend(loc='upper right')
 plt.xticks(np.arange(0, 5*SpS, SpS));
 
-# +
+# + jupyter={"source_hidden": true}
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
 pulse = pulse/max(abs(pulse))
@@ -1186,7 +1206,7 @@ plt.xlim(0, max(t));
 
 # ### Espectro do sinal modulado
 
-# +
+# + jupyter={"source_hidden": true}
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size=int(np.log2(M)*500000))
 
@@ -1213,7 +1233,7 @@ plt.legend(loc='upper left');
 
 # ### Diagramas de olho
 
-# +
+# + jupyter={"source_hidden": true}
 # diagrama de olho
 Nsamples = sigTx.size
 eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
@@ -1225,7 +1245,7 @@ eyediagram(np.abs(sigTx), Nsamples, SpS, plotlabel= str(M)+'-QAM (absolute value
 
 # ### Diagramas de constelação
 
-# +
+# + jupyter={"source_hidden": true}
 M = 8 # order of the modulation format
 constType = 'psk' # 'qam', 'psk', 'pam' or 'ook'
 
@@ -1238,7 +1258,7 @@ plt.xlabel('$A_I$', fontsize=14)
 plt.axis('square')
 
 # plot modulation bit-to-symbol mapping
-constSymb = GrayMapping(M, constType)             # Gray constellation mapping
+constSymb = grayMapping(M, constType)             # Gray constellation mapping
 bitMap = demodulateGray(constSymb, M, constType)  # bit mapping
 bitMap = bitMap.reshape(-1, int(np.log2(M)))
 
@@ -1265,7 +1285,7 @@ for ind, symb in enumerate(pnorm(constSymb)):
 
 # ### Mapeando bits para símbolos
 
-# +
+# + jupyter={"source_hidden": true}
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
 Rs  = 100e6         # Taxa de símbolos
@@ -1301,7 +1321,7 @@ for b in range(int(np.log2(M))):
 
 display(df.T)
 
-# +
+# + jupyter={"source_hidden": true}
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 
@@ -1335,7 +1355,7 @@ plt.xlim(0, max(t));
 
 # ### Espectro do sinal modulado
 
-# +
+# + jupyter={"source_hidden": true}
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size=int(np.log2(M)*500000))
 
@@ -1362,7 +1382,7 @@ plt.legend(loc='upper left');
 
 # ### Diagramas de olho
 
-# +
+# + jupyter={"source_hidden": true}
 # diagrama de olho
 Nsamples = sigTx.size
 eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-PSK', ptype='fancy')
