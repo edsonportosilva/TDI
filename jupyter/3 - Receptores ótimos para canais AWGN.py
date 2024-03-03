@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -32,9 +32,9 @@ from ipywidgets import interact
 
 from commpy.utilities import upsample
 
-from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
-from optic.metrics import signal_power
+from optic.comm.modulation import modulateGray, demodulateGray, grayMapping
+from optic.dsp.core import firFilter, pulseShape, lowPassFIR, pnorm
+from optic.comm.metrics import signal_power
 from optic.plot import eyediagram, pconst
 # -
 
@@ -61,7 +61,7 @@ HTML("""
 # %load_ext autoreload
 # %autoreload 2
 
-figsize(8, 3)
+figsize(6, 2)
 
 # # Transmissão Digital da Informação
 
@@ -587,10 +587,9 @@ ax2.set_xlim(min(x), max(x));
 
 # +
 from numba import njit
-
-@njit
 import numpy as np
 
+@njit
 def detector(r, σ2, constSymb, px=None, rule='MAP'):
     """
     Perform symbol detection using either the MAP (Maximum A Posteriori) or ML (Maximum Likelihood) rule.
@@ -729,7 +728,7 @@ Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
 # get constellation    
-constSymb = GrayMapping(M, 'pam')  # constellation
+constSymb = grayMapping(M, 'pam')  # constellation
 constSymb = pnorm(constSymb) 
 
 # generate pseudo-random bit sequence
@@ -786,7 +785,7 @@ lx, _ = findLimiars(constSymb, σ2=σ2)
 plt.hlines(lx, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
-from optic.metrics import fastBERcalc, theoryBER
+from optic.comm.metrics import fastBERcalc, theoryBER
 
 ind = np.arange(100,dec.size-100)
 
