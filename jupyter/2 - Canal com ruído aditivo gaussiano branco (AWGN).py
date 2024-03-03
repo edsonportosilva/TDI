@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -30,9 +30,9 @@ from ipywidgets import interact
 
 from commpy.utilities import upsample
 
-from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
-from optic.metrics import signal_power
+from optic.comm.modulation import modulateGray, demodulateGray, grayMapping
+from optic.dsp.core import firFilter, pulseShape, lowPassFIR, pnorm
+from optic.comm.metrics import signal_power
 from optic.plot import eyediagram
 # -
 
@@ -230,7 +230,7 @@ symplot(τ, Rtau.subs({N0:1,B:1}), intervalo_τ, funLabel='R(τ)');
 from numpy.random import normal
 
 # ruído gaussiano branco
-Namostras = 1000 
+Namostras = 100000 
 σ2  = 0.5  # variância
 μ   = 0    # média
 
@@ -278,7 +278,7 @@ print('Potência do ruído = %.2f unidades de potência' %pot(ruido)) # veja a d
 # ### Efeito do ruído em sistemas de comunicação digital
 
 # +
-M = 2
+M = 4
 
 # parâmetros da simulação
 SpS = 16            # Amostras por símbolo
@@ -290,7 +290,7 @@ Ta  = 1/Fa          # Período de amostragem
 # generate pseudo-random bit sequence
 bitsTx = np.random.randint(2, size = int(25*np.log2(M)))
 
-# generate ook modulated symbol sequence
+# generate pam modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
 symbTx = pnorm(symbTx) # power normalization
 
@@ -321,7 +321,7 @@ plt.grid()
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.050  # variância
+σ2  = 0.00050  # variância
 μ   = 0      # média
 
 σ      = sqrt(σ2) 
@@ -346,7 +346,7 @@ symbTx = pnorm(symbTx) # power normalization
 symbolsUp = upsample(symbTx, SpS)
 
 # pulso NRZ típico
-pulse = pulseShape('nrz', SpS)
+pulse = pulseShape('rc', SpS)
 pulse = pulse/max(abs(pulse))
 
 # formatação de pulso
