@@ -23,6 +23,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: Phase and frequency offset in 16QAM
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -265,7 +266,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 796.0]
+    coordinate: [504, 720.0]
     rotation: 0
     state: true
 - name: analog_noise_source_x_0
@@ -284,7 +285,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 360.0]
+    coordinate: [376, 336.0]
     rotation: 0
     state: true
 - name: analog_pll_freqdet_cf_0
@@ -302,7 +303,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 680.0]
+    coordinate: [496, 624.0]
     rotation: 0
     state: true
 - name: analog_random_source_x_0
@@ -347,7 +348,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 316.0]
+    coordinate: [656, 328.0]
     rotation: 180
     state: true
 - name: blocks_add_xx_0
@@ -365,7 +366,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 244.0]
+    coordinate: [520, 168.0]
     rotation: 0
     state: true
 - name: blocks_delay_0
@@ -378,13 +379,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     num_ports: '1'
+    showports: 'False'
     type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 196.0]
+    coordinate: [856, 168.0]
     rotation: 0
     state: true
 - name: blocks_divide_xx_0
@@ -402,7 +404,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 780.0]
+    coordinate: [784, 648.0]
     rotation: 0
     state: true
 - name: blocks_exponentiate_const_cci_0
@@ -455,7 +457,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1460.0, 464]
+    coordinate: [1464.0, 424]
     rotation: 90
     state: true
 - name: blocks_multiply_xx_0
@@ -473,7 +475,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 492.0]
+    coordinate: [1272, 384.0]
     rotation: 0
     state: true
 - name: blocks_vco_c_0
@@ -491,7 +493,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 488.0]
+    coordinate: [1000, 464.0]
     rotation: 0
     state: true
 - name: digital_constellation_modulator_0
@@ -513,7 +515,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 228.0]
+    coordinate: [200, 192.0]
     rotation: 0
     state: true
 - name: digital_linear_equalizer_0
@@ -534,7 +536,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 700.0]
+    coordinate: [1288, 592.0]
     rotation: 0
     state: true
 - name: filter_fft_rrc_filter_0
@@ -557,7 +559,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1088, 176.0]
+    coordinate: [1024, 152.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -649,7 +651,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1544, 300.0]
+    coordinate: [1544, 272.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -730,7 +732,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 608.0]
+    coordinate: [296, 520.0]
     rotation: 180
     state: true
 - name: qtgui_freq_sink_x_1
@@ -874,7 +876,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 724.0]
+    coordinate: [1016, 624.0]
     rotation: 0
     state: true
 - name: qtgui_time_sink_x_0
@@ -971,7 +973,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 752.0]
+    coordinate: [144, 632.0]
     rotation: 0
     state: true
 
@@ -1003,3 +1005,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0
