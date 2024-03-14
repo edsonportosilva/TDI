@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -32,10 +32,10 @@ from ipywidgets import interact
 
 from commpy.utilities import upsample
 
-from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
-from optic.metrics import signal_power
-from optic.plot import eyediagram, pconst
+from optic.comm.modulation import modulateGray, demodulateGray, grayMapping
+from optic.dsp.core import firFilter, pulseShape, lowPassFIR, pnorm, decimate
+from optic.comm.metrics import signal_power
+from optic.plot import eyediagram, pconst, plotDecisionBoundaries, randomCmap, plotColoredConst
 # -
 
 pd.set_option('display.max_columns', 500)
@@ -79,7 +79,7 @@ figsize(8, 3)
 
 # Considere o modelo de canal em que os sinais transmitidos são afetados apenas por ruído branco gaussiano aditivo (*additive white Gaussian noise* - AWGN). Nesse modelo, o ruído é representado por um processo aleatório gaussiano, ou seja, para cada instante $t$ no tempo, o ruído $n(t)$ adicionado ao sinal é dado por uma variável aleatória gaussiana de média $\mu$ igual a zero e com uma certa variância $\sigma^2$. Desse modo, seja $s(t)$ o sinal enviado pelo transmissor ao canal, o modelo de canal AWGN assume que um ruído $n(t)$ será adicionado ao sinal de informação durante o processo de comunicação, como indicado na figura a seguir
 
-# <img src="./figuras/Fig3.png" width="700">
+# <img src="./figuras/Fig3.png" width="600">
 # <center>Fig.2: Esquemático de um sistema de transmissão digital via canal AWGN.</center>
 
 # em que $r(t)$ representa o sinal ruidoso na entrada do receptor.
@@ -220,11 +220,11 @@ figsize(8, 3)
 #
 # $$ 
 # \begin{equation}
-# h_k(t)=f_k(T_s-t), \quad 0 \leqslant t \leqslant T
+# h_k(t)=f_k(T_s-t), \quad 0 \leqslant t \leqslant T_s
 # \end{equation}
 # $$
 #
-# em que $\left\lbrace f_k(t) \right\rbrace_{k=1}^{N}$ são as $N$ funções da base orthonormal e que $h_k(t)=0$ fora do intervalo $0 \leqslant t \leqslant T$.
+# em que $\left\lbrace f_k(t) \right\rbrace_{k=1}^{N}$ são as $N$ funções da base orthonormal e que $h_k(t)=0$ fora do intervalo $0 \leqslant t \leqslant T_s$.
 
 # <img src="./figuras/Fig7.png" width="600">
 # <center>Fig.5: Demodulador por filtro casado.</center>
@@ -377,8 +377,16 @@ plt.vlines(t, min(symbTx), max(symbTx), linestyles='dashed', color = 'k');
 plt.xlim(min(t), max(t));
 
 # +
+# parâmetros da simulação
+M   = 4             # ordem do formato de modulação
+SpS = 16            # Amostras por símbolo
+Rs  = 100e6         # Taxa de símbolos
+Ts  = 1/Rs          # Período de símbolo em segundos
+Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
+Ta  = 1/Fa          # Período de amostragem
+
 # generate pseudo-random bit sequence
-bitsTx = np.random.randint(2, size = int(250000*np.log2(M)))
+bitsTx = np.random.randint(2, size = int(200000*np.log2(M)))
 
 # generate ook modulated symbol sequence
 symbTx = modulateGray(bitsTx, M, 'pam')    
@@ -408,20 +416,20 @@ Nsamples = sigTx.size
 eyediagram(sigTx+ruido, Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 eyediagram(firFilter(pulse, sigTx+ruido), Nsamples, SpS, plotlabel= str(M)+'-PAM', ptype='fancy')
 
-# + hide_input=true
+# + hide_input=false
 # plot PSD
 plt.figure();
 plt.xlim(-4*Rs,4*Rs);
-plt.ylim(-250,-50);
+plt.ylim(-300,-50);
 plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx '+ str(M) +'-PAM')
-plt.legend(loc='upper left');
+plt.legend(loc='lower left');
 
 plt.figure();
 plt.xlim(-4*Rs,4*Rs);
-plt.ylim(-250,-50);
+plt.ylim(-300,-50);
 plt.psd(sigTx+ruido,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (entrada do filtro) '+ str(M) +'-PAM')
 plt.psd(pnorm(firFilter(pulse, sigTx+ruido)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do filtro)  '+ str(M) +'-PAM')
-plt.legend(loc='upper left');
+plt.legend(loc='lower left');
 # -
 
 # ## Detectores ótimos
@@ -554,17 +562,18 @@ sigRx = firFilter(pulse, sigTx+ruido)
 sigRx = pnorm(sigRx)
 
 # downsampling
-r = sigRx[2::SpS]
+r = sigRx[1::SpS]
 
 # plota valores de r e histograma
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (12,4))
+
 ax1.plot(r,'.',linewidth = 0.8);
 ax1.grid()
 ax1.set_xlabel('amostra')
 ax1.set_ylabel('amplitude')
 ax1.set_xlim(0,r.size);
 
-ax2.hist(r, density=True, bins=300, label = 'hist(r)',alpha=0.5);
+ax2.hist(r, density=True, bins=100, label = 'hist(r)',alpha=0.5);
 
 x = np.arange(-2, 2, 0.01)
 π = np.pi
@@ -574,7 +583,7 @@ for sm in constSymb:
     pdf += pdf_c
     ax2.plot(x, pdf_c, '--', label = f'p(r|s={sm:.2f})P(s={sm:.2f})', linewidth=2);
     
-ax2.plot(x, pdf, 'k--', label = 'p(r)', linewidth=2);    
+ax2.plot(x, pdf, 'k--', label = 'p(r)', linewidth=1);    
 ax2.grid()
 ax2.legend(loc='right', bbox_to_anchor=(1.5, 0.5))
 ax2.set_xlabel('r')
@@ -587,10 +596,9 @@ ax2.set_xlim(min(x), max(x));
 
 # +
 from numba import njit
-
-@njit
 import numpy as np
 
+@njit
 def detector(r, σ2, constSymb, px=None, rule='MAP'):
     """
     Perform symbol detection using either the MAP (Maximum A Posteriori) or ML (Maximum Likelihood) rule.
@@ -729,7 +737,7 @@ Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
 # get constellation    
-constSymb = GrayMapping(M, 'pam')  # constellation
+constSymb = grayMapping(M, 'pam')  # constellation
 constSymb = pnorm(constSymb) 
 
 # generate pseudo-random bit sequence
@@ -786,7 +794,7 @@ lx, _ = findLimiars(constSymb, σ2=σ2)
 plt.hlines(lx, 0, dec.size, colors='black', linestyles='dashed');
 
 # +
-from optic.metrics import fastBERcalc, theoryBER
+from optic.comm.metrics import fastBERcalc, theoryBER
 
 ind = np.arange(100,dec.size-100)
 
@@ -829,7 +837,7 @@ Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
 # gera constelação    
-constSymb = GrayMapping(M, 'pam')  # constellation
+constSymb = grayMapping(M, 'pam')  # constellation
 
 # define probabilidades de símbolo
 constSymb = pnorm(constSymb)
@@ -916,7 +924,7 @@ Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
 # get constellation    
-constSymb = GrayMapping(M, 'qam')  # constellation
+constSymb = grayMapping(M, 'qam')  # constellation
 constSymb = pnorm(constSymb) 
 
 # generate pseudo-random bit sequence
@@ -960,23 +968,15 @@ eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)
 dec, pos = detector(r, σ2, constSymb, rule='MAP') # detector
 
 # +
-# plota símbolos recebidos e decisões
-n_colors = M
-colors = cm.turbo(np.linspace(0, 1, n_colors))
-index = np.arange(0,dec.size)
-
-plt.figure(figsize=(4,4))
-plt.scatter(r.real, r.imag,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
-plt.axis('square');
-plt.grid(alpha=0.25)
-plt.xlabel('I')
-plt.ylabel('Q');
+# plota símbolos recebidos e limiares de decisão
+fig, ax = plotColoredConst(r, constSymb, SNR=10*np.log10(1/σ2), cmap = cm.turbo)
+fig.set_size_inches(4, 4)
 plt.plot(constSymb.real, constSymb.imag,'ko', markersize=3);
 
 lx, ly = findLimiars(constSymb, σ2=σ2)
 
-plt.hlines(ly, -3, 3, colors='black', linestyles='dashed');
-plt.vlines(lx, -3, 3, colors='black', linestyles='dashed');
+plt.hlines(ly, -3, 3, colors='black', linestyles='dashed', linewidth=1);
+plt.vlines(lx, -3, 3, colors='black', linestyles='dashed', linewidth=1);
 
 # +
 ind = np.arange(100,dec.size-100)
@@ -1006,7 +1006,7 @@ Fa  = 1/(Ts/SpS)    # Frequência de amostragem do sinal (amostras/segundo)
 Ta  = 1/Fa          # Período de amostragem
 
 # gera constelação    
-constSymb = GrayMapping(M, 'qam')  # constellation
+constSymb = grayMapping(M, 'qam')  # constellation
 
 # define probabilidades de símbolo
 constSymb = pnorm(constSymb)
@@ -1058,22 +1058,14 @@ eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)
 dec, pos = detector(r, σ2, constSymb, px=probSymb, rule='MAP') # detector
 
 # +
-# plota símbolos recebidos e decisões
-n_colors = M
-colors = cm.turbo(np.linspace(0, 1, n_colors))
-index = np.arange(0,dec.size)
-
-plt.figure(figsize=(4,4))
-plt.scatter(r.real, r.imag,c=[colors[ind] for ind in pos], marker='.', s = 0.5);
-plt.axis('square');
-plt.grid(alpha=0.25)
-plt.xlabel('I')
-plt.ylabel('Q');
-plt.plot(constSymb.real, constSymb.imag,'ko',markersize=3);
+# plota símbolos recebidos e limiares de decisão
+fig, ax = plotColoredConst(r, constSymb, SNR=10*np.log10(1/σ2), px=probSymb, rule='MAP', cmap = cm.turbo)
+fig.set_size_inches(4, 4)
+plt.plot(constSymb.real, constSymb.imag,'ko', markersize=3);
 
 lx, ly = findLimiars(constSymb, σ2=σ2, px=probSymb)
-plt.hlines(ly, -3, 3, colors='black', linestyles='dashed');
-plt.vlines(lx, -3, 3, colors='black', linestyles='dashed');
+plt.hlines(ly, -3, 3, colors='black', linestyles='dashed', linewidth=1);
+plt.vlines(lx, -3, 3, colors='black', linestyles='dashed', linewidth=1);
 
 # +
 ind = np.arange(100,dec.size-100)
@@ -1735,7 +1727,7 @@ def uniBound_Pe(const, N0):
 
 # plot Pe and union bound as a function of SNR for several different QAM orders
 for M in [4, 16, 64, 256]:
-    constSymb = GrayMapping(M, 'qam')   # Gray constellation mapping
+    constSymb = grayMapping(M, 'qam')   # Gray constellation mapping
     
     SNR_val = np.arange(0,35,1)
     Pe_uniBound = np.zeros(SNR_val.shape)
