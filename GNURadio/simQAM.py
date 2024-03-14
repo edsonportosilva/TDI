@@ -80,7 +80,7 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.FO = FO = 100
         self.BandPass_f_low = BandPass_f_low = 100
         self.BandPass_f_high = BandPass_f_high = 200
-        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, .0005).base()
+        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, .005).base()
 
         ##################################################
         # Blocks
