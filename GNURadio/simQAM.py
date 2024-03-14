@@ -7,15 +7,15 @@
 # GNU Radio Python Flow Graph
 # Title: Phase and frequency offset in 16QAM
 # Author: edson
-# GNU Radio version: 3.10.6.0
+# GNU Radio version: 3.10.7.0
 
 from packaging.version import Version as StrictVersion
 from PyQt5 import Qt
 from gnuradio import qtgui
 from gnuradio import analog
 from gnuradio import blocks
+import math
 import numpy
-from gnuradio import channels
 from gnuradio import digital
 from gnuradio import filter
 from gnuradio.filter import firdes
@@ -69,49 +69,63 @@ class simQAM(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
+        self.Constellation = Constellation = digital.constellation_16qam().base()
         self.samp_rate = samp_rate = 32000
+        self.rolloff = rolloff = 0.9
+        self.pll_L2 = pll_L2 = 100
+        self.pll_L1 = pll_L1 = 50
+        self.noiseStd = noiseStd = 0
+        self.delay = delay = 0
         self.SamplesPerSymbol = SamplesPerSymbol = 16
-        self.Constellation = Constellation = digital.constellation_qpsk().base()
-        self.rolloff = rolloff = 1
-        self.preconv = preconv = digital.adaptive_algorithm_cma( Constellation, 0.005, 2).base()
-        self.numTaps = numTaps = 45
-        self.noiseStd = noiseStd = 0.01
-        self.delay = delay = 2
-        self.chBW = chBW = 0.75*samp_rate/SamplesPerSymbol
-        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.0005).base()
+        self.FO = FO = 100
+        self.BandPass_f_low = BandPass_f_low = 100
+        self.BandPass_f_high = BandPass_f_high = 200
+        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, .0005).base()
 
         ##################################################
         # Blocks
         ##################################################
 
-        self._noiseStd_range = Range(0, 10, 0.01, 0.01, 200)
-        self._noiseStd_win = RangeWidget(self._noiseStd_range, self.set_noiseStd, "Noise std", "counter_slider", float, QtCore.Qt.Horizontal)
+        self._pll_L2_range = Range(100, 2000, 10, 100, 200)
+        self._pll_L2_win = RangeWidget(self._pll_L2_range, self.set_pll_L2, "+B_pll/-B_pll", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._pll_L2_win)
+        self._pll_L1_range = Range(10, 200, 5, 50, 200)
+        self._pll_L1_win = RangeWidget(self._pll_L1_range, self.set_pll_L1, "PLL Loop BW", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._pll_L1_win)
+        self._noiseStd_range = Range(0, 1, 0.01, 0, 200)
+        self._noiseStd_win = RangeWidget(self._noiseStd_range, self.set_noiseStd, "'noiseStd'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._noiseStd_win)
-        self._delay_range = Range(0, 32, 1, 2, 200)
-        self._delay_win = RangeWidget(self._delay_range, self.set_delay, "Sampling delay", "counter_slider", int, QtCore.Qt.Horizontal)
+        self._delay_range = Range(0, 32, 1, 0, 200)
+        self._delay_win = RangeWidget(self._delay_range, self.set_delay, "'delay'", "counter_slider", int, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._delay_win)
-        self._chBW_range = Range(10, samp_rate/2, 10, 0.75*samp_rate/SamplesPerSymbol, 200)
-        self._chBW_win = RangeWidget(self._chBW_range, self.set_chBW, "channel BW", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._chBW_win)
-        self.qtgui_time_sink_x_1 = qtgui.time_sink_c(
-            numTaps, #size
-            samp_rate/SamplesPerSymbol, #samp_rate
+        self._FO_range = Range(0, 400, 5, 100, 200)
+        self._FO_win = RangeWidget(self._FO_range, self.set_FO, "FreqOffset", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._FO_win)
+        self._BandPass_f_low_range = Range(10, samp_rate/SamplesPerSymbol/2, 1, 100, 200)
+        self._BandPass_f_low_win = RangeWidget(self._BandPass_f_low_range, self.set_BandPass_f_low, "'BandPass_f_low'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._BandPass_f_low_win)
+        self._BandPass_f_high_range = Range(10, samp_rate/SamplesPerSymbol/2, 1, 200, 200)
+        self._BandPass_f_high_win = RangeWidget(self._BandPass_f_high_range, self.set_BandPass_f_high, "'BandPass_f_high'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._BandPass_f_high_win)
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
+            1024, #size
+            samp_rate, #samp_rate
             "", #name
             1, #number of inputs
             None # parent
         )
-        self.qtgui_time_sink_x_1.set_update_time(0.10)
-        self.qtgui_time_sink_x_1.set_y_axis(-1, 1)
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_y_axis(-2, 2)
 
-        self.qtgui_time_sink_x_1.set_y_label('Amplitude', "")
+        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
 
-        self.qtgui_time_sink_x_1.enable_tags(True)
-        self.qtgui_time_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_1.enable_autoscale(False)
-        self.qtgui_time_sink_x_1.enable_grid(False)
-        self.qtgui_time_sink_x_1.enable_axis_labels(True)
-        self.qtgui_time_sink_x_1.enable_control_panel(False)
-        self.qtgui_time_sink_x_1.enable_stem_plot(True)
+        self.qtgui_time_sink_x_0.enable_tags(False)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(False)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
 
 
         labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
@@ -124,37 +138,70 @@ class simQAM(gr.top_block, Qt.QWidget):
             1.0, 1.0, 1.0, 1.0, 1.0]
         styles = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        markers = [0, 1, -1, -1, -1,
+        markers = [-1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1]
 
 
         for i in range(2):
             if len(labels[i]) == 0:
                 if (i % 2 == 0):
-                    self.qtgui_time_sink_x_1.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
                 else:
-                    self.qtgui_time_sink_x_1.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
             else:
-                self.qtgui_time_sink_x_1.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_1.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_1.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_1.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_1.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_1_win, 2, 0, 2, 3)
-        for r in range(2, 4):
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_time_sink_x_0_win, 0, 3, 2, 3)
+        for r in range(0, 2):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 3):
+        for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.qtgui_number_sink_0 = qtgui.number_sink(
+            gr.sizeof_float,
+            0,
+            qtgui.NUM_GRAPH_NONE,
+            1,
+            None # parent
+        )
+        self.qtgui_number_sink_0.set_update_time(0.10)
+        self.qtgui_number_sink_0.set_title('Estimated frequency offset')
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+
+        for i in range(1):
+            self.qtgui_number_sink_0.set_min(i, -1)
+            self.qtgui_number_sink_0.set_max(i, 1)
+            self.qtgui_number_sink_0.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.qtgui_number_sink_0.set_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_number_sink_0.set_label(i, labels[i])
+            self.qtgui_number_sink_0.set_unit(i, units[i])
+            self.qtgui_number_sink_0.set_factor(i, factor[i])
+
+        self.qtgui_number_sink_0.enable_autoscale(False)
+        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_number_sink_0_win)
         self.qtgui_freq_sink_x_1 = qtgui.freq_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
             "", #name
-            3,
+            1,
             None # parent
         )
         self.qtgui_freq_sink_x_1.set_update_time(0.10)
@@ -163,23 +210,23 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_1.enable_autoscale(False)
         self.qtgui_freq_sink_x_1.enable_grid(False)
-        self.qtgui_freq_sink_x_1.set_fft_average(0.2)
+        self.qtgui_freq_sink_x_1.set_fft_average(1.0)
         self.qtgui_freq_sink_x_1.enable_axis_labels(True)
         self.qtgui_freq_sink_x_1.enable_control_panel(False)
         self.qtgui_freq_sink_x_1.set_fft_window_normalized(False)
 
 
 
-        labels = ['Tx signal', 'Tx signal + channel response', 'Tx signal + channel response + noise', '', '',
+        labels = ['', '', '', '', '',
             '', '', '', '', '']
-        widths = [2, 2, 2, 1, 1,
+        widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        colors = ["blue", "black", "red", "black", "cyan",
+        colors = ["blue", "red", "green", "black", "cyan",
             "magenta", "yellow", "dark red", "dark green", "dark blue"]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in range(3):
+        for i in range(1):
             if len(labels[i]) == 0:
                 self.qtgui_freq_sink_x_1.set_line_label(i, "Data {0}".format(i))
             else:
@@ -194,76 +241,68 @@ class simQAM(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.qtgui_eye_sink_x_0 = qtgui.eye_sink_c(
-            (1024*16), #size
-            samp_rate, #samp_rate
-            1, #number of inputs
-            None
+        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+            (1024*8), #size
+            window.WIN_RECTANGULAR, #wintype
+            0, #fc
+            (samp_rate/SamplesPerSymbol), #bw
+            "", #name
+            2,
+            None # parent
         )
-        self.qtgui_eye_sink_x_0.set_update_time(0.10)
-        self.qtgui_eye_sink_x_0.set_samp_per_symbol(SamplesPerSymbol)
-        self.qtgui_eye_sink_x_0.set_y_axis(-2, 2)
-
-        self.qtgui_eye_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_eye_sink_x_0.enable_tags(False)
-        self.qtgui_eye_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_eye_sink_x_0.enable_autoscale(True)
-        self.qtgui_eye_sink_x_0.enable_grid(False)
-        self.qtgui_eye_sink_x_0.enable_axis_labels(True)
-        self.qtgui_eye_sink_x_0.enable_control_panel(False)
+        self.qtgui_freq_sink_x_0.set_update_time(0.10)
+        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_0.enable_autoscale(False)
+        self.qtgui_freq_sink_x_0.enable_grid(False)
+        self.qtgui_freq_sink_x_0.set_fft_average(0.05)
+        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
 
 
-        labels = ['I(t)', 'Q(t)', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        colors = ['blue', 'blue', 'blue', 'blue', 'blue',
-            'blue', 'blue', 'blue', 'blue', 'blue']
+        colors = ["blue", "red", "green", "black", "cyan",
+            "magenta", "yellow", "dark red", "dark green", "dark blue"]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [3, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
-
 
         for i in range(2):
             if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_eye_sink_x_0.set_line_label(i, "Eye [Re{{Data {0}}}]".format(round(i/2)))
-                else:
-                    self.qtgui_eye_sink_x_0.set_line_label(i, "Eye [Im{{Data {0}}}]".format(round((i-1)/2)))
+                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_eye_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_eye_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_eye_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_eye_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_eye_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_eye_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_eye_sink_x_0_win = sip.wrapinstance(self.qtgui_eye_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_eye_sink_x_0_win, 0, 3, 2, 3)
-        for r in range(0, 2):
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_freq_sink_x_0_win, 2, 0, 2, 3)
+        for r in range(2, 4):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(3, 6):
+        for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-            1024, #size
+            20000, #size
             "", #name
-            2, #number of inputs
+            3, #number of inputs
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
         self.qtgui_const_sink_x_0.set_y_axis((-2.5), 2.5)
         self.qtgui_const_sink_x_0.set_x_axis((-2.5), 2.5)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0.enable_autoscale(True)
+        self.qtgui_const_sink_x_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0.enable_grid(False)
         self.qtgui_const_sink_x_0.enable_axis_labels(True)
 
 
-        labels = ['Received constellation', 'After linear equalization', 'After CPR', '', '',
+        labels = ['Received constellation', 'After FO comp.', 'After CPR', '', '',
             '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
@@ -276,7 +315,7 @@ class simQAM(gr.top_block, Qt.QWidget):
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in range(2):
+        for i in range(3):
             if len(labels[i]) == 0:
                 self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
@@ -293,20 +332,8 @@ class simQAM(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.low_pass_filter_0 = filter.fir_filter_ccf(
-            1,
-            firdes.low_pass(
-                1,
-                samp_rate,
-                chBW,
-                10,
-                window.WIN_HAMMING,
-                6.76))
-        self.fir_filter_xxx_0 = filter.fir_filter_ccc(2, [1, 0])
-        self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
-        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc((SamplesPerSymbol//2), firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
-        self.digital_linear_equalizer_0 = digital.linear_equalizer(numTaps, 2, AdaptiveEqualizer, True, [ ], 'corr_est')
+        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, (samp_rate/SamplesPerSymbol), rolloff, 2048), 1)
+        self.digital_linear_equalizer_0 = digital.linear_equalizer(3, 1, AdaptiveEqualizer, True, [ ], 'corr_est')
         self.digital_constellation_modulator_0 = digital.generic_mod(
             constellation=Constellation,
             differential=False,
@@ -316,37 +343,57 @@ class simQAM(gr.top_block, Qt.QWidget):
             verbose=False,
             log=False,
             truncate=False)
-        self.channels_fading_model_0 = channels.fading_model( 64, (0.005/samp_rate), True, 4.0, 0 )
-        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, numTaps)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1)
+        self.blocks_vco_c_0 = blocks.vco_c((samp_rate/SamplesPerSymbol), (2*3.1459), 1)
+        self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(2.5)
+        self.blocks_freqshift_cc_0 = blocks.rotator_cc(2.0*math.pi*FO/samp_rate)
+        self.blocks_exponentiate_const_cci_0 = blocks.exponentiate_const_cci(4, 1)
+        self.blocks_divide_xx_0 = blocks.divide_ff(1)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, delay)
         self.blocks_add_xx_0 = blocks.add_vcc(1)
+        self.band_pass_filter_0 = filter.fir_filter_ccf(
+            1,
+            firdes.band_pass(
+                1,
+                (samp_rate/SamplesPerSymbol),
+                BandPass_f_low,
+                BandPass_f_high,
+                5,
+                window.WIN_HAMMING,
+                6.76))
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 40000))), True)
+        self.analog_pll_freqdet_cf_0 = analog.pll_freqdet_cf((2*3.1459*pll_L1/(samp_rate/SamplesPerSymbol)), (2*3.1459*pll_L2/(samp_rate/SamplesPerSymbol)), (-2*3.1459*pll_L2/(samp_rate/SamplesPerSymbol)))
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noiseStd, 0)
+        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, (-(2*3.1459*4)/(samp_rate/SamplesPerSymbol)))
 
 
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.analog_const_source_x_0, 0), (self.blocks_divide_xx_0, 1))
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 1))
+        self.connect((self.analog_pll_freqdet_cf_0, 0), (self.blocks_divide_xx_0, 0))
         self.connect((self.analog_random_source_x_0, 0), (self.digital_constellation_modulator_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.blocks_delay_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.filter_fft_rrc_filter_0_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.qtgui_freq_sink_x_1, 2))
-        self.connect((self.blocks_delay_0, 0), (self.channels_fading_model_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_const_sink_x_0, 1))
-        self.connect((self.blocks_vector_to_stream_0, 0), (self.qtgui_time_sink_x_1, 0))
-        self.connect((self.channels_fading_model_0, 0), (self.filter_fft_rrc_filter_0, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.low_pass_filter_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.analog_pll_freqdet_cf_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.blocks_freqshift_cc_0, 0))
+        self.connect((self.blocks_delay_0, 0), (self.filter_fft_rrc_filter_0, 0))
+        self.connect((self.blocks_divide_xx_0, 0), (self.blocks_vco_c_0, 0))
+        self.connect((self.blocks_divide_xx_0, 0), (self.qtgui_number_sink_0, 0))
+        self.connect((self.blocks_exponentiate_const_cci_0, 0), (self.band_pass_filter_0, 0))
+        self.connect((self.blocks_freqshift_cc_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_const_sink_x_0, 2))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.digital_linear_equalizer_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_const_sink_x_0, 1))
+        self.connect((self.blocks_vco_c_0, 0), (self.blocks_multiply_xx_0, 1))
+        self.connect((self.blocks_vco_c_0, 0), (self.qtgui_freq_sink_x_0, 1))
+        self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.qtgui_freq_sink_x_1, 0))
+        self.connect((self.digital_constellation_modulator_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.digital_linear_equalizer_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.digital_linear_equalizer_0, 1), (self.blocks_vector_to_stream_0, 0))
-        self.connect((self.filter_fft_rrc_filter_0, 0), (self.digital_linear_equalizer_0, 0))
-        self.connect((self.filter_fft_rrc_filter_0, 0), (self.fir_filter_xxx_0, 0))
-        self.connect((self.filter_fft_rrc_filter_0_0, 0), (self.qtgui_eye_sink_x_0, 0))
-        self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.low_pass_filter_0, 0), (self.blocks_add_xx_0, 0))
-        self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_1, 1))
+        self.connect((self.filter_fft_rrc_filter_0, 0), (self.blocks_exponentiate_const_cci_0, 0))
+        self.connect((self.filter_fft_rrc_filter_0, 0), (self.blocks_multiply_xx_0, 0))
+        self.connect((self.filter_fft_rrc_filter_0, 0), (self.qtgui_const_sink_x_0, 0))
 
 
     def closeEvent(self, event):
@@ -357,56 +404,49 @@ class simQAM(gr.top_block, Qt.QWidget):
 
         event.accept()
 
-    def get_samp_rate(self):
-        return self.samp_rate
-
-    def set_samp_rate(self, samp_rate):
-        self.samp_rate = samp_rate
-        self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
-        self.channels_fading_model_0.set_fDTs((0.005/self.samp_rate))
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.chBW, 10, window.WIN_HAMMING, 6.76))
-        self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
-        self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
-        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate/self.SamplesPerSymbol)
-
-    def get_SamplesPerSymbol(self):
-        return self.SamplesPerSymbol
-
-    def set_SamplesPerSymbol(self, SamplesPerSymbol):
-        self.SamplesPerSymbol = SamplesPerSymbol
-        self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.SamplesPerSymbol)
-        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate/self.SamplesPerSymbol)
-
     def get_Constellation(self):
         return self.Constellation
 
     def set_Constellation(self, Constellation):
         self.Constellation = Constellation
 
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.analog_const_source_x_0.set_offset((-(2*3.1459*4)/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_loop_bandwidth((2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_max_freq((2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_min_freq((-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+        self.blocks_freqshift_cc_0.set_phase_inc(2.0*math.pi*self.FO/self.samp_rate)
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.SamplesPerSymbol), self.rolloff, 2048))
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, (self.samp_rate/self.SamplesPerSymbol))
+        self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+
     def get_rolloff(self):
         return self.rolloff
 
     def set_rolloff(self, rolloff):
         self.rolloff = rolloff
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.SamplesPerSymbol), self.rolloff, 2048))
 
-    def get_preconv(self):
-        return self.preconv
+    def get_pll_L2(self):
+        return self.pll_L2
 
-    def set_preconv(self, preconv):
-        self.preconv = preconv
+    def set_pll_L2(self, pll_L2):
+        self.pll_L2 = pll_L2
+        self.analog_pll_freqdet_cf_0.set_max_freq((2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_min_freq((-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
 
-    def get_numTaps(self):
-        return self.numTaps
+    def get_pll_L1(self):
+        return self.pll_L1
 
-    def set_numTaps(self, numTaps):
-        self.numTaps = numTaps
+    def set_pll_L1(self, pll_L1):
+        self.pll_L1 = pll_L1
+        self.analog_pll_freqdet_cf_0.set_loop_bandwidth((2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol)))
 
     def get_noiseStd(self):
         return self.noiseStd
@@ -422,12 +462,39 @@ class simQAM(gr.top_block, Qt.QWidget):
         self.delay = delay
         self.blocks_delay_0.set_dly(int(self.delay))
 
-    def get_chBW(self):
-        return self.chBW
+    def get_SamplesPerSymbol(self):
+        return self.SamplesPerSymbol
 
-    def set_chBW(self, chBW):
-        self.chBW = chBW
-        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.chBW, 10, window.WIN_HAMMING, 6.76))
+    def set_SamplesPerSymbol(self, SamplesPerSymbol):
+        self.SamplesPerSymbol = SamplesPerSymbol
+        self.analog_const_source_x_0.set_offset((-(2*3.1459*4)/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_loop_bandwidth((2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_max_freq((2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_min_freq((-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.SamplesPerSymbol), self.rolloff, 2048))
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, (self.samp_rate/self.SamplesPerSymbol))
+
+    def get_FO(self):
+        return self.FO
+
+    def set_FO(self, FO):
+        self.FO = FO
+        self.blocks_freqshift_cc_0.set_phase_inc(2.0*math.pi*self.FO/self.samp_rate)
+
+    def get_BandPass_f_low(self):
+        return self.BandPass_f_low
+
+    def set_BandPass_f_low(self, BandPass_f_low):
+        self.BandPass_f_low = BandPass_f_low
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+
+    def get_BandPass_f_high(self):
+        return self.BandPass_f_high
+
+    def set_BandPass_f_high(self, BandPass_f_high):
+        self.BandPass_f_high = BandPass_f_high
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
 
     def get_AdaptiveEqualizer(self):
         return self.AdaptiveEqualizer
