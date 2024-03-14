@@ -41,7 +41,7 @@ blocks:
     delta: '10.0'
     ffactor: '0.99'
     modulus: '2'
-    step_size: '.0005'
+    step_size: '.005'
     type: lms
   states:
     bus_sink: false
