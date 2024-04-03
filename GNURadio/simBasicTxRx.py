@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Intesymbol Interference
+# Title: Basic Tx-Rx system
 # Author: Edson P. da Silva
 # GNU Radio version: 3.10.7.0
 
@@ -32,12 +32,12 @@ import sip
 
 
 
-class simQPSK_ISI(gr.top_block, Qt.QWidget):
+class simBasicTxRx(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Intesymbol Interference", catch_exceptions=True)
+        gr.top_block.__init__(self, "Basic Tx-Rx system", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Intesymbol Interference")
+        self.setWindowTitle("Basic Tx-Rx system")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -55,7 +55,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "simQPSK_ISI")
+        self.settings = Qt.QSettings("GNU Radio", "simBasicTxRx")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -424,7 +424,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "simQPSK_ISI")
+        self.settings = Qt.QSettings("GNU Radio", "simBasicTxRx")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -480,7 +480,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=simQPSK_ISI, options=None):
+def main(top_block_cls=simBasicTxRx, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
