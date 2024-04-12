@@ -39,7 +39,7 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 2000)
 pd.options.display.float_format = '{:,d}'.format
 
-# + hide_input=true jupyter={"source_hidden": true}
+# + hide_input=false jupyter={"source_hidden": true}
 from IPython.core.display import HTML
 from IPython.core.pylabtools import figsize
 from IPython.display import display
@@ -54,12 +54,12 @@ HTML("""
 </style>
 """)
 
-# + hide_input=true jupyter={"source_hidden": true}
+# + hide_input=false jupyter={"source_hidden": true}
 # %load_ext autoreload
 # %autoreload 2
 
-# + hide_input=true
-figsize(10, 4)
+# + hide_input=false
+figsize(6, 2)
 
 
 # -
@@ -276,7 +276,7 @@ interact(genConst, M=[2, 4, 8, 16, 64, 256, 1024], constType=['ook','pam','psk',
 #
 # $$R_b = kR_s $$
 
-# + jupyter={"source_hidden": true}
+# + hide_input=true jupyter={"source_hidden": true}
 Rs  = 100e6  # Taxa de símbolos [baud]
 Ts  = 1/Rs  # Período de símbolo em segundos
 N   = 10    # número de intervalos de sinalização
@@ -310,8 +310,8 @@ plt.xlim(0, t.max());
 
 # ### Exemplo 1: função sinc(t)
 
-# + jupyter={"source_hidden": true}
-Fa = 400   # frequência de amostragem
+# + hide_input=false jupyter={"source_hidden": true}
+Fa = 800   # frequência de amostragem
 B  = 100   # banda da sinc
 Ta = 1/Fa  # período de amostragem
 
@@ -374,7 +374,7 @@ plt.legend();
 
 # ### Exemplo 2: chirp de frequência linear
 
-# + jupyter={"source_hidden": true}
+# + hide_input=true jupyter={"source_hidden": true}
 from scipy.signal import chirp
 
 Fa = 150   # frequência de amostragem
@@ -403,7 +403,7 @@ plt.figure();
 plt.psd(xa, Fs=Fa, NFFT = 16*1024, sides='twosided')
 plt.xlim(-Fa/2, Fa/2);
 
-# + jupyter={"source_hidden": true}
+# + hide_input=true jupyter={"source_hidden": true}
 x_interp, t_interp = sincInterp(xa, Fa);
 
 plt.figure()
@@ -642,7 +642,7 @@ Ta    = 1/Fa          # Período de amostragem
 
 # pulso cosseno levantado (raised cosine)
 Ncoeffs = 640
-rolloff = 0.01
+rolloff = 0.001
 
 pulse = pulseShape('rc', SpS, Ncoeffs, rolloff, Ts)
 pulse = pulse/max(abs(pulse))
@@ -1140,15 +1140,15 @@ symbTx = pnorm(symbTx) # power normalization
 
 plt.stem(symbTx.real, basefmt=" ", label ='Re{s_n} '+str(M)+'-QAM')
 plt.xlabel('n')
-plt.ylabel('$Re\{s_n\}$')
+plt.ylabel('$Re\{$s_n$\}$')
 plt.grid()
 plt.legend(loc='upper right')
 plt.xticks(np.arange(0, symbTx.size));
 
 plt.figure()
-plt.stem(symbTx.imag, basefmt=" ", label ='Im{s_n} '+str(M)+'-QAM')
+plt.stem(symbTx.imag, basefmt=" ", label ='Im{$s_n$} '+str(M)+'-QAM')
 plt.xlabel('n')
-plt.ylabel('$Im\{s_n\}$')
+plt.ylabel('$Im\{$s_n$\}$')
 plt.grid()
 plt.legend(loc='upper right')
 plt.xticks(np.arange(0, symbTx.size));

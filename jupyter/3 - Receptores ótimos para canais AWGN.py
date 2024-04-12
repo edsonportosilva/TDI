@@ -1185,7 +1185,7 @@ plt.grid();
 # P\left(e \mid \mathbf{s}_1\right)=P\left[C\left(\mathbf{r}, \mathbf{s}_2\right)>C\left(\mathbf{r}_1, \mathbf{s}_1\right)\right]=P\left[n_2-n_1>\sqrt{E}_g\right] = P\left[n>\sqrt{E}_g\right]
 # \end{equation}$$
 #
-# Sabe-se que $n_1$ e $n_2$ são variáveis aleatórias gaussianas de média nula e variância $N_0/2$. Portanto, lembrando que a soma (ou subtração) de variáveis aleatórias gaussianas de média nula resulta numa variável aleatória gaussiana de média nula cuja variância é a soma das variâncias individuais, temos que $n$ tem mécia nula e variância $N_0$. Logo,
+# Sabe-se que $n_1$ e $n_2$ são variáveis aleatórias gaussianas de média nula e variância $N_0/2$. Portanto, lembrando que a soma (ou subtração) de variáveis aleatórias gaussianas de média nula resulta numa variável aleatória gaussiana de média nula cuja variância é a soma das variâncias individuais, temos que $n$ tem média nula e variância $N_0$. Logo,
 #
 # $$
 # \begin{align}
@@ -1533,7 +1533,7 @@ plt.legend();
 # $$
 # \begin{align}
 # E_{av} &= \frac{1}{M}\sum_{m=1}^{M}\| s_m\|^2 \nonumber\\
-# &= \sum_{m=1}^{M} (s_{mI}^2 + s_{mQ}^2)\nonumber\\
+# &= \frac{1}{M}\sum_{m=1}^{M} (s_{mI}^2 + s_{mQ}^2)\nonumber\\
 # &=\frac{2\sqrt{M}E_g}{M} \sum_{m=1}^\sqrt{M} (2m-1-\sqrt{M})^2\nonumber \\
 # & =\frac{2\sqrt{M}E_g}{M} \frac{\sqrt{M}\left(M-1\right)}{3}\nonumber \\
 # & =E_g\frac{2\left(M-1\right)}{3}
