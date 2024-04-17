@@ -136,7 +136,7 @@ figsize(6, 2)
 #
 # $$
 # \begin{align}
-# y_q&=\sum_{k=-\infty}^{\infty} s_k x_{q-k}+u_q, \quad q=0,1, \ldots.\nonumber\\
+# y_q&=\sum_{k=-\infty}^{\infty} s_k x_{q-k}+v_q, \quad q=0,1, \ldots.\nonumber\\
 # &= x_0\left(s_q+\frac{1}{x_0} \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}\right)+v_q, \quad q=0,1, \ldots
 # \end{align}
 # $$
