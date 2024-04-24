@@ -7,30 +7,42 @@
 # GNU Radio Python Flow Graph
 # Title: Basic Tx-Rx system
 # Author: Edson P. da Silva
-# GNU Radio version: 3.10.7.0
+# GNU Radio version: 3.9.4.0
 
-from packaging.version import Version as StrictVersion
+from distutils.version import StrictVersion
+
+if __name__ == '__main__':
+    import ctypes
+    import sys
+    if sys.platform.startswith('linux'):
+        try:
+            x11 = ctypes.cdll.LoadLibrary('libX11.so')
+            x11.XInitThreads()
+        except:
+            print("Warning: failed to XInitThreads()")
+
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio.filter import firdes
+import sip
 from gnuradio import analog
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
 from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
-import sip
 
 
+
+from gnuradio import qtgui
 
 class simBasicTxRx(gr.top_block, Qt.QWidget):
 
@@ -41,8 +53,8 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        except:
+            pass
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -62,8 +74,8 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        except:
+            pass
 
         ##################################################
         # Variables
@@ -77,7 +89,6 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-
         self._noiseStd_range = Range(0, 1.5, 0.01, 0.1, 200)
         self._noiseStd_win = RangeWidget(self._noiseStd_range, self.set_noiseStd, "Noise std", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._noiseStd_win)
@@ -212,7 +223,7 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_1.set_update_time(0.10)
-        self.qtgui_freq_sink_x_1.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_1.set_y_axis(-140, 10)
         self.qtgui_freq_sink_x_1.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_1.enable_autoscale(False)
@@ -249,7 +260,7 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
         for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_eye_sink_x_0 = qtgui.eye_sink_c(
-            (1024*16), #size
+            1024*16, #size
             samp_rate, #samp_rate
             1, #number of inputs
             None
@@ -303,14 +314,14 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
         for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
-            (1024*8), #size
+            1024*8, #size
             'Constellations', #name
             2, #number of inputs
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis((-2), 2)
-        self.qtgui_const_sink_x_0.set_x_axis((-2), 2)
+        self.qtgui_const_sink_x_0.set_y_axis(-2, 2)
+        self.qtgui_const_sink_x_0.set_x_axis(-2, 2)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0.enable_grid(True)
@@ -347,9 +358,9 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.filter_fft_rrc_filter_0_0_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
-        self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
-        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, (samp_rate//SamplesPerSymbol), rolloff, 2048), 1)
+        self.filter_fft_rrc_filter_0_0_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
+        self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
+        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
         self.filter_fft_rrc_filter_0.set_block_alias("Matched Filter")
         self.digital_constellation_modulator_0 = digital.generic_mod(
             constellation=Constellation,
@@ -366,12 +377,12 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
         self.blocks_transcendental_0_0 = blocks.transcendental('sqrt', "float")
         self.blocks_transcendental_0 = blocks.transcendental('tanh', "float")
         self.blocks_sub_xx_0 = blocks.sub_cc(1)
-        self.blocks_nlog10_ff_0_0 = blocks.nlog10_ff((-10), 1, (-10*numpy.log10(numpy.log2(Constellation.arity()))))
-        self.blocks_nlog10_ff_0 = blocks.nlog10_ff((-10), 1, 0)
+        self.blocks_nlog10_ff_0_0 = blocks.nlog10_ff(-10, 1, -10*numpy.log10(numpy.log2(Constellation.arity())))
+        self.blocks_nlog10_ff_0 = blocks.nlog10_ff(-10, 1, 0)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.blocks_moving_average_xx_0_1_0_0 = blocks.moving_average_ff(10000, (1/10000), 50000, 1)
-        self.blocks_moving_average_xx_0_1_0 = blocks.moving_average_ff(100000, (1/100000), 50000, 1)
-        self.blocks_moving_average_xx_0_1 = blocks.moving_average_ff(100000, (1/(8*100000)), 50000, 1)
+        self.blocks_moving_average_xx_0_1_0_0 = blocks.moving_average_ff(10000, 1/10000, 50000, 1)
+        self.blocks_moving_average_xx_0_1_0 = blocks.moving_average_ff(100000, 1/100000, 50000, 1)
+        self.blocks_moving_average_xx_0_1 = blocks.moving_average_ff(100000, 1/(8*100000), 50000, 1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_divide_xx_0 = blocks.divide_cc(1)
         self.blocks_complex_to_mag_squared_0_0 = blocks.complex_to_mag_squared(1)
@@ -380,6 +391,7 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
         self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 40000))), True)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noiseStd, 0)
+
 
 
         ##################################################
@@ -436,9 +448,9 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
         self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
@@ -448,9 +460,9 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
 
     def set_rolloff(self, rolloff):
         self.rolloff = rolloff
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
 
     def get_noiseStd(self):
         return self.noiseStd
@@ -464,9 +476,9 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
 
     def set_SamplesPerSymbol(self, SamplesPerSymbol):
         self.SamplesPerSymbol = SamplesPerSymbol
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate//self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
         self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.SamplesPerSymbol)
 
     def get_Constellation(self):
@@ -474,8 +486,6 @@ class simBasicTxRx(gr.top_block, Qt.QWidget):
 
     def set_Constellation(self, Constellation):
         self.Constellation = Constellation
-        self.digital_constellation_decoder_cb_0.set_constellation(self.Constellation)
-        self.digital_constellation_decoder_cb_0_0.set_constellation(self.Constellation)
 
 
 

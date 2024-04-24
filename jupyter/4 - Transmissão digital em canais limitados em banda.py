@@ -263,6 +263,7 @@ symbTx = pnorm(symbTx) # power normalization
 
 # resposta do canal linear
 h_ch = np.array([0, 0.2, 1, 0.2])
+h_ch = np.array([0, 0, 1, 0])
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
@@ -270,7 +271,7 @@ h_ch_Up = upsample(h_ch, SpS)
 h_ch_Up = h_ch_Up/np.sum(h_ch_Up)
 
 # pulso NRZ típico
-pulse = pulseShape('nrz', SpS)
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.005)
 pulse = pulse/np.sum(pulse)
 
 # formatação de pulso
@@ -298,7 +299,9 @@ else:
     eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
     eyediagram(sigRx + ruidoC, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
     
-pconst(pnorm((sigRx + ruidoC)[10*SpS:-10*SpS:SpS]), pType='fast', R=1.5);
+# -
+
+pconst(pnorm((sigRx + ruidoC)[2+10*SpS:-10*SpS:SpS]), pType='fast', R=1.5);
 
 # + hide_input=false
 # plot PSD
@@ -317,7 +320,7 @@ plt.legend(loc='lower left');
 #
 # $$
 # \begin{equation}
-# |H(f)| = \begin{cases}1, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}.
+# H(f) = \begin{cases}1, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}.
 # \end{equation}
 # $$
 #
@@ -463,7 +466,7 @@ plt.legend(loc='lower left');
 # + hide_input=false
 Rs = 100e6
 Ts = 1/Rs
-α = 0.1
+α = 0.0001
 π = sp.pi
 
 f, t = sp.symbols('f, t', real=True)

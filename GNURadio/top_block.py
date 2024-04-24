@@ -8,30 +8,42 @@
 # Title: Transmissão digital num canal AWGN
 # Author: Edson Porto da Silva
 # Copyright: 2023
-# GNU Radio version: 3.10.7.0
+# GNU Radio version: 3.9.4.0
 
-from packaging.version import Version as StrictVersion
+from distutils.version import StrictVersion
+
+if __name__ == '__main__':
+    import ctypes
+    import sys
+    if sys.platform.startswith('linux'):
+        try:
+            x11 = ctypes.cdll.LoadLibrary('libX11.so')
+            x11.XInitThreads()
+        except:
+            print("Warning: failed to XInitThreads()")
+
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio.filter import firdes
+import sip
 from gnuradio import analog
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
 from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
-import sip
 
 
+
+from gnuradio import qtgui
 
 class top_block(gr.top_block, Qt.QWidget):
 
@@ -42,8 +54,8 @@ class top_block(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        except:
+            pass
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -63,8 +75,8 @@ class top_block(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        except:
+            pass
 
         ##################################################
         # Variables
@@ -80,7 +92,6 @@ class top_block(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-
         self._gain_range = Range(-20, 20, 0.1, 0, 400)
         self._gain_win = RangeWidget(self._gain_range, self.set_gain, "Ganho no sinal (dB)", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._gain_win)
@@ -99,7 +110,7 @@ class top_block(gr.top_block, Qt.QWidget):
             firdes.root_raised_cosine(
                 1,
                 samp_rate,
-                (samp_rate/sps),
+                samp_rate/sps,
                 RRCrolloff,
                 4001))
         self.root_raised_cosine_filter_0_0_1_0_1 = filter.fir_filter_fff(
@@ -107,7 +118,7 @@ class top_block(gr.top_block, Qt.QWidget):
             firdes.root_raised_cosine(
                 1,
                 samp_rate,
-                (samp_rate/sps),
+                samp_rate/sps,
                 RRCrolloff,
                 4001))
         self.root_raised_cosine_filter_0_0_1_0_0 = filter.fir_filter_ccf(
@@ -115,7 +126,7 @@ class top_block(gr.top_block, Qt.QWidget):
             firdes.root_raised_cosine(
                 1,
                 samp_rate,
-                (samp_rate/sps),
+                samp_rate/sps,
                 RRCrolloff,
                 4001))
         self.root_raised_cosine_filter_0_0_1_0 = filter.fir_filter_ccf(
@@ -123,7 +134,7 @@ class top_block(gr.top_block, Qt.QWidget):
             firdes.root_raised_cosine(
                 1,
                 samp_rate,
-                (samp_rate/sps),
+                samp_rate/sps,
                 RRCrolloff,
                 4001))
         self.qtgui_number_sink_1 = qtgui.number_sink(
@@ -210,7 +221,7 @@ class top_block(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis((-120), (-20))
+        self.qtgui_freq_sink_x_0.set_y_axis(-120, -20)
         self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0.enable_autoscale(False)
@@ -248,7 +259,7 @@ class top_block(gr.top_block, Qt.QWidget):
         for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_eye_sink_x_0_0 = qtgui.eye_sink_c(
-            (1024*8), #size
+            1024*8, #size
             samp_rate, #samp_rate
             1, #number of inputs
             None
@@ -318,8 +329,8 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_sub_xx_0_0_0 = blocks.sub_ff(1)
         self.blocks_rms_xx_0_0_0 = blocks.rms_cf(0.00001)
         self.blocks_rms_xx_0_0 = blocks.rms_ff(0.00001)
-        self.blocks_nlog10_ff_0_1_0 = blocks.nlog10_ff(20, 1, (-24))
-        self.blocks_nlog10_ff_0_1 = blocks.nlog10_ff(20, 1, (-30))
+        self.blocks_nlog10_ff_0_1_0 = blocks.nlog10_ff(20, 1, -24)
+        self.blocks_nlog10_ff_0_1 = blocks.nlog10_ff(20, 1, -30)
         self.blocks_multiply_xx_1_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_xx_0_1_0 = blocks.multiply_vff(1)
         self.blocks_multiply_xx_0_1 = blocks.multiply_vff(1)
@@ -327,7 +338,7 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_multiply_xx_0 = blocks.multiply_vff(1)
         self.blocks_multiply_const_vxx_1 = blocks.multiply_const_cc(numpy.sqrt(10**(gain/10)))
         self.blocks_moving_average_xx_1 = blocks.moving_average_cc(1000, 1/1000, 4000, 1)
-        self.blocks_moving_average_xx_0_1 = blocks.moving_average_ff(1000000, (1/(8*1000000)), 50000, 1)
+        self.blocks_moving_average_xx_0_1 = blocks.moving_average_ff(1000000, 1/(8*1000000), 50000, 1)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
         self.blocks_divide_xx_0 = blocks.divide_cc(1)
         self.blocks_complex_to_real_0_0_0 = blocks.complex_to_real(1)
@@ -342,10 +353,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.analog_sig_source_x_0_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, fc, 1, 0, 0)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, fc, 1, 0, 0)
         self.analog_random_source_x_1 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 10000))), True)
-        self.analog_noise_source_x_0 = analog.noise_source_f(analog.GR_GAUSSIAN, (numpy.sqrt(sps*10**(Pn/10)*1e-3)), 0)
-        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, (10*numpy.log10(numpy.log2(constellation.arity()))))
-        self.analog_agc_xx_0_0 = analog.agc_cc((1e-4), 1, 1.0, 65536)
-        self.analog_agc_xx_0 = analog.agc_cc((1e-4), 1, 1.0, 65536)
+        self.analog_noise_source_x_0 = analog.noise_source_f(analog.GR_GAUSSIAN, numpy.sqrt(sps*10**(Pn/10)*1e-3), 0)
+        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 10*numpy.log10(numpy.log2(constellation.arity())))
+        self.analog_agc_xx_0_0 = analog.agc_cc(1e-4, 1, 1.0)
+        self.analog_agc_xx_0_0.set_max_gain(65536)
+        self.analog_agc_xx_0 = analog.agc_cc(1e-4, 1, 1.0)
+        self.analog_agc_xx_0.set_max_gain(65536)
         self.Constelacoes = qtgui.const_sink_c(
             4096, #size
             'Diagrama de constelações', #name
@@ -353,8 +366,8 @@ class top_block(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.Constelacoes.set_update_time(0.05)
-        self.Constelacoes.set_y_axis((-1.5), 1.5)
-        self.Constelacoes.set_x_axis((-1.5), 1.5)
+        self.Constelacoes.set_y_axis(-1.5, 1.5)
+        self.Constelacoes.set_x_axis(-1.5, 1.5)
         self.Constelacoes.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.Constelacoes.enable_autoscale(False)
         self.Constelacoes.enable_grid(True)
@@ -391,6 +404,7 @@ class top_block(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
+
 
 
         ##################################################
@@ -474,22 +488,22 @@ class top_block(gr.top_block, Qt.QWidget):
         self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.qtgui_eye_sink_x_0_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.root_raised_cosine_filter_0_0_1_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_0_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
 
     def get_sps(self):
         return self.sps
 
     def set_sps(self, sps):
         self.sps = sps
-        self.analog_noise_source_x_0.set_amplitude((numpy.sqrt(self.sps*10**(self.Pn/10)*1e-3)))
+        self.analog_noise_source_x_0.set_amplitude(numpy.sqrt(self.sps*10**(self.Pn/10)*1e-3))
         self.qtgui_eye_sink_x_0_0.set_samp_per_symbol(self.sps)
-        self.root_raised_cosine_filter_0_0_1_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_0_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
 
     def get_gain(self):
         return self.gain
@@ -511,25 +525,23 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_constellation(self, constellation):
         self.constellation = constellation
-        self.digital_constellation_decoder_cb_0.set_constellation(self.constellation)
-        self.digital_constellation_decoder_cb_0_0.set_constellation(self.constellation)
 
     def get_RRCrolloff(self):
         return self.RRCrolloff
 
     def set_RRCrolloff(self, RRCrolloff):
         self.RRCrolloff = RRCrolloff
-        self.root_raised_cosine_filter_0_0_1_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_0_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
-        self.root_raised_cosine_filter_0_0_1_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.sps), self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_0_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
+        self.root_raised_cosine_filter_0_0_1_1.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.sps, self.RRCrolloff, 4001))
 
     def get_Pn(self):
         return self.Pn
 
     def set_Pn(self, Pn):
         self.Pn = Pn
-        self.analog_noise_source_x_0.set_amplitude((numpy.sqrt(self.sps*10**(self.Pn/10)*1e-3)))
+        self.analog_noise_source_x_0.set_amplitude(numpy.sqrt(self.sps*10**(self.Pn/10)*1e-3))
 
 
 
