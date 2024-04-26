@@ -672,7 +672,7 @@ symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 # De ($\ref{precod}$) temos que $c_k \oplus c_{k-1} = b_k$, de modo que 
 #
 # $$
-# b_k=\frac{r_k}{2}-1 (\bmod 2)
+# b_k=\frac{r_k}{2} + 1 (\bmod 2)
 # $$
 
 # +
