@@ -9,4 +9,4 @@ Material de apoio e códigos de simulação utilizados nas aulas da disciplina T
 1. [Transmissores e modulações digitais](https://github.com/edsonportosilva/TDI/blob/main/jupyter/1%20-%20Transmissores%20e%20modula%C3%A7%C3%B5es%20digitais.ipynb)
 2. [Canal com ruído aditivo gaussiano branco (AWGN)](https://github.com/edsonportosilva/TDI/blob/main/jupyter/2%20-%20Canal%20com%20ru%C3%ADdo%20aditivo%20gaussiano%20branco%20(AWGN).ipynb)
 3. [Receptores ótimos para canais AWGN](https://github.com/edsonportosilva/TDI/blob/main/jupyter/3%20-%20Receptores%20%C3%B3timos%20para%20canais%20AWGN.ipynb)
-4. [Transmissão digital em canais limitados em banda](https://github.com/edsonportosilva/TDI/blob/main/jupyter/3%20-%20Receptores%20%C3%B3timos%20para%20canais%20AWGN.ipynb)
+4. [Transmissão digital em canais limitados em banda](https://github.com/edsonportosilva/TDI/blob/main/jupyter/4%20-%20Transmiss%C3%A3o%20digital%20em%20canais%20limitados%20em%20banda.ipynb)
