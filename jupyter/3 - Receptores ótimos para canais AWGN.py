@@ -114,7 +114,7 @@ figsize(8, 3)
 #
 # em que $^*$ indica o conjugado complexo.
 #
-# Assim, podemos decompor o sinal $s_m(t)$ em suas componentes vetorias $s_1, s_2, \dots, s_N$ na base $\left\lbrace f_n(t) \right\rbrace_{n=1}^{N}$ realizando o produto interno entre $s_m(t)$ e cada elemento da base no intervalo 
+# Assim, podemos decompor o sinal $s_m(t)$ em suas componentes vetoriais $s_1, s_2, \dots, s_N$ na base $\left\lbrace f_n(t) \right\rbrace_{n=1}^{N}$ realizando o produto interno entre $s_m(t)$ e cada elemento da base no intervalo 
 # $0\leq t \leq T_s$:
 #
 # $$\begin{equation} 
@@ -124,7 +124,7 @@ figsize(8, 3)
 
 # ### Demodulador por correlação
 #
-# Na Fig.4 a estrutura de um demodulador por correlação está ilustrada. No receptor, o sinal recebido é correlacionado com cada uma das $N$ funções que compõem a base ortonormal $\left\lbrace f_k(t) \right\rbrace_{k=1}^{N}$, ou seja, cada correlator corresponde à operação
+# Na Fig.4 a estrutura de um demodulador por correlação está ilustrada. No receptor, o sinal recebido é correlacionado com cada uma das $N$ funções que compõem a base ortonormal $\left\lbrace f_k(t) \right\rbrace_{k=1}^{N}$, ou seja, a saída de cada correlator corresponde à operação
 #
 # $$\begin{align} 
 # \langle r(t), f_k(t) \rangle =& \int_{0}^{T}r(t)f_k(t) dt \\
@@ -135,14 +135,14 @@ figsize(8, 3)
 #
 # com $k=1, 2,\dots, M$.
 
-# <img src="./figuras/Fig6.png" width="600">
+# <img src="./figuras/Fig6.png" width="500">
 # <center>Fig.4: Demodulador por correlação.</center>
 
-# A partir das projeções de $r(t)$ e $n(t)$ nas funções da base ortonormal, podemos escrever
+# A partir das projeções de $s(t)$ e $n(t)$ em cada uma das funções da base ortonormal, podemos escrever
 #
 # $$\begin{align} r(t) & =\sum_{k=1}^N s_{m k} f_k(t)+\sum_{k=1}^N n_k f_k(t)+n^{\prime}(t) \\ & =\sum_{k=1}^N r_k f_k(t)+n^{\prime}(t)\end{align}$$
 #
-# em que $n^{\prime}(t)=n(t)-\sum_{k=1}^N n_k f_k(t)$ corresponde aos componentes do ruído que são ortogonais à base ortonormal utilizada na transmissão.
+# em que $n^{\prime}(t)=n(t)-\sum_{k=1}^N n_k f_k(t)$ corresponde aos componentes de $n(t)$ que são ortogonais à base ortonormal utilizada na transmissão. Uma vez que $n(t)$ é uma função amostra de um processo aleatório gaussiano, esta pode conter componentes $n^{\prime}(t)$ que não estão no espaço expandido pela base ortonormal, ou seja, que são ortogonais à cada um dos vetores da base.
 #
 # Utilizando as propriedades da média e da autocorrelação do processo estocástico gaussiano estacionário associado ao ruído, temos que:
 #
@@ -216,7 +216,7 @@ figsize(8, 3)
 
 # ### Demodulador por filtro casado
 #
-# De modo alternativo, o demodulador pode ser construído a partir de um banco de $N$ filtros lineares, como ilustrado na Fig.5. Assuma que a resposta ao impulso $h_k(t)$ de cada um dos $N$ filtros que compõem o banco seja dada por
+# Uma maneira alternativa e equivalente para a construção do demodulador pode ser obtida a partir de um banco de $N$ filtros lineares, como ilustrado na Fig.5. Assuma que a resposta ao impulso $h_k(t)$ de cada um dos $N$ filtros que compõem o banco seja dada por
 #
 # $$ 
 # \begin{equation}
@@ -226,7 +226,7 @@ figsize(8, 3)
 #
 # em que $\left\lbrace f_k(t) \right\rbrace_{k=1}^{N}$ são as $N$ funções da base orthonormal e que $h_k(t)=0$ fora do intervalo $0 \leqslant t \leqslant T_s$.
 
-# <img src="./figuras/Fig7.png" width="600">
+# <img src="./figuras/Fig7.png" width="500">
 # <center>Fig.5: Demodulador por filtro casado.</center>
 
 # Seja $y_k(t)$ a saída do $k$-ésimo filtro, temos que
@@ -255,7 +255,7 @@ figsize(8, 3)
 
 # #### Maximização da $\mathrm{SNR}$
 #
-# A mais importante característica de um filtro casado é que se o sinal $s(t)$ estiver afetado por ruído AWGN, o filtro cuja resposta ao impulso maximiza a $\mathrm{SNR}$ do sinal após a filtragem é o filtro casado de $s(t)$. Para demonstrar essa propriedade, considere que o sinal $r(t) = s(t) + n(t)$ na saída do canal AWGN passa por um filtro de resposta ao impulso $h(t)$. A saída $y(t)$ do filtro será dada por
+# Uma importante característica de um filtro casado é que, caso o sinal $s(t)$ estiver corrompido por ruído AWGN, o filtro cuja resposta ao impulso maximiza a $\mathrm{SNR}$ do sinal após a filtragem é o filtro casado associado a $s(t)$. Para demonstrar essa propriedade, considere que o sinal $r(t) = s(t) + n(t)$ na saída do canal AWGN passa por um filtro de resposta ao impulso $h(t)$. A saída $y(t)$ do filtro será dada por
 #
 # $$
 # \begin{align}
@@ -434,15 +434,15 @@ plt.legend(loc='lower left');
 
 # ## Detectores ótimos
 #
-# Após a etapa de demodulação, tanto para a demodulação por correlação como para a demodulação por filtro casado, o receptor dispõe de um vetor de amostras $\mathbf{r} = [r_1, r_2, \dots, r_N]$, com distribuição condicional dada por
+# Após a etapa de demodulação, seja por banco de correlatores como por  banco de filtros casados, o receptor dispõe de um vetor de amostras $\mathbf{r} = [r_1, r_2, \dots, r_N]$, com distribuição condicional dada por
 #
 # $$\begin{equation}\label{pdf_conj_4}
 # p\left(\mathbf{r}|\mathbf{s}_m\right)=\frac{1}{\left(\pi N_0\right)^{N/2}} \exp \left[-\sum_{k=1}^N \frac{\left(r_k-s_{m k}\right)^2}{N_0}\right], \quad m=1,2, \ldots, M,
 # \end{equation}$$
 #
-# em que $s_{m k}$ são as componentes ortogonais dos símbolos da constelação e $N_0/2$ a variância do ruído gaussiano adicionado pelo canal. O vetor $\mathbf{r}$ contém toda a informação relevante sobre o sinal recebido. 
+# em que $s_{m k}$ são as componentes ortogonais dos símbolos da constelação e $N_0/2$ a variância do ruído gaussiano adicionado pelo canal. O conjunto de amostras no vetor $\mathbf{r}$ é uma *estatística suficiente*, ou seja, contém toda a informação disponível sobre o sinal transmitido. 
 #
-# Na sequência, com base em $\mathbf{r}$, o receptor deve decidir que símbolo foi transmitido. Esta função é realizada pelo detector. Para cada intervalo de sinalização, baseado na observação de $\mathbf{r}$, o detector deve decidir que símbolo $\mathbf{s}_m$ foi transmitido. O detector ótimo é aquele que maximiza a probabilidade de acerto do símbolo transmitido, ou equivalentemente, minimiza a probabilidade de erro. Para tanto, considera-se uma regra de decisão baseada no cálculo das probabilidades *a posteriori*
+# Na sequência, baseado no vetor $\mathbf{r}$, o receptor deve tomar uma decisão sobre que símbolo foi transmitido. Esta função é realizada pelo detector. Ao final de cada intervalo de sinalização, baseado na observação de $\mathbf{r}$, o detector deve decidir que símbolo $\mathbf{s}_m$ foi transmitido. Nesse contexto, podemos implementar diversas regras que o detector pode seguir no processo de decisão. Entretanto, nos interessa definir a melhor regra possível, ou seja, a regra de decisão que otimiza o desempenho do detector. A regra de detecção ótima é aquela que maximiza a probabilidade de acerto do símbolo transmitido, ou equivalentemente, minimiza a probabilidade de erro. Para tanto, considera-se uma regra de decisão baseada no cálculo das probabilidades *a posteriori*
 #
 # $$\begin{equation}\label{posterior_1}
 # P\left(\text{símbolo }\mathbf{s}_m \text{ foi transmitido}|\mathbf{r}\right), \quad m=1,2, \ldots, M,
@@ -451,7 +451,7 @@ plt.legend(loc='lower left');
 # abreviadas para $P\left(\mathbf{s}_m|\mathbf{r}\right)$. A regra de decisão a ser implementada consiste em selecionar o símbolo que corresponde ao máximo do conjunto de probabilidades $\left\lbrace P\left(\mathbf{s}_m|\mathbf{r}\right) \right\rbrace$. Será demonstrado que esta regra é ótima, ou seja, é aquela que maximiza a probabilidade de acerto no processo de decisão.
 
 # ### Critério de decisão MAP
-# Inicialmente, antes de observar $\mathbf{r}$, o receptor conhece apenas as probabilidades $P(\mathbf{s}_m)$ do transmissor ter enviado cada símbolo $\mathbf{s}_m$. Estas probabilidades representam um conhecimento prévio do receptor acerca dos sinais transmitidos, sendo denominadas probabilidades *a priori*. Uma vez observada a saída do canal $\mathbf{r}$, o receptor pode melhorar a sua estimativa sobre o símbolo transmitido calculando as probabilidades *a posteriori* $P\left(\mathbf{s}_m|\mathbf{r}\right)$ para cada símbolo da constelação e, então, decidir por aquele de maior probabilidade. Este critério de decisão é conhecido como critério de máxima probabilidade *a posteriori* (*maximum a posteriori probability* - MAP.
+# Inicialmente, antes de observar $\mathbf{r}$, o receptor conhece apenas as probabilidades $P(\mathbf{s}_m)$ do transmissor ter enviado cada símbolo $\mathbf{s}_m$. Estas probabilidades representam um conhecimento prévio do receptor acerca dos sinais transmitidos, sendo denominadas probabilidades *a priori*. Uma vez observada a saída do canal $\mathbf{r}$, o receptor pode melhorar a sua estimativa sobre o símbolo transmitido calculando as probabilidades *a posteriori* $P\left(\mathbf{s}_m|\mathbf{r}\right)$ para cada símbolo da constelação e, então, decidir por aquele de maior probabilidade. Este critério de decisão é conhecido como critério de máxima probabilidade *a posteriori* (*maximum a posteriori probability* - MAP).
 #
 # Utilizando a regra de Bayes, podemos escrever
 #
@@ -549,7 +549,7 @@ plt.legend(loc='lower left');
 
 # +
 # ruído gaussiano branco
-σ2  = 0.01  # variância
+σ2  = 0.005  # variância
 μ   = 0      # média
 
 σ     = sqrt(σ2*SpS) 
@@ -772,7 +772,7 @@ sigRx = firFilter(pulse, sigTx+ruido)
 sigRx = pnorm(sigRx)
 
 # downsampling
-r = sigRx[2::SpS]
+r = sigRx[1::SpS]
 
 # diagrama de olho
 Nsamples = 200000*SpS
@@ -867,7 +867,7 @@ sigTx = pnorm(sigTx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
-σ2  = 0.2 # variância
+σ2  = 0.10 # variância
 μ   = 0   # média
 
 σ      = sqrt(σ2*SpS) 
@@ -878,7 +878,7 @@ sigRx = firFilter(pulse, sigTx+ruido)
 sigRx = pnorm(sigRx)
 
 # downsampling
-r = sigRx[2::SpS]
+r = sigRx[1::SpS]
 
 # diagrama de olho
 Nsamples = 200000*SpS
@@ -958,14 +958,14 @@ sigRx = firFilter(pulse, sigTx+ruido)
 sigRx = pnorm(sigRx)
 
 # downsampling
-r = sigRx[2::SpS]
+r = sigRx[1::SpS]
 
 # diagrama de olho
 Nsamples = 200000*SpS
 eyediagram(sigRx, Nsamples, SpS, plotlabel= str(M)+'-QAM (após o filtro casado)', ptype='fancy')
 # -
 
-dec, pos = detector(r, σ2, constSymb, rule='MAP') # detector
+dec, pos = detector(r, σ2, constSymb, rule='ML') # detector
 
 # +
 # plota símbolos recebidos e limiares de decisão
@@ -1011,7 +1011,7 @@ constSymb = grayMapping(M, 'qam')  # constellation
 # define probabilidades de símbolo
 constSymb = pnorm(constSymb)
 
-PS = -1.5
+PS = 1.5
 probSymb = maxwellBolt(PS, constSymb) 
 Es = np.sum(( np.abs(constSymb) ** 2 ) * probSymb)
 constSymb = constSymb/np.sqrt(Es)
@@ -1169,7 +1169,7 @@ plt.grid();
 # \end{aligned}
 # $$
 #
-# em que $E_g$ representa a energia de cada um dos sinais. Note que a distância euclidiana entre $\mathbf{s}_1$ e $\mathbf{s}_2$ é $d_{12} = \sqrt{2E_g}$. 
+# em que $E_g$ representa a energia média de cada um dos sinais. Note que a distância euclidiana entre $\mathbf{s}_1$ e $\mathbf{s}_2$ é $d_{12} = \sqrt{2E_g}$. 
 #
 # Assumindo que o sinal $\mathbf{s}_1$ foi transmitido, as saída do demodulador será dada por
 #
@@ -1185,7 +1185,7 @@ plt.grid();
 # P\left(e \mid \mathbf{s}_1\right)=P\left[C\left(\mathbf{r}, \mathbf{s}_2\right)>C\left(\mathbf{r}_1, \mathbf{s}_1\right)\right]=P\left[n_2-n_1>\sqrt{E}_g\right] = P\left[n>\sqrt{E}_g\right]
 # \end{equation}$$
 #
-# Sabe-se que $n_1$ e $n_2$ são variáveis aleatórias gaussianas de média nula e variância $N_0/2$. Portanto, lembrando que a soma (ou subtração) de variáveis aleatórias gaussianas de média nula resulta numa variável aleatória gaussiana de média nula cuja variância é a soma das variâncias individuais, temos que $n$ tem mécia nula e variância $N_0$. Logo,
+# Sabe-se que $n_1$ e $n_2$ são variáveis aleatórias gaussianas de média nula e variância $N_0/2$. Portanto, lembrando que a soma (ou subtração) de variáveis aleatórias gaussianas de média nula resulta numa variável aleatória gaussiana de média nula cuja variância é a soma das variâncias individuais, temos que $n$ tem média nula e variância $N_0$. Logo,
 #
 # $$
 # \begin{align}
@@ -1254,7 +1254,7 @@ plt.grid();
 # \end{equation}
 # $$
 #
-# em que $n$ é uma variável aleatória gaussiana de média nula e variância $\sigma^2 = \frac{N_0}{2}.
+# em que $n$ é uma variável aleatória gaussiana de média nula e variância $\sigma^2 = \frac{N_0}{2}$.
 #
 # Se todos os símbolos forem equiprováveis, a probabilidade de erro média é dada pela probabilidade de que $n$ exceda a metade da distância entre símbolos adjacentes, para os símbolos internos, somada à probabilidade de erro para os dois símbolos externos. Desse modo,
 #
@@ -1533,7 +1533,7 @@ plt.legend();
 # $$
 # \begin{align}
 # E_{av} &= \frac{1}{M}\sum_{m=1}^{M}\| s_m\|^2 \nonumber\\
-# &= \sum_{m=1}^{M} (s_{mI}^2 + s_{mQ}^2)\nonumber\\
+# &= \frac{1}{M}\sum_{m=1}^{M} (s_{mI}^2 + s_{mQ}^2)\nonumber\\
 # &=\frac{2\sqrt{M}E_g}{M} \sum_{m=1}^\sqrt{M} (2m-1-\sqrt{M})^2\nonumber \\
 # & =\frac{2\sqrt{M}E_g}{M} \frac{\sqrt{M}\left(M-1\right)}{3}\nonumber \\
 # & =E_g\frac{2\left(M-1\right)}{3}

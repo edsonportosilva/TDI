@@ -84,7 +84,7 @@ class simDuo(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 32000
         self.SamplesPerSymbol = SamplesPerSymbol = 16
         self.Constellation = Constellation = digital.constellation_qpsk().base()
-        self.rolloff = rolloff = 1
+        self.rolloff = rolloff = 0.005
         self.preconv = preconv = digital.adaptive_algorithm_cma( Constellation, 0.005, 2).base()
         self.numTaps = numTaps = 75
         self.noiseStd = noiseStd = 0.01

@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -18,26 +18,17 @@
 import sympy as sp
 import numpy as np
 from numpy.random import normal
+import matplotlib as mpl
 import matplotlib.pyplot as plt
-import pandas as pd
-
-from IPython.display import display, Math
-from IPython.display import display as disp
+import scienceplots
 from utils import symdisp, symplot
 import ipywidgets as widgets
 from ipywidgets import interact
 
-from commpy.utilities import upsample
-
-from optic.modulation import modulateGray, demodulateGray, GrayMapping
-from optic.dsp import firFilter, pulseShape, lowPassFIR, pnorm, sincInterp
-from optic.metrics import signal_power
+from optic.comm.modulation import modulateGray, demodulateGray, grayMapping
+from optic.dsp.core import firFilter, pulseShape, lowPassFIR, pnorm, upsample
+from optic.comm.metrics import signal_power
 from optic.plot import eyediagram, pconst
-# -
-
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.width', 2000)
-pd.options.display.float_format = '{:,d}'.format
 
 # +
 from IPython.core.display import HTML
@@ -53,11 +44,17 @@ HTML("""
 }
 </style>
 """)
+#mpl.rcParams['figure.dpi'] = 300
 # -
 
 # %load_ext autoreload
 # %autoreload 2
 
+# +
+#plt.style.use(["science"])
+# -
+
+from IPython.core.pylabtools import figsize
 figsize(6, 2)
 
 # # Transmissão Digital da Informação
@@ -139,7 +136,7 @@ figsize(6, 2)
 #
 # $$
 # \begin{align}
-# y_q&=\sum_{k=-\infty}^{\infty} s_k x_{q-k}+u_q, \quad q=0,1, \ldots.\nonumber\\
+# y_q&=\sum_{k=-\infty}^{\infty} s_k x_{q-k}+v_q, \quad q=0,1, \ldots.\nonumber\\
 # &= x_0\left(s_q+\frac{1}{x_0} \sum_{\substack{k=-\infty \\ k \neq q}}^{\infty} s_k x_{q-k}\right)+v_q, \quad q=0,1, \ldots
 # \end{align}
 # $$
@@ -175,7 +172,8 @@ symbTx = pnorm(symbTx) # power normalization
 symbTx = np.insert(symbTx,0, 0)
 
 # resposta do canal linear
-h_ch = np.array([0, 0.1, 1, 0.1])
+h_ch = np.array([0, 0.2, 1, 0.2])
+h_ch = h_ch/np.sum(h_ch)
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
@@ -184,10 +182,11 @@ h_ch_Up = h_ch_Up.real
 
 # pulso NRZ típico
 pulse = pulseShape('nrz', SpS)
-pulse = pulse/max(abs(pulse))
+pulse = pulse/np.sum(pulse)
 
 # formatação de pulso
 sigTx = firFilter(pulse, symbolsUp)
+sigTx = sigTx/np.max(np.abs(sigTx))
 
 t = np.arange(sigTx.size)*Ta/1e-9
 
@@ -199,25 +198,25 @@ if constType == 'pam':
     plt.figure(2)
     plt.plot(t, sigTx,'-',linewidth=2)
     plt.plot(t, symbolsUp.real,'ko')
-    plt.xlabel('tempo [ns]')
-    plt.ylabel('amplitude')
-    plt.title('sinal '+str(M)+'-PAM')
+    plt.xlabel('Tempo [ns]')
+    plt.ylabel('Amplitude')
+    plt.title('Sinal '+str(M)+'-PAM')
     plt.grid()
 else:
     plt.figure(2)
     plt.plot(t, sigTx.real,'-',linewidth=3, label = '$Re\{s_n\}$')
     plt.plot(t, symbolsUp.real,'o')
-    plt.xlabel('tempo [ns]')
-    plt.ylabel('amplitude')
-    plt.title('sinal '+str(M)+'-QAM')
+    plt.xlabel('Tempo [ns]')
+    plt.ylabel('Amplitude')
+    plt.title('Sinal '+str(M)+'-QAM')
     plt.grid()
     
     plt.figure(3)
     plt.plot(t, sigTx.imag,'-',linewidth=3, label = '$Im\{s_n\}$')
     plt.plot(t, symbolsUp.imag,'o')
-    plt.xlabel('tempo [ns]')
-    plt.ylabel('amplitude')
-    plt.title('sinal '+str(M)+'-QAM')
+    plt.xlabel('Tempo [ns]')
+    plt.ylabel('Amplitude')
+    plt.title('Sinal '+str(M)+'-QAM')
     plt.grid()
 
 # canal linear
@@ -263,16 +262,17 @@ symbTx = modulateGray(bitsTx, M, constType)
 symbTx = pnorm(symbTx) # power normalization
 
 # resposta do canal linear
-h_ch = np.array([0, 0.1, 1, 0.1])
+h_ch = np.array([0, 0.2, 1, 0.2])
+h_ch = np.array([0, 0, 1, 0])
 
 # upsampling
 symbolsUp = upsample(symbTx, SpS)
 h_ch_Up = upsample(h_ch, SpS)
-h_ch_Up = h_ch_Up
+h_ch_Up = h_ch_Up/np.sum(h_ch_Up)
 
 # pulso NRZ típico
-pulse = pulseShape('nrz', SpS)
-pulse = pulse/max(abs(pulse))
+pulse = pulseShape('rrc', SpS, N=4096, alpha=0.005)
+pulse = pulse/np.sum(pulse)
 
 # formatação de pulso
 sigTx = firFilter(pulse, symbolsUp)
@@ -280,7 +280,6 @@ sigTx = pnorm(sigTx)
 
 # canal linear
 sigRx = firFilter(h_ch_Up, sigTx)
-sigRx = pnorm(sigRx)
 
 # ruído gaussiano branco
 Namostras = sigTx.size
@@ -300,16 +299,19 @@ else:
     eyediagram(sigTx, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
     eyediagram(sigRx + ruidoC, Nsamples, SpS, plotlabel= str(M)+'-QAM', ptype='fancy')
     
-pconst(pnorm((sigRx + ruidoC)[10*SpS:-10*SpS:SpS]), pType='fast', R=1.5);
+# -
+
+pconst(pnorm((sigRx + ruidoC)[2+10*SpS:-10*SpS:SpS]), pType='fast', R=1.5);
 
 # + hide_input=false
 # plot PSD
-plt.figure();
-plt.xlim(-2*Rs,2*Rs);
-plt.ylim(-250,-20);
-plt.psd(sigTx,Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx (entrada do canal)')
-plt.psd(pnorm(firFilter(pulse, sigRx)),Fs=Fa, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do canal)')
-plt.legend(loc='upper left');
+plt.figure(figsize=(6,3));
+plt.xlim(-2*Rs/1e6,2*Rs/1e6);
+plt.ylim(-90,-10);
+plt.psd(sigTx,Fs=Fa/1e6, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Tx (entrada do canal)')
+plt.psd(firFilter(h_ch_Up, sigTx),Fs=Fa/1e6, NFFT = 16*1024, sides='twosided', label = 'Espectro do sinal Rx (saída do canal)')
+plt.xlabel('Frequency [MHz]')
+plt.legend(loc='lower left');
 # -
 
 # ### Critério de Nyquist para ausência de interferência intersimbólica
@@ -318,7 +320,7 @@ plt.legend(loc='upper left');
 #
 # $$
 # \begin{equation}
-# |H(f)| = \begin{cases}1, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}.
+# H(f) = \begin{cases}1, & |f|<B \\ 0, & \text { caso contrário.}\end{cases}.
 # \end{equation}
 # $$
 #
@@ -342,7 +344,7 @@ plt.legend(loc='upper left');
 #
 # $$
 # \begin{equation}\label{isi_x}
-# x(t=q T_s) \equiv x_q= \begin{cases}1, & q=0 \\ 0, & q \neq 0\end{cases}
+# x(t=n T_s) \equiv x_n= \begin{cases}1, & n=0 \\ 0, & n \neq 0\end{cases}
 # \end{equation}
 # $$
 #
@@ -464,7 +466,7 @@ plt.legend(loc='upper left');
 # + hide_input=false
 Rs = 100e6
 Ts = 1/Rs
-α = 0.1
+α = 0.0001
 π = sp.pi
 
 f, t = sp.symbols('f, t', real=True)
@@ -670,7 +672,7 @@ symplot(f, Xabs, finterval, '$|X(f)|$', xlabel = 'f[Hz]');
 # De ($\ref{precod}$) temos que $c_k \oplus c_{k-1} = b_k$, de modo que 
 #
 # $$
-# b_k=\frac{r_k}{2}-1 (\bmod 2)
+# b_k=\frac{r_k}{2} + 1 (\bmod 2)
 # $$
 
 # +
