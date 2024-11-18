@@ -3,3 +3,4 @@
 ./jupyter/.ipynb_checkpoints
 ./jupyter/_pycache_/
 
+/jupyter/__pycache__
