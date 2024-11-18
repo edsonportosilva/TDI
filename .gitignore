@@ -1,0 +1,5 @@
+.vscode/settings.json
+/.ipynb_checkpoints
+./jupyter/.ipynb_checkpoints
+./jupyter/_pycache_/
+
