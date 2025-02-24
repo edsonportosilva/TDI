@@ -86,11 +86,11 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.Constellation = Constellation = digital.constellation_qpsk().base()
         self.rolloff = rolloff = 0.99
         self.preconv = preconv = digital.adaptive_algorithm_cma( Constellation, 0.005, 2).base()
-        self.numTaps = numTaps = 45
+        self.numTaps = numTaps = 15
         self.noiseStd = noiseStd = 0.01
         self.delay = delay = 2
         self.chBW = chBW = 0.75*samp_rate/SamplesPerSymbol
-        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.001).base()
+        self.AdaptiveEqualizer = AdaptiveEqualizer = digital.adaptive_algorithm_lms( Constellation, 0.0005).base()
 
         ##################################################
         # Blocks
@@ -205,64 +205,55 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.qtgui_eye_sink_x_0 = qtgui.eye_sink_c(
-            1024*16, #size
-            samp_rate, #samp_rate
+        self.qtgui_const_sink_x_0_0 = qtgui.const_sink_c(
+            1024, #size
+            "", #name
             1, #number of inputs
-            None
+            None # parent
         )
-        self.qtgui_eye_sink_x_0.set_update_time(0.10)
-        self.qtgui_eye_sink_x_0.set_samp_per_symbol(SamplesPerSymbol)
-        self.qtgui_eye_sink_x_0.set_y_axis(-2, 2)
-
-        self.qtgui_eye_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_eye_sink_x_0.enable_tags(False)
-        self.qtgui_eye_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_eye_sink_x_0.enable_autoscale(True)
-        self.qtgui_eye_sink_x_0.enable_grid(False)
-        self.qtgui_eye_sink_x_0.enable_axis_labels(True)
-        self.qtgui_eye_sink_x_0.enable_control_panel(False)
+        self.qtgui_const_sink_x_0_0.set_update_time(0.10)
+        self.qtgui_const_sink_x_0_0.set_y_axis(-2.5, 2.5)
+        self.qtgui_const_sink_x_0_0.set_x_axis(-2.5, 2.5)
+        self.qtgui_const_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_0_0.enable_autoscale(True)
+        self.qtgui_const_sink_x_0_0.enable_grid(False)
+        self.qtgui_const_sink_x_0_0.enable_axis_labels(True)
 
 
-        labels = ['I(t)', 'Q(t)', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        labels = ['After adaptive equalizer', 'After linear equalization', 'After CPR', '', '',
+            '', '', '', '', '']
         widths = [1, 1, 1, 1, 1,
             1, 1, 1, 1, 1]
-        colors = ['blue', 'blue', 'blue', 'blue', 'blue',
-            'blue', 'blue', 'blue', 'blue', 'blue']
+        colors = ["blue", "red", "black", "red", "red",
+            "red", "red", "red", "red", "red"]
+        styles = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
+        markers = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [3, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
 
-
-        for i in range(2):
+        for i in range(1):
             if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_eye_sink_x_0.set_line_label(i, "Eye [Re{{Data {0}}}]".format(round(i/2)))
-                else:
-                    self.qtgui_eye_sink_x_0.set_line_label(i, "Eye [Im{{Data {0}}}]".format(round((i-1)/2)))
+                self.qtgui_const_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_eye_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_eye_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_eye_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_eye_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_eye_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_eye_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_const_sink_x_0_0.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_0_0.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_0_0.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_0_0.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_0_0.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_0_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_eye_sink_x_0_win = sip.wrapinstance(self.qtgui_eye_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_eye_sink_x_0_win, 0, 3, 2, 3)
-        for r in range(0, 2):
+        self._qtgui_const_sink_x_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0.qwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_0_win, 2, 3, 2, 3)
+        for r in range(2, 4):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             1024, #size
             "", #name
-            2, #number of inputs
+            1, #number of inputs
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
@@ -287,7 +278,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0, 1.0]
 
-        for i in range(2):
+        for i in range(1):
             if len(labels[i]) == 0:
                 self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
@@ -299,8 +290,8 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
 
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 2, 3, 2, 3)
-        for r in range(2, 4):
+        self.top_grid_layout.addWidget(self._qtgui_const_sink_x_0_win, 0, 3, 2, 3)
+        for r in range(0, 2):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
@@ -315,7 +306,6 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
                 6.76))
         self.fir_filter_xxx_0 = filter.fir_filter_ccc(2, [1, 0])
         self.fir_filter_xxx_0.declare_sample_delay(0)
-        self.filter_fft_rrc_filter_0_0 = filter.fft_filter_ccc(1, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
         self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol//2, firdes.root_raised_cosine(1, samp_rate, samp_rate//SamplesPerSymbol, rolloff, 2048), 1)
         self.digital_linear_equalizer_0 = digital.linear_equalizer(numTaps, 2, AdaptiveEqualizer, True, [ ], 'corr_est')
         self.digital_constellation_modulator_0 = digital.generic_mod(
@@ -343,10 +333,9 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.analog_random_source_x_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_delay_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.filter_fft_rrc_filter_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_freq_sink_x_1, 2))
         self.connect((self.blocks_delay_0, 0), (self.channels_fading_model_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_const_sink_x_0, 1))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
         self.connect((self.blocks_vector_to_stream_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.channels_fading_model_0, 0), (self.filter_fft_rrc_filter_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.low_pass_filter_0, 0))
@@ -355,7 +344,6 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.connect((self.digital_linear_equalizer_0, 1), (self.blocks_vector_to_stream_0, 0))
         self.connect((self.filter_fft_rrc_filter_0, 0), (self.digital_linear_equalizer_0, 0))
         self.connect((self.filter_fft_rrc_filter_0, 0), (self.fir_filter_xxx_0, 0))
-        self.connect((self.filter_fft_rrc_filter_0_0, 0), (self.qtgui_eye_sink_x_0, 0))
         self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.low_pass_filter_0, 0), (self.qtgui_freq_sink_x_1, 1))
@@ -377,9 +365,7 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
         self.channels_fading_model_0.set_fDTs(0.005/self.samp_rate)
         self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.chBW, 10, window.WIN_HAMMING, 6.76))
-        self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate/self.SamplesPerSymbol)
 
@@ -390,8 +376,6 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
         self.SamplesPerSymbol = SamplesPerSymbol
         self.set_chBW(0.75*self.samp_rate/self.SamplesPerSymbol)
         self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
-        self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.SamplesPerSymbol)
         self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate/self.SamplesPerSymbol)
 
     def get_Constellation(self):
@@ -406,7 +390,6 @@ class simQPSK_ISI(gr.top_block, Qt.QWidget):
     def set_rolloff(self, rolloff):
         self.rolloff = rolloff
         self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
-        self.filter_fft_rrc_filter_0_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate//self.SamplesPerSymbol, self.rolloff, 2048))
 
     def get_preconv(self):
         return self.preconv

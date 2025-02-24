@@ -7,31 +7,43 @@
 # GNU Radio Python Flow Graph
 # Title: Phase and frequency offset in 16QAM
 # Author: edson
-# GNU Radio version: 3.10.7.0
+# GNU Radio version: 3.9.4.0
 
-from packaging.version import Version as StrictVersion
+from distutils.version import StrictVersion
+
+if __name__ == '__main__':
+    import ctypes
+    import sys
+    if sys.platform.startswith('linux'):
+        try:
+            x11 = ctypes.cdll.LoadLibrary('libX11.so')
+            x11.XInitThreads()
+        except:
+            print("Warning: failed to XInitThreads()")
+
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio.filter import firdes
+import sip
 from gnuradio import analog
 from gnuradio import blocks
 import math
 import numpy
 from gnuradio import digital
 from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
-import sip
 
 
+
+from gnuradio import qtgui
 
 class simQAM(gr.top_block, Qt.QWidget):
 
@@ -42,8 +54,8 @@ class simQAM(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        except:
+            pass
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -63,8 +75,8 @@ class simQAM(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except BaseException as exc:
-            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        except:
+            pass
 
         ##################################################
         # Variables
@@ -85,7 +97,6 @@ class simQAM(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-
         self._pll_L2_range = Range(100, 2000, 10, 100, 200)
         self._pll_L2_win = RangeWidget(self._pll_L2_range, self.set_pll_L2, "+B_pll/-B_pll", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._pll_L2_win)
@@ -205,7 +216,7 @@ class simQAM(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_1.set_update_time(0.10)
-        self.qtgui_freq_sink_x_1.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_1.set_y_axis(-140, 10)
         self.qtgui_freq_sink_x_1.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_1.enable_autoscale(False)
@@ -242,16 +253,16 @@ class simQAM(gr.top_block, Qt.QWidget):
         for c in range(0, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
-            (1024*8), #size
+            1024*8, #size
             window.WIN_RECTANGULAR, #wintype
             0, #fc
-            (samp_rate/SamplesPerSymbol), #bw
+            samp_rate/SamplesPerSymbol, #bw
             "", #name
             2,
             None # parent
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
         self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0.enable_autoscale(False)
@@ -294,8 +305,8 @@ class simQAM(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis((-2.5), 2.5)
-        self.qtgui_const_sink_x_0.set_x_axis((-2.5), 2.5)
+        self.qtgui_const_sink_x_0.set_y_axis(-2.5, 2.5)
+        self.qtgui_const_sink_x_0.set_x_axis(-2.5, 2.5)
         self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0.enable_grid(False)
@@ -332,7 +343,7 @@ class simQAM(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(3, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, (samp_rate/SamplesPerSymbol), rolloff, 2048), 1)
+        self.filter_fft_rrc_filter_0 = filter.fft_filter_ccc(SamplesPerSymbol, firdes.root_raised_cosine(1, samp_rate, samp_rate/SamplesPerSymbol, rolloff, 2048), 1)
         self.digital_linear_equalizer_0 = digital.linear_equalizer(3, 1, AdaptiveEqualizer, True, [ ], 'corr_est')
         self.digital_constellation_modulator_0 = digital.generic_mod(
             constellation=Constellation,
@@ -343,7 +354,7 @@ class simQAM(gr.top_block, Qt.QWidget):
             verbose=False,
             log=False,
             truncate=False)
-        self.blocks_vco_c_0 = blocks.vco_c((samp_rate/SamplesPerSymbol), (2*3.1459), 1)
+        self.blocks_vco_c_0 = blocks.vco_c(samp_rate/SamplesPerSymbol, 2*3.1459, 1)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(2.5)
         self.blocks_freqshift_cc_0 = blocks.rotator_cc(2.0*math.pi*FO/samp_rate)
@@ -355,16 +366,17 @@ class simQAM(gr.top_block, Qt.QWidget):
             1,
             firdes.band_pass(
                 1,
-                (samp_rate/SamplesPerSymbol),
+                samp_rate/SamplesPerSymbol,
                 BandPass_f_low,
                 BandPass_f_high,
                 5,
                 window.WIN_HAMMING,
                 6.76))
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 40000))), True)
-        self.analog_pll_freqdet_cf_0 = analog.pll_freqdet_cf((2*3.1459*pll_L1/(samp_rate/SamplesPerSymbol)), (2*3.1459*pll_L2/(samp_rate/SamplesPerSymbol)), (-2*3.1459*pll_L2/(samp_rate/SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0 = analog.pll_freqdet_cf(2*3.1459*pll_L1/(samp_rate/SamplesPerSymbol), 2*3.1459*pll_L2/(samp_rate/SamplesPerSymbol), -2*3.1459*pll_L2/(samp_rate/SamplesPerSymbol))
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noiseStd, 0)
-        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, (-(2*3.1459*4)/(samp_rate/SamplesPerSymbol)))
+        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, -(2*3.1459*4)/(samp_rate/SamplesPerSymbol))
+
 
 
         ##################################################
@@ -415,14 +427,14 @@ class simQAM(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.analog_const_source_x_0.set_offset((-(2*3.1459*4)/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_loop_bandwidth((2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_max_freq((2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_min_freq((-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+        self.analog_const_source_x_0.set_offset(-(2*3.1459*4)/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_loop_bandwidth(2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_max_freq(2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_min_freq(-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.SamplesPerSymbol, self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
         self.blocks_freqshift_cc_0.set_phase_inc(2.0*math.pi*self.FO/self.samp_rate)
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.SamplesPerSymbol), self.rolloff, 2048))
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, (self.samp_rate/self.SamplesPerSymbol))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.SamplesPerSymbol, self.rolloff, 2048))
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate/self.SamplesPerSymbol)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
@@ -431,22 +443,22 @@ class simQAM(gr.top_block, Qt.QWidget):
 
     def set_rolloff(self, rolloff):
         self.rolloff = rolloff
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.SamplesPerSymbol), self.rolloff, 2048))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.SamplesPerSymbol, self.rolloff, 2048))
 
     def get_pll_L2(self):
         return self.pll_L2
 
     def set_pll_L2(self, pll_L2):
         self.pll_L2 = pll_L2
-        self.analog_pll_freqdet_cf_0.set_max_freq((2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_min_freq((-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_max_freq(2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_min_freq(-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol))
 
     def get_pll_L1(self):
         return self.pll_L1
 
     def set_pll_L1(self, pll_L1):
         self.pll_L1 = pll_L1
-        self.analog_pll_freqdet_cf_0.set_loop_bandwidth((2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol)))
+        self.analog_pll_freqdet_cf_0.set_loop_bandwidth(2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol))
 
     def get_noiseStd(self):
         return self.noiseStd
@@ -460,20 +472,20 @@ class simQAM(gr.top_block, Qt.QWidget):
 
     def set_delay(self, delay):
         self.delay = delay
-        self.blocks_delay_0.set_dly(int(self.delay))
+        self.blocks_delay_0.set_dly(self.delay)
 
     def get_SamplesPerSymbol(self):
         return self.SamplesPerSymbol
 
     def set_SamplesPerSymbol(self, SamplesPerSymbol):
         self.SamplesPerSymbol = SamplesPerSymbol
-        self.analog_const_source_x_0.set_offset((-(2*3.1459*4)/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_loop_bandwidth((2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_max_freq((2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
-        self.analog_pll_freqdet_cf_0.set_min_freq((-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol)))
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
-        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/self.SamplesPerSymbol), self.rolloff, 2048))
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, (self.samp_rate/self.SamplesPerSymbol))
+        self.analog_const_source_x_0.set_offset(-(2*3.1459*4)/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_loop_bandwidth(2*3.1459*self.pll_L1/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_max_freq(2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol))
+        self.analog_pll_freqdet_cf_0.set_min_freq(-2*3.1459*self.pll_L2/(self.samp_rate/self.SamplesPerSymbol))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.SamplesPerSymbol, self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+        self.filter_fft_rrc_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/self.SamplesPerSymbol, self.rolloff, 2048))
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate/self.SamplesPerSymbol)
 
     def get_FO(self):
         return self.FO
@@ -487,14 +499,14 @@ class simQAM(gr.top_block, Qt.QWidget):
 
     def set_BandPass_f_low(self, BandPass_f_low):
         self.BandPass_f_low = BandPass_f_low
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.SamplesPerSymbol, self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
 
     def get_BandPass_f_high(self):
         return self.BandPass_f_high
 
     def set_BandPass_f_high(self, BandPass_f_high):
         self.BandPass_f_high = BandPass_f_high
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, (self.samp_rate/self.SamplesPerSymbol), self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
+        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate/self.SamplesPerSymbol, self.BandPass_f_low, self.BandPass_f_high, 5, window.WIN_HAMMING, 6.76))
 
     def get_AdaptiveEqualizer(self):
         return self.AdaptiveEqualizer
