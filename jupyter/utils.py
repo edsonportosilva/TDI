@@ -6,7 +6,7 @@ from matplotlib import rc
 from matplotlib.animation import FuncAnimation
 from IPython.display import Math, display
 from sympy import lambdify
-from sympy.polys.partfrac import apart
+from scipy.signal import find_peaks
 
 def set_preferences():
     """
@@ -74,38 +74,110 @@ def round_expr(expr, numDig):
 
 
 # Função para plot de funções do sympy
-def symplot(t, F, interval, funLabel, xlabel="tempo [s]", ylabel="", linewidth=1.5, fig=None):
+def symplot(t, F, interval, funLabel, xlabel=" tempo [s]", ylabel="", figsize=None, xfactor=None, yfactor=None, returnAxis=True):
     """
-    Create plots of sympy symbolic functions.
+    Plot sympy expressions.
 
-    :param t: sympy variable
-    :param F: sympy function F(t)
-    :param interval: array of values of t where F should be evaluated [np.array]
-    :funLabel: curve label be displayed in the plot [string].
+    Parameters
+    ----------
+    t : sympy.core.symbol.Symbol
+        Time variable.
+    F : sympy.core.basic.Basic
+        Sympy expression.
+    interval : np.array
+        Time interval.
+    funLabel : str
+        Label for the function.
+    xlabel : str, optional
+        Label for the x-axis. Default is " tempo [s]".
+    ylabel : str, optional
+        Label for the y-axis. Default is "".
+    figsize : tuple, optional
+        Figure size. Default is None.
+    xfactor : float, optional
+        Factor to scale the x-axis. Default is None.
+    yfactor : float, optional
+        Factor to scale the y-axis. Default is None.
+
+    Returns 
+    -------
+    matplotlib.figure.Figure
+        Figure object.
     """
-    if fig is None:
+    if xfactor is None:
+        xfactor = 1
+
+    if yfactor is None:
+        yfactor = 1
+
+    if figsize is None:
         fig = plt.figure()
-
-    if type(F) == list:
-        for indLabel, f in enumerate(F):
-            plotFunc(t, f, interval, funLabel[indLabel], xlabel, ylabel, linewidth)
     else:
-        plotFunc(t, F, interval, funLabel, xlabel, ylabel, linewidth)
+        fig = plt.figure(figsize=figsize)
+    if type(F) == list:
+        if type(yfactor) == list:
+            for indLabel, f in enumerate(F):
+                plotFunc(t, f, interval, funLabel[indLabel], xlabel, ylabel, xfactor, yfactor[indLabel])
+        else:
+            for indLabel, f in enumerate(F):
+                plotFunc(t, f, interval, funLabel[indLabel], xlabel, ylabel, xfactor, yfactor)
+    else:
+        plotFunc(t, F, interval, funLabel, xlabel, ylabel, xfactor, yfactor)
+
+    ax = plt.gca()
+
     plt.grid()
-    #plt.close()
-    return fig
+    plt.close()
+    
+    if returnAxis:
+        return fig, ax
+    else:
+        return fig
 
 
-def plotFunc(t, F, interval, funLabel, xlabel, ylabel, linewidth):
+def plotFunc(t, F, interval, funLabel, xlabel, ylabel, xfactor, yfactor):
+    """
+    Plots a given function F over a specified interval.
+
+    Parameters
+    ----------
+
+    t : sympy.Symbol
+        The symbolic variable used in the function F.
+    F : sympy.Expr
+        The symbolic expression representing the function to be plotted.
+    interval : numpy.ndarray
+        The range of values over which to evaluate and plot the function.
+    funLabel : str
+        The label for the function to be used in the plot legend.
+    xlabel : str
+        The label for the x-axis of the plot.
+    ylabel : str
+        The label for the y-axis of the plot.
+    xfactor : float
+        The factor by which to scale the x-axis values.
+    yfactor : float
+        The factor by which to scale the y-axis values.
+    
+    Returns
+    -------
+    None
+
+    """    
     func = lambdify(
         t, F, modules=["numpy", {"Heaviside": lambda t: np.heaviside(t, 0)}]
     )
     f_num = func(interval)
-   
-    plt.plot(interval, f_num, label=funLabel, linewidth=linewidth)
-    plt.legend(loc="upper right")
-    plt.xlim([min(interval), max(interval)])
-    plt.xlabel(xlabel)
+
+    # make sure discontinuities are not plotted
+    f_diff = np.abs(np.diff(f_num))   
+    peaks, _ = find_peaks(f_diff, width=[1,2],height=0)
+    f_num[peaks] = np.nan
+
+    plt.plot(interval/xfactor, f_num/yfactor, label=funLabel)
+    plt.legend()
+    plt.xlim([min(interval/xfactor), max(interval/xfactor)])
+    plt.xlabel(f'${xlabel}$')
     plt.ylabel(ylabel)
 
 def genGIF(x, y, figName, xlabel=[], ylabel=[], fram=200, inter=20):
