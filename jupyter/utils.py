@@ -74,7 +74,7 @@ def round_expr(expr, numDig):
 
 
 # Função para plot de funções do sympy
-def symplot(t, F, interval, funLabel, xlabel=" tempo [s]", ylabel="", figsize=None, xfactor=None, yfactor=None, returnAxis=True):
+def symplot(t, F, interval, funLabel, xlabel=" tempo [s]", ylabel="", figsize=None, xfactor=None, yfactor=None, returnAxis=False):
     """
     Plot sympy expressions.
 
@@ -127,7 +127,7 @@ def symplot(t, F, interval, funLabel, xlabel=" tempo [s]", ylabel="", figsize=No
     ax = plt.gca()
 
     plt.grid()
-    plt.close()
+    #plt.close()
     
     if returnAxis:
         return fig, ax
@@ -171,9 +171,10 @@ def plotFunc(t, F, interval, funLabel, xlabel, ylabel, xfactor, yfactor):
 
     # make sure discontinuities are not plotted
     f_diff = np.abs(np.diff(f_num))   
-    peaks, _ = find_peaks(f_diff, width=[1,2],height=0)
+    f_diff = np.concatenate((f_diff, [0]))
+    peaks, _ = find_peaks(f_diff, width=[0,2],height=0) 
     f_num[peaks] = np.nan
-
+   
     plt.plot(interval/xfactor, f_num/yfactor, label=funLabel)
     plt.legend()
     plt.xlim([min(interval/xfactor), max(interval/xfactor)])
