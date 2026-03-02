@@ -10,3 +10,4 @@ Material de apoio e códigos de simulação utilizados nas aulas da disciplina T
 2. [Canal com ruído aditivo gaussiano branco (AWGN)](https://github.com/edsonportosilva/TDI/blob/main/jupyter/2%20-%20Canal%20com%20ru%C3%ADdo%20aditivo%20gaussiano%20branco%20(AWGN).ipynb)
 3. [Receptores ótimos para canais AWGN](https://github.com/edsonportosilva/TDI/blob/main/jupyter/3%20-%20Receptores%20%C3%B3timos%20para%20canais%20AWGN.ipynb)
 4. [Transmissão digital em canais limitados em banda](https://github.com/edsonportosilva/TDI/blob/main/jupyter/4%20-%20Transmiss%C3%A3o%20digital%20em%20canais%20limitados%20em%20banda.ipynb)
+5. [Equalização de canais de comunicação](https://github.com/edsonportosilva/TDI/blob/main/jupyter/5%20-%20Equaliza%C3%A7%C3%A3o%20de%20canais%20de%20comunica%C3%A7%C3%A3o.ipynb)
