@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{Transmissão Digital da Informação}{2}{0}{1}
+\beamer@sectionintoc {2}{Equalização em canais de comunicação}{3}{0}{2}

@@ -1,0 +1,835 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.5) (preloaded format=pdflatex 2023.9.14)  19 MAR 2026 17:55
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**"./3 - Receptores ótimos para canais AWGN.tex"
+(3 - Receptores ótimos para canais AWGN.tex
+LaTeX2e <2023-06-01> patch level 1
+L3 programming layer <2023-08-29>
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamer.cls
+Document Class: beamer 2023/05/15 v3.70 A class for typesetting presentations
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasemodes.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/etoolbo
+x\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count185
+)
+\beamer@tempbox=\box51
+\beamer@tempcount=\count186
+\c@beamerpauses=\count187
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasedecode.sty
+\beamer@slideinframe=\count188
+\beamer@minimum=\count189
+\beamer@decode@box=\box52
+)
+\beamer@commentbox=\box53
+\beamer@modecount=\count190
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/iftex
+\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+)
+\headdp=\dimen140
+\footheight=\dimen141
+\sidebarheight=\dimen142
+\beamer@tempdim=\dimen143
+\beamer@finalheight=\dimen144
+\beamer@animht=\dimen145
+\beamer@animdp=\dimen146
+\beamer@animwd=\dimen147
+\beamer@leftmargin=\dimen148
+\beamer@rightmargin=\dimen149
+\beamer@leftsidebar=\dimen150
+\beamer@rightsidebar=\dimen151
+\beamer@boxsize=\dimen152
+\beamer@vboxoffset=\dimen153
+\beamer@descdefault=\dimen154
+\beamer@descriptionwidth=\dimen155
+\beamer@lastskip=\skip48
+\beamer@areabox=\box54
+\beamer@animcurrent=\box55
+\beamer@animshowbox=\box56
+\beamer@sectionbox=\box57
+\beamer@logobox=\box58
+\beamer@linebox=\box59
+\beamer@sectioncount=\count191
+\beamer@subsubsectionmax=\count192
+\beamer@subsectionmax=\count193
+\beamer@sectionmax=\count194
+\beamer@totalheads=\count195
+\beamer@headcounter=\count196
+\beamer@partstartpage=\count197
+\beamer@sectionstartpage=\count198
+\beamer@subsectionstartpage=\count199
+\beamer@animationtempa=\count266
+\beamer@animationtempb=\count267
+\beamer@xpos=\count268
+\beamer@ypos=\count269
+\beamer@ypos@offset=\count270
+\beamer@showpartnumber=\count271
+\beamer@currentsubsection=\count272
+\beamer@coveringdepth=\count273
+\beamer@sectionadjust=\count274
+\beamer@toclastsection=\count275
+\beamer@tocsectionnumber=\count276
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseoptions.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+))
+\beamer@paperwidth=\skip49
+\beamer@paperheight=\skip50
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/geometr
+y\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/iftex
+\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count277
+\Gm@cntv=\count278
+\c@Gm@tempcnt=\count279
+\Gm@bindingoffset=\dimen156
+\Gm@wd@mp=\dimen157
+\Gm@odd@mp=\dimen158
+\Gm@even@mp=\dimen159
+\Gm@layoutwidth=\dimen160
+\Gm@layoutheight=\dimen161
+\Gm@layouthoffset=\dimen162
+\Gm@layoutvoffset=\dimen163
+\Gm@dimlist=\toks18
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/geometr
+y\geometry.cfg))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/mat
+h\pgfmath.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
+lities\pgfrcs.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
+tilities\pgfutil-common.tex
+\pgfutil@everybye=\toks19
+\pgfutil@tempdima=\dimen164
+\pgfutil@tempdimb=\dimen165
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
+tilities\pgfutil-latex.def
+\pgfutil@abb=\box60
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
+tilities\pgfrcs.code.tex
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf\p
+gf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
+lities\pgfkeys.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
+tilities\pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks20
+\pgfkeys@temptoks=\toks21
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
+tilities\pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks22
+)))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmath.code.tex
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathutil.code.tex
+\pgf@x=\dimen166
+\pgf@xa=\dimen167
+\pgf@xb=\dimen168
+\pgf@xc=\dimen169
+\pgf@y=\dimen170
+\pgf@ya=\dimen171
+\pgf@yb=\dimen172
+\pgf@yc=\dimen173
+\c@pgf@counta=\count280
+\c@pgf@countb=\count281
+\c@pgf@countc=\count282
+\c@pgf@countd=\count283
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathparser.code.tex
+\pgfmath@dimen=\dimen174
+\pgfmath@count=\count284
+\pgfmath@box=\box61
+\pgfmath@toks=\toks23
+\pgfmath@stack@operand=\toks24
+\pgfmath@stack@operation=\toks25
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.basic.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.trigonometric.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.random.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.comparison.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.base.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.round.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.misc.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfunctions.integerarithmetics.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathcalc.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count285
+)))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\si
+ze11.clo
+File: size11.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/bas
+iclayer\pgfcore.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen175
+\Gin@req@width=\dimen176
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/sys
+temlayer\pgfsys.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
+ystemlayer\pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+\pgf@x=\dimen177
+\pgf@y=\dimen178
+\pgf@xa=\dimen179
+\pgf@ya=\dimen180
+\pgf@xb=\dimen181
+\pgf@yb=\dimen182
+\pgf@xc=\dimen183
+\pgf@yc=\dimen184
+\pgf@xd=\dimen185
+\pgf@yd=\dimen186
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count286
+\c@pgf@countb=\count287
+\c@pgf@countc=\count288
+\c@pgf@countd=\count289
+\t@pgf@toka=\toks26
+\t@pgf@tokb=\toks27
+\t@pgf@tokc=\toks28
+\pgf@sys@id@count=\count290
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
+ystemlayer\pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
+ystemlayer\pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
+ystemlayer\pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+)))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
+ystemlayer\pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count291
+\pgfsyssoftpath@bigbuffer@items=\count292
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
+ystemlayer\pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\
+xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
+s\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
+ath\pgfint.code.tex)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen187
+\pgf@picmaxx=\dimen188
+\pgf@picminy=\dimen189
+\pgf@picmaxy=\dimen190
+\pgf@pathminx=\dimen191
+\pgf@pathmaxx=\dimen192
+\pgf@pathminy=\dimen193
+\pgf@pathmaxy=\dimen194
+\pgf@xx=\dimen195
+\pgf@xy=\dimen196
+\pgf@yx=\dimen197
+\pgf@yy=\dimen198
+\pgf@zx=\dimen199
+\pgf@zy=\dimen256
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen257
+\pgf@path@lasty=\dimen258
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen259
+\pgf@shorten@start@additional=\dimen260
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box62
+\pgf@hbox=\box63
+\pgf@layerbox@main=\box64
+\pgf@picture@serial@count=\count293
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen261
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen262
+\pgf@pt@y=\dimen263
+\pgf@pt@temp=\dimen264
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen265
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen266
+\pgf@sys@shading@range@num=\count294
+\pgf@shadingcount=\count295
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box65
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
+asiclayer\pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
+lities\xxcolor.sty
+Package: xxcolor 2003/10/24 ver 0.1
+\XC@nummixins=\count296
+\XC@countmixins=\count297
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\at
+begshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
+f\hyperref.sty
+Package: hyperref 2023-07-08 v7.01b Hypertext links for LaTeX
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/ltxcm
+ds\ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pdfte
+xcmds\pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/infwa
+rerr\infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/kvsetke
+ys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/kvdef
+inekeys\kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pdfes
+cape\pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hycolor
+\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/letltxm
+acro\letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/auxhook
+\auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
+f\nameref.sty
+Package: nameref 2023-08-07 v2.53 Cross-referencing by name of section
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/refcoun
+t\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/getti
+tlestring\gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/kvoptio
+ns\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count298
+)
+\@linkdim=\dimen267
+\Hy@linkcounter=\count299
+\Hy@pagecounter=\count300
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
+f\pd1enc.def
+File: pd1enc.def 2023-07-08 v7.01b Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/intca
+lc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count301
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
+f\puenc.def
+File: puenc.def 2023-07-08 v7.01b Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `unicode' set `true' on input line 4050.
+Package hyperref Info: Option `bookmarks' set `true' on input line 4050.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4050.
+Package hyperref Info: Option `implicit' set `false' on input line 4050.
+Package hyperref Info: Hyper figures OFF on input line 4167.
+Package hyperref Info: Link nesting OFF on input line 4172.
+Package hyperref Info: Hyper index ON on input line 4175.
+Package hyperref Info: Plain pages OFF on input line 4182.
+Package hyperref Info: Backreferencing OFF on input line 4187.
+Package hyperref Info: Implicit mode OFF; no redefinition of LaTeX internals.
+Package hyperref Info: Bookmarks ON on input line 4434.
+\c@Hy@tempcnt=\count302
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/url\url
+.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4772.
+\XeTeXLinkMargin=\dimen268
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/bitse
+t\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/bigin
+tcalc\bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count303
+\Field@Width=\dimen269
+\Fld@charsize=\dimen270
+Package hyperref Info: Hyper figures OFF on input line 6051.
+Package hyperref Info: Link nesting OFF on input line 6056.
+Package hyperref Info: Hyper index ON on input line 6059.
+Package hyperref Info: backreferencing OFF on input line 6066.
+Package hyperref Info: Link coloring OFF on input line 6071.
+Package hyperref Info: Link coloring with OCG OFF on input line 6076.
+Package hyperref Info: PDF/A mode OFF on input line 6081.
+\Hy@abspage=\count304
+
+
+Package hyperref Message: Stopped early.
+
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
+f\hpdftex.def
+File: hpdftex.def 2023-07-08 v7.01b Hyperref driver for pdfTeX
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\at
+veryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count305
+\c@bookmark@seq@number=\count306
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/rerunfi
+lecheck\rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/uniqu
+ecounter\uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaserequires.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasecompatibility.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasefont.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsfont
+s\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsfont
+s\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks29
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/sansmat
+haccent\sansmathaccent.sty
+Package: sansmathaccent 2020/01/31
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/koma-sc
+ript\scrlfile.sty
+Package: scrlfile 2023/07/07 v3.41 KOMA-Script package (file load hooks)
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/koma-sc
+ript\scrlfile-hook.sty
+Package: scrlfile-hook 2023/07/07 v3.41 KOMA-Script package (using LaTeX hooks)
+
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/koma-sc
+ript\scrlogo.sty
+Package: scrlogo 2023/07/07 v3.41 KOMA-Script package (logo)
+)))))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasetranslator.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
+tor\translator.sty
+Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasemisc.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasetwoscreens.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseoverlay.sty
+\beamer@argscount=\count307
+\beamer@lastskipcover=\skip51
+\beamer@trivlistdepth=\count308
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasetitle.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasesection.sty
+\c@lecture=\count309
+\c@part=\count310
+\c@section=\count311
+\c@subsection=\count312
+\c@subsubsection=\count313
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseframe.sty
+\beamer@framebox=\box66
+\beamer@frametitlebox=\box67
+\beamer@zoombox=\box68
+\beamer@zoomcount=\count314
+\beamer@zoomframecount=\count315
+\beamer@frametextheight=\dimen271
+\c@subsectionslide=\count316
+\beamer@frametopskip=\skip52
+\beamer@framebottomskip=\skip53
+\beamer@frametopskipautobreak=\skip54
+\beamer@framebottomskipautobreak=\skip55
+\beamer@envbody=\toks30
+\framewidth=\dimen272
+\c@framenumber=\count317
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseverbatim.sty
+\beamer@verbatimfileout=\write4
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseframesize.sty
+\beamer@splitbox=\box69
+\beamer@autobreakcount=\count318
+\beamer@autobreaklastheight=\dimen273
+\beamer@frametitletoks=\toks31
+\beamer@framesubtitletoks=\toks32
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseframecomponents.sty
+\beamer@footins=\box70
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasecolor.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasenotes.sty
+\beamer@frameboxcopy=\box71
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasetoc.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasetemplates.sty
+\beamer@sbttoks=\toks33
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseauxtemplates.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaseboxes.sty
+\bmb@box=\box72
+\bmb@colorbox=\box73
+\bmb@boxwidth=\dimen274
+\bmb@boxheight=\dimen275
+\bmb@prevheight=\dimen276
+\bmb@temp=\dimen277
+\bmb@dima=\dimen278
+\bmb@dimb=\dimen279
+\bmb@prevheight=\dimen280
+)
+\beamer@blockheadheight=\dimen281
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbaselocalstructure.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/tools\e
+numerate.sty
+Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
+\@enLab=\toks34
+)
+\beamer@bibiconwidth=\skip56
+\c@figure=\count319
+\c@table=\count320
+\abovecaptionskip=\skip57
+\belowcaptionskip=\skip58
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasenavigation.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasenavigationsymbols.tex)
+\beamer@section@min@dim=\dimen282
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasetheorems.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
+\amsmath.sty
+Package: amsmath 2023/05/13 v2.17o AMS math features
+\@mathmargin=\skip59
+
+For additional information on amsmath, use the `?' option.
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
+\amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
+\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks35
+\ex@=\dimen283
+))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
+\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen284
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
+\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count321
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count322
+\leftroot@=\count323
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count324
+\DOTSCASE@=\count325
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box74
+\strutbox@=\box75
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen285
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count326
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count327
+\dotsspace@=\muskip17
+\c@parentequation=\count328
+\dspbrk@lvl=\count329
+\tag@help=\toks36
+\row@=\count330
+\column@=\count331
+\maxfields@=\count332
+\andhelp@=\toks37
+\eqnshift@=\dimen286
+\alignsep@=\dimen287
+\tagshift@=\dimen288
+\tagwidth@=\dimen289
+\totwidth@=\dimen290
+\lineht@=\dimen291
+\@envbody=\toks38
+\multlinegap=\skip60
+\multlinetaggap=\skip61
+\mathdisplay@stack=\toks39
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amscls\
+amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks40
+\thm@bodyfont=\toks41
+\thm@headfont=\toks42
+\thm@notefont=\toks43
+\thm@headpunct=\toks44
+\thm@preskip=\skip62
+\thm@postskip=\skip63
+\thm@headsep=\skip64
+\dth@everypar=\toks45
+)
+\c@theorem=\count333
+)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerbasethemes.sty))
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerthemedefault.sty
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerfontthemedefault.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamercolorthemedefault.sty)
+(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
+beamerinnerthemedefault.sty
+! I can't write on file `"3 - Receptores ótimos para canais AWGN.pdf"'.
+(Press Enter to retry, or Control-C to exit; default file extension is `.pdf')
+Please type another file name for output
+! Emergency stop.
+\pgfsys@defineimage ...astform }\else {\pdfximage 
+                                                  \pgf@imageheight \pgf@imag...
+l.17 ...ight=12pt]{beamericonbook}{beamericonbook}
+                                                  
+*** (job aborted, file error in nonstop mode)
+
+ 
+Here is how much of TeX's memory you used:
+ 19680 strings out of 475248
+ 378495 string characters out of 5750261
+ 1917801 words of memory out of 5000000
+ 40850 multiletter control sequences out of 15000+600000
+ 558674 words of font info for 38 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 128i,0n,123p,439b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
+!  ==> Fatal error occurred, no output PDF file produced!
