@@ -110,14 +110,19 @@
 \author{TDI Course}
 \date{}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, positioning, arrows.meta, calc, backgrounds}
+
+% Define a clean and pleasing color scheme
+\definecolor{bitgreen}{RGB}{204, 255, 204}
+\definecolor{discretedyellow}{RGB}{255, 255, 204}
+\definecolor{rforange}{RGB}{255, 229, 204}
+\definecolor{channelblue}{RGB}{204, 229, 255}
+
 \begin{document}
 \frame{\titlepage}
 
-\section{Transmissão Digital da
-Informação}\label{transmissuxe3o-digital-da-informauxe7uxe3o}
-
-\section{Sistemas de Transmissão Digital da
-Informação}\label{sistemas-de-transmissuxe3o-digital-da-informauxe7uxe3o}
+\section{Introdução à Transmissão Digital da Informação}\label{sec1}
 
 \begin{frame}{Sistemas de Transmissão Digital da Informação}
 Num sistema de comunicação digital a função do transmissor é converter
@@ -125,10 +130,130 @@ uma dada sequência de bits num trem de pulsos elétricos que, por sua
 vez, poderar ser utilizado na modulação de uma portadora.
 
 \includegraphics{figuras/Fig1.png}
+
+%\begin{figure}
+%        \centering
+%        % O comando \resizebox ajusta o diagrama à largura exata do slide
+%        \resizebox{\textwidth}{!}{%
+%        \begin{tikzpicture}[
+%            node distance=0.8cm and 0.6cm, % Espaçamento horizontal e vertical reduzidos
+%            block/.style={rectangle, draw, thin, rounded corners=0.15cm, minimum width=2.4cm, minimum height=1.2cm, align=center, fill=white, text width=2.2cm, font=\scriptsize},
+%            bit_block/.style={block, fill=bitgreen},
+%            discrete_block/.style={block, fill=discretedyellow},
+%            rf_small/.style={block, fill=rforange, minimum width=0.9cm, minimum height=0.8cm, text width=0.8cm},
+%            channel_block/.style={ellipse, draw, thick, minimum width=3.2cm, minimum height=1.8cm, align=center, fill=channelblue, text width=2.8cm, font=\footnotesize\bfseries},
+%            arrow/.style={-Latex, thick},
+%            signal_label/.style={align=center, font=\scriptsize\bfseries}
+%        ]
+%
+%        % ---------------------------------------------------------
+%        % BLOCOS DO TRANSMISSOR (Tx)
+%        % ---------------------------------------------------------
+%        \node[bit_block] (Tx_A1) {Fonte de inf.\\binária (bits)};
+%        \node[bit_block, right=of Tx_A1] (Tx_A2) {Codificador\\de canal};
+%        \node[discrete_block, right=of Tx_A2] (Tx_A3) {Modulador\\Digital (map)};
+%        \node[inner sep=2pt, right=of Tx_A3, xshift=-0.2cm] (Tx_A4) {\Large$\uparrow$};
+%        \node[discrete_block, right=of Tx_A4] (Tx_A5) {Filtro\\Formatador};
+%        \node[rf_small, right=0.6cm of Tx_A5, yshift=0.5cm] (Tx_DAC_I) {DAC};
+%        \node[rf_small, below=0.1cm of Tx_DAC_I] (Tx_DAC_Q) {DAC};
+%
+%        % ---------------------------------------------------------
+%        % BLOCOS DO RECEPTOR (Rx)
+%        % ---------------------------------------------------------
+%        \node[bit_block] (Rx_B1) [below=2.8cm of Tx_A1] {Informação\\recuperada};
+%        \node[bit_block, right=of Rx_B1] (Rx_B2) {Decodificador\\de canal};
+%        \node[discrete_block, right=of Rx_B2] (Rx_B3) {Demodulador\\Digital (demap)};
+%        \node[inner sep=2pt, right=of Rx_B3, xshift=-0.2cm] (Rx_B4) {\Large$\downarrow$};
+%        \node[discrete_block, right=of Rx_B4] (Rx_B5) {Filtro\\Casado};
+%        \node[rf_small, right=0.6cm of Rx_B5, yshift=0.5cm] (Rx_ADC_I) {ADC};
+%        \node[rf_small, below=0.1cm of Rx_ADC_I] (Rx_ADC_Q) {ADC};
+%
+%        % ---------------------------------------------------------
+%        % CANAL DE COMUNICAÇÕES
+%        % ---------------------------------------------------------
+%        \node[channel_block] (Channel) at ($(Tx_DAC_I.east)!0.5!(Rx_ADC_I.east) + (4.0cm, 0)$) {Canal de\\comunicações};
+%
+%        % Títulos Principais
+%        \node[font=\normalsize\bfseries] (Transmitter_Label) [above=0.2cm of Tx_A1.north west, anchor=south west] {Transmissor};
+%        \node[font=\normalsize\bfseries] (Receiver_Label) [above=0.2cm of Rx_B1.north west, anchor=south west] {Receptor};
+%
+%        % Conexões Tx
+%        \draw[arrow] (Tx_A1) -- (Tx_A2);
+%        \draw[arrow] (Tx_A2) -- (Tx_A3);
+%        \draw[arrow] (Tx_A3) -- (Tx_A4);
+%        \draw[arrow] (Tx_A4) -- (Tx_A5);
+%        \draw[arrow] (Tx_A5.east) |- (Tx_DAC_I.west) node[midway, above, font=\tiny, xshift=0.1cm] {I};
+%        \draw[arrow] (Tx_A5.east) |- (Tx_DAC_Q.west) node[midway, below, font=\tiny, xshift=0.1cm] {Q};
+%
+%        % ---------------------------------------------------------
+%        % FRONT-END DE RF - TRANSMISSOR
+%        % ---------------------------------------------------------
+%        \begin{scope}
+%            \node (Tx_Mix_I) at ($(Tx_DAC_I.east) + (1.2cm, 0)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny] {X};
+%            \node (Tx_Mix_Q) at ($(Tx_DAC_Q.east) + (1.2cm, 0)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny] {X};
+%            \node (Tx_LO) at ($(Tx_Mix_I.south)!0.5!(Tx_Mix_Q.north)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny, label={right:\tiny$\sim$}] {};
+%            \node (Tx_Comb) at ($(Tx_Mix_I.east) + (0.8cm, 0)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny] {+};
+%            \node[draw, rectangle, rounded corners=0.05cm, inner sep=1pt, font=\tiny, fill=white] (Pi2_Box) at ($(Tx_LO) + (0cm, 0.4cm)$) {$\pi/2$};
+%            
+%            \draw[arrow] (Tx_DAC_I) -- (Tx_Mix_I);
+%            \draw[arrow] (Tx_DAC_Q) -- (Tx_Mix_Q);
+%            \draw[->] (Tx_LO) -- (Pi2_Box);
+%            \draw[->] (Pi2_Box) -- (Tx_Mix_I);
+%            \draw[->] (Tx_LO) -- (Tx_Mix_Q);
+%            \draw[->] (Tx_Mix_I) -| (Tx_Comb.north);
+%            \draw[->] (Tx_Mix_Q) -| (Tx_Comb.south);
+%            \draw[arrow] (Tx_Comb) -- (Channel.west);
+%        \end{scope}
+%
+%        % ---------------------------------------------------------
+%        % FRONT-END DE RF - RECEPTOR
+%        % ---------------------------------------------------------
+%        \begin{scope}
+%            \node (Rx_Split) at ($(Channel.west) - (1.0cm, 0)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny] {};
+%            \node (Rx_Mix_I) at ($(Rx_Split.west) - (1.0cm, 0.5cm)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny] {X};
+%            \node (Rx_Mix_Q) at ($(Rx_Split.west) - (1.0cm, -0.5cm)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny] {X};
+%            \node (Rx_FPB_I) at ($(Rx_Mix_I.west) - (0.8cm, 0)$) [rectangle, draw, thin, minimum width=0.8cm, minimum height=0.6cm, inner sep=1pt, font=\tiny] {F.P.B};
+%            \node (Rx_FPB_Q) at ($(Rx_Mix_Q.west) - (0.8cm, 0)$) [rectangle, draw, thin, minimum width=0.8cm, minimum height=0.6cm, inner sep=1pt, font=\tiny] {F.P.B};
+%            \node (Rx_LO) at ($(Rx_Mix_I.south)!0.5!(Rx_Mix_Q.north)$) [circle, draw, minimum size=0.4cm, inner sep=0, font=\tiny, label={right:\tiny$\sim$}] {};
+%            \node[draw, rectangle, rounded corners=0.05cm, inner sep=1pt, font=\tiny, fill=white] (Rx_Pi2_Box) at ($(Rx_LO) + (0cm, 0.4cm)$) {$\pi/2$};
+%
+%            \draw[arrow] (Channel.west) -- (Rx_Split);
+%            \draw[->] (Rx_Split) -- ++(-0.2cm, 0) |- (Rx_Mix_I.east);
+%            \draw[->] (Rx_Split) -- ++(-0.2cm, 0) |- (Rx_Mix_Q.east);
+%            \draw[->] (Rx_LO) -- (Rx_Pi2_Box);
+%            \draw[->] (Rx_Pi2_Box) -- (Rx_Mix_I);
+%            \draw[->] (Rx_LO) -- (Rx_Mix_Q);
+%            \draw[arrow] (Rx_Mix_I.west) -- (Rx_FPB_I.east);
+%            \draw[arrow] (Rx_Mix_Q.west) -- (Rx_FPB_Q.east);
+%            \draw[arrow] (Rx_FPB_I.west) -- (Rx_ADC_I.east);
+%            \draw[arrow] (Rx_FPB_Q.west) -- (Rx_ADC_Q.east);
+%        \end{scope}
+%
+%        % Conexões Rx
+%        \draw[arrow] (Rx_ADC_I.west) |- ($(Rx_B5.east) + (0, 0.15cm)$) node[midway, above, font=\tiny, xshift=0.1cm] {I};
+%        \draw[arrow] (Rx_ADC_Q.west) |- ($(Rx_B5.east) + (0, -0.15cm)$) node[midway, below, font=\tiny, xshift=0.1cm] {Q};
+%        \draw[arrow] (Rx_B5) -- (Rx_B4);
+%        \draw[arrow] (Rx_B4) -- (Rx_B3);
+%        \draw[arrow] (Rx_B3) -- (Rx_B2);
+%        \draw[arrow] (Rx_B2) -- (Rx_B1);
+%
+%        % ---------------------------------------------------------
+%        % AGRUPAMENTOS VISUAIS DE PROCESSAMENTO
+%        % ---------------------------------------------------------
+%        \begin{scope}[on background layer]
+%            \node[draw, dashed, fill=bitgreen!15, inner sep=0.2cm, fit=(Tx_A1) (Tx_A2) (Rx_B1) (Rx_B2), label={[above left, font=\footnotesize\bfseries, yshift=-0.1cm]:Bits}] {};
+%            \node[draw, dashed, fill=discretedyellow!15, inner sep=0.2cm, fit=(Tx_A3) (Tx_A5) (Rx_B3) (Rx_B5), label={[above left, font=\footnotesize\bfseries, yshift=-0.1cm]:Sinais Discretos}] {};
+%            \node[draw, dashed, fill=rforange!15, inner sep=0.2cm, fit=(Tx_DAC_I) (Tx_Comb) (Rx_ADC_Q) (Rx_FPB_Q), label={[above left, font=\footnotesize\bfseries, yshift=-0.1cm]:RF / Analógico}] {};
+%        \end{scope}
+%
+%        \end{tikzpicture}%
+%        }
+%    \end{figure}
+
 \end{frame}
 
 \begin{frame}{Representações para a onda portadora}
-\phantomsection\label{representauxe7uxf5es-para-a-onda-portadora}
+
 Uma onda portadora contínua \(c(t)\) pode ser representada por
 
 \begin{equation} c(t) = A \cos \left(2\pi f_c t + \theta\right) \end{equation}
@@ -161,15 +286,16 @@ Ex.3:
 Ex.4:
 \(\{(0, 0),(0, 1),(1, 0),(1, 1)\}\rightarrow \{(A, \pi/4), (A, 3\pi/4), (A, 5\pi/4), (A, 7\pi/4)\}\)
 (modulação QPSK)
+\end{frame}
 
-\begin{block}{Diagramas de constelação}
+\begin{frame}{Diagramas de constelação}
 \phantomsection\label{diagramas-de-constelauxe7uxe3o}
-\end{block}
+\end{frame}
 
-\begin{block}{Parâmetros importantes das modulações digitais lineares}
+\begin{frame}{Parâmetros importantes das modulações digitais lineares}
 \phantomsection\label{paruxe2metros-importantes-das-modulauxe7uxf5es-digitais-lineares}
-\begin{block}{Cardinalidade e número de bits por símbolo}
-\phantomsection\label{cardinalidade-e-nuxfamero-de-bits-por-suxedmbolo}
+Cardinalidade e número de bits por símbolo
+
 A cardinalidade de uma modulação digital é definida como o número de
 símbolos que compõem a sua constelação, geralmente indicada pela letra
 \(M\). De modo a facilitar o mapeamento entre sequências binárias e
@@ -180,9 +306,9 @@ pode ser carregada por cada símbolo transmitido. Entretanto, quanto
 maior o valor de \(M\), maior a suscetibilidade dos sinais transmitidos
 ao ruído e demais distorções que podem ser infligidas pelo canal de
 comunicações.
-\end{block}
+\end{frame}
 
-\begin{block}{Energia média dos símbolos da constelação (\(E_s\))}
+\begin{frame}{Energia média dos símbolos da constelação (\(E_s\))}
 \phantomsection\label{energia-muxe9dia-dos-suxedmbolos-da-constelauxe7uxe3o-e_s}
 Considere \(X\) uma variável aleatória discreta que representa a fonte
 de símbolos do transmissor. Em cada instante de sinalização, o
@@ -249,9 +375,9 @@ por símbolo da constelação, temos que
 \[\begin{aligned} E_s^{(\alpha)} &= \sum_{n=0}^{M-1}|\alpha s_n|^2P(s_n) \\ &= \alpha^2\sum_{n=0}^{M-1}|s_n|^2P(s_n) \\ &= \alpha^2 E_s\end{aligned} \]
 
 Logo, se \(\alpha = \frac{1}{\sqrt{E_s}}\), então \(E_s^{(\alpha)}=1\).
-\end{block}
+\end{frame}
 
-\begin{block}{Distância euclidiana mínima entre símbolos (\(d_{min}\))}
+\begin{frame}{Distância euclidiana mínima entre símbolos (\(d_{min}\))}
 \phantomsection\label{distuxe2ncia-euclidiana-muxednima-entre-suxedmbolos-d_min}
 Para uma dada constelação
 \(\mathcal{X} = \left\lbrace s_0, s_1, \dots, s_{M-1}\right\rbrace\), a
@@ -274,9 +400,8 @@ Exemplos:
   \(\mathcal{X} = \left\lbrace \frac{-1-j}{\sqrt{2}}, \frac{-1+j}{\sqrt{2}}, \frac{1+j}{\sqrt{2}}, \frac{1-j}{\sqrt{2}}\right\rbrace\),
   temos que \(d_{min}=\frac{2}{\sqrt{2}}\approx 1.414\).
 \end{enumerate}
-\end{block}
-\end{block}
 \end{frame}
+
 
 \begin{frame}{Intervalo de sinalização e taxa de símbolos}
 \phantomsection\label{intervalo-de-sinalizauxe7uxe3o-e-taxa-de-suxedmbolos}
@@ -335,8 +460,8 @@ de suas amostras \(x[k]\) fazendo
 \[
 x(t)=\sum_{n=-\infty}^{\infty} x(k T_a) \operatorname{sinc}\left(\frac{t-kT_a}{T_a}\right).
 \]
-
-\begin{block}{Exemplo 1: função sinc(t)}
+\end{frame}
+\begin{frame}{Exemplo 1: função sinc(t)}
 \phantomsection\label{exemplo-1-funuxe7uxe3o-sinct}
 \includegraphics{figuras/nb0_out_1.png}
 
@@ -345,9 +470,9 @@ x(t)=\sum_{n=-\infty}^{\infty} x(k T_a) \operatorname{sinc}\left(\frac{t-kT_a}{T
 \includegraphics{figuras/nb0_out_3.png}
 
 \includegraphics{figuras/nb0_out_4.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Exemplo 2: chirp de frequência linear}
+\begin{frame}{Exemplo 2: chirp de frequência linear}
 \phantomsection\label{exemplo-2-chirp-de-frequuxeancia-linear}
 \includegraphics{figuras/nb0_out_5.png}
 
@@ -356,7 +481,6 @@ x(t)=\sum_{n=-\infty}^{\infty} x(k T_a) \operatorname{sinc}\left(\frac{t-kT_a}{T
 \includegraphics{figuras/nb0_out_7.png}
 
 \includegraphics{figuras/nb0_out_8.png}
-\end{block}
 \end{frame}
 
 \begin{frame}{Formatação de pulso e sinais digitais em banda base}
@@ -367,7 +491,9 @@ um trem de pulsos. Seja \(s(t)\) o sinal modulado em banda base
 representando a sequência de símbolos \(s_{k}\) formatada com um pulso
 \(p(t)\), temos que
 
-\begin{equation} s(t) = \sum_{k=-\infty}^{\infty} s_{k} p\left(t-kT_{s}\right)\end{equation},\]
+\begin{equation} 
+s(t) = \sum_{k=-\infty}^{\infty} s_{k} p\left(t-kT_{s}\right)
+\end{equation}
 
 com o processo de geração de \(s(t)\) ilustrado na figura a seguir.
 
@@ -381,7 +507,8 @@ trem de impulsos e o pulso \(p(t)\), i.e.
 O sinal \(s_{k}\), por sua vez, poderá ser transmitido diretamente na
 banda base ou utilizado na modulação de uma onda portadora.
 
-\begin{align} E(t)&=\operatorname{Re}\left[s(t) \exp \left(j \omega_c t\right)\right]\nonumber\\
+\begin{align} 
+E(t)&=\operatorname{Re}\left[s(t) \exp \left(j \omega_c t\right)\right]\nonumber\\
 &= \operatorname{Re}\left[\sum_{k=-\infty}^{\infty} s_{k} p\left(t-kT_{s}\right)\exp \left(j \omega_c t\right)\right]\nonumber\\
 &= \left[\sum_{k=-\infty}^{\infty} \operatorname{Re}[s_{k}] p\left(t-kT_{s}\right)\right]\cos\left(\omega_c t\right) - \left[\sum_{k=-\infty}^{\infty} \operatorname{Im}[s_{k}] p\left(t-kT_{s}\right)\right] \sin\left(\omega_c t\right)
 \end{align}
@@ -389,50 +516,48 @@ banda base ou utilizado na modulação de uma onda portadora.
 \includegraphics{figuras/nb0_out_9.png}
 
 \includegraphics{figuras/nb0_out_10.png}
+\end{frame}
 
-\begin{block}{Pulso retangular ideal}
+\begin{frame}{Pulso retangular ideal}
 \phantomsection\label{pulso-retangular-ideal}
 \includegraphics{figuras/nb0_out_11.png}
 
 \includegraphics{figuras/nb0_out_12.png}
 
 \includegraphics{figuras/nb0_out_13.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Pulso NRZ típico}
+\begin{frame}{Pulso NRZ típico}
 \phantomsection\label{pulso-nrz-tuxedpico}
 \includegraphics{figuras/nb0_out_14.png}
 
 \includegraphics{figuras/nb0_out_15.png}
 
 \includegraphics{figuras/nb0_out_16.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Pulso cosseno levantado}
+\begin{frame}{Pulso cosseno levantado}
 \phantomsection\label{pulso-cosseno-levantado}
-\[
+$$
 p(t)=\left\{\begin{array}{ll}
 \frac{\pi}{4 T} \operatorname{sinc}\left(\frac{1}{2 \beta}\right), & t=\pm \frac{T}{2 \beta} \\
 \frac{1}{T} \operatorname{sinc}\left(\frac{t}{T}\right) \frac{\cos \left(\frac{\pi \beta t}{T}\right)}{1-\left(\frac{2 \beta t}{T}\right)^{2}}, & \text { caso contrário }
 \end{array}\right.
-\]
+$$
 
-\[
+$$
 P(f)=\left\{\begin{array}{ll}
 1, & |f| \leq \frac{1-\beta}{2 T} \\
 \frac{1}{2}\left[1+\cos \left(\frac{\pi T}{\beta}\left[|f|-\frac{1-\beta}{2 T}\right]\right)\right], & \frac{1-\beta}{2 T}<|f| \leq \frac{1+\beta}{2 T} \\
 0, & \text { caso contrário }
 \end{array}\right.
-\]
+$$
 
 \includegraphics{figuras/nb0_out_17.png}
-
 \includegraphics{figuras/nb0_out_18.png}
-\end{block}
 \end{frame}
 
-\begin{frame}{Densidade espectral de potência de sinais modulados
-digitalmenente}
+\begin{frame}{Densidade espectral de potência de sinais modulados digitalmenente}
 \phantomsection\label{densidade-espectral-de-potuxeancia-de-sinais-modulados-digitalmenente}
 Considere \(v(t)\) seja um sinal modulado em banda base no domínio do
 tempo associado a uma sequência de símbolos \(\{s_n\}\) de um dado
@@ -447,10 +572,9 @@ ser entendido como uma realização do processo estocástico \(V(t)\) que,
 por sua vez, depende da sequência aleatória de símbolos \(\{s_n\}\).
 Para cada realização distinta de \(\{s_n\}\) temos uma forma de onda
 \(v(t)\) associada.
+\end{frame}
 
-\begin{block}{Valor médio e autocorrelação de \(V(t)\)}
-\phantomsection\label{valor-muxe9dio-e-autocorrelauxe7uxe3o-de-vt}
-\begin{block}{Valor médio}
+\begin{frame}{Valor médio e autocorrelação de \(V(t)\)}
 \phantomsection\label{valor-muxe9dio}
 \begin{equation}
 \begin{aligned}
@@ -461,9 +585,9 @@ E[V(t)] &=\sum_{n=-\infty}^{\infty} E\left[s_{n}\right] p(t-n T) \\
 
 Perceba que \(E[V(t)]\) é periódico em \(t\) com período \(T\), que
 corresponde ao intervalo de sinalização.
-\end{block}
+\end{frame}
 
-\begin{block}{Autocorrelação}
+\begin{frame}{Autocorrelação}
 \phantomsection\label{autocorrelauxe7uxe3o}
 \begin{equation}
 R_{V}(t+\tau, t)=E\left[V^{*}(t) V(t+\tau)\right]=\sum_{n=-\infty}^{\infty} \sum_{m=-\infty}^{\infty} E\left[s_{n}^{*} s_{m}\right] p(t-nT) p(t+\tau-mT)
@@ -530,10 +654,10 @@ Assim, temos
 \begin{equation}
 \bar{R}_{V}(\tau)=\frac{1}{T} \sum_{m=-\infty}^{\infty} R_{s}(m) R_{p}(\tau-m T).
 \end{equation}
-\end{block}
-\end{block}
+\end{frame}
 
-\begin{block}{Densidade espectral de potência \(\mathcal{S}_{V}(f)\)}
+
+\begin{frame}{Densidade espectral de potência \(\mathcal{S}_{V}(f)\)}
 \phantomsection\label{densidade-espectral-de-potuxeancia-mathcals_vf}
 Uma vez estabelecida \(\bar{R}_{V}(\tau)\), podemos utilizar o teorema
 de Wiener-Khinchin {[}2{]} para determinar a densidade espectral de
@@ -624,13 +748,12 @@ ou seja, o formato de \(\mathcal{S}_{V}(f)\) depende apenas do tipo de
 pulso \(p(t)\) escolhido.
 
 Para mais detalhes, ver capítulo 8 de {[}2{]}.
-\end{block}
+\end{frame}
 
-\begin{block}{Exemplos de densidade espectral de potência de sinais
+\begin{frame}{Exemplos de densidade espectral de potência de sinais
 modulados}
 \phantomsection\label{exemplos-de-densidade-espectral-de-potuxeancia-de-sinais-modulados}
 \includegraphics{figuras/nb0_out_19.png}
-\end{block}
 \end{frame}
 
 \begin{frame}{Diagramas de olho}
@@ -655,12 +778,10 @@ variações que ocorrem durante a transmissão.
 \end{frame}
 
 \begin{frame}{Modulação M-PAM}
-\phantomsection\label{modulauxe7uxe3o-m-pam}
-\begin{block}{Diagramas de constelação}
 \phantomsection\label{diagramas-de-constelauxe7uxe3o-1}
-\end{block}
+\end{frame}
 
-\begin{block}{Mapeando bits para símbolos}
+\begin{frame}{Mapeando bits para símbolos}
 \phantomsection\label{mapeando-bits-para-suxedmbolos}
 \includegraphics{figuras/nb0_out_20.png}
 
@@ -669,22 +790,20 @@ variações que ocorrem durante a transmissão.
 \includegraphics{figuras/nb0_out_22.png}
 
 \includegraphics{figuras/nb0_out_23.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Diagramas de olho}
+\begin{frame}{Diagramas de olho}
 \phantomsection\label{diagramas-de-olho-1}
 \includegraphics{figuras/nb0_out_24.png}
-\end{block}
 \end{frame}
 
 \begin{frame}{Modulação M-QAM}
 \phantomsection\label{modulauxe7uxe3o-m-qam}
-\begin{block}{Diagramas de constelação}
 \phantomsection\label{diagramas-de-constelauxe7uxe3o-2}
 \includegraphics{figuras/nb0_out_25.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Mapeando bits para símbolos}
+\begin{frame}{Mapeando bits para símbolos}
 \phantomsection\label{mapeando-bits-para-suxedmbolos-1}
 \includegraphics{figuras/nb0_out_26.png}
 
@@ -695,52 +814,49 @@ variações que ocorrem durante a transmissão.
 \includegraphics{figuras/nb0_out_29.png}
 
 \includegraphics{figuras/nb0_out_30.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Espectro do sinal modulado}
+\begin{frame}{Espectro do sinal modulado}
 \phantomsection\label{espectro-do-sinal-modulado}
 \includegraphics{figuras/nb0_out_31.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Diagramas de olho}
+\begin{frame}{Diagramas de olho}
 \phantomsection\label{diagramas-de-olho-2}
 \includegraphics{figuras/nb0_out_32.png}
 
 \includegraphics{figuras/nb0_out_33.png}
 
 \includegraphics{figuras/nb0_out_34.png}
-\end{block}
 \end{frame}
 
+
 \begin{frame}{Modulação M-PSK}
-\phantomsection\label{modulauxe7uxe3o-m-psk}
-\begin{block}{Diagramas de constelação}
 \phantomsection\label{diagramas-de-constelauxe7uxe3o-3}
 \includegraphics{figuras/nb0_out_35.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Mapeando bits para símbolos}
+\begin{frame}{Mapeando bits para símbolos}
 \phantomsection\label{mapeando-bits-para-suxedmbolos-2}
 \includegraphics{figuras/nb0_out_36.png}
 
 \includegraphics{figuras/nb0_out_37.png}
 
 \includegraphics{figuras/nb0_out_38.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Espectro do sinal modulado}
+\begin{frame}{Espectro do sinal modulado}
 \phantomsection\label{espectro-do-sinal-modulado-1}
 \includegraphics{figuras/nb0_out_39.png}
-\end{block}
+\end{frame}
 
-\begin{block}{Diagramas de olho}
+\begin{frame}{Diagramas de olho}
 \phantomsection\label{diagramas-de-olho-3}
 \includegraphics{figuras/nb0_out_40.png}
 
 \includegraphics{figuras/nb0_out_41.png}
 
 \includegraphics{figuras/nb0_out_42.png}
-\end{block}
 \end{frame}
 
 \begin{frame}{Referências}

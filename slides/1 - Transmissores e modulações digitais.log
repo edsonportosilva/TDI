@@ -1,586 +1,535 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.5) (preloaded format=pdflatex 2023.9.14)  19 MAR 2026 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.5)  10 JUL 2026 17:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **"./1 - Transmissores e modulações digitais.tex"
 (1 - Transmissores e modulações digitais.tex
-LaTeX2e <2023-06-01> patch level 1
-L3 programming layer <2023-08-29>
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-03-20>
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamer.cls
+Document Class: beamer 2026/01/22 v3.77 A class for typesetting presentations
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamer.cls
-Document Class: beamer 2023/05/15 v3.70 A class for typesetting presentations
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasemodes.
+sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count275
+)
+\beamer@tempbox=\box53
+\beamer@tempcount=\count276
+\c@beamerpauses=\count277
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasemodes.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/etoolbo
-x\etoolbox.sty
-Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count185
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasedecode
+.sty
+\beamer@slideinframe=\count278
+\beamer@minimum=\count279
+\beamer@decode@box=\box54
 )
-\beamer@tempbox=\box51
-\beamer@tempcount=\count186
-\c@beamerpauses=\count187
+\beamer@commentbox=\box55
+\beamer@modecount=\count280
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+\headdp=\dimen150
+\footheight=\dimen151
+\sidebarheight=\dimen152
+\beamer@tempdim=\dimen153
+\beamer@finalheight=\dimen154
+\beamer@animht=\dimen155
+\beamer@animdp=\dimen156
+\beamer@animwd=\dimen157
+\beamer@leftmargin=\dimen158
+\beamer@rightmargin=\dimen159
+\beamer@leftsidebar=\dimen160
+\beamer@rightsidebar=\dimen161
+\beamer@boxsize=\dimen162
+\beamer@vboxoffset=\dimen163
+\beamer@descdefault=\dimen164
+\beamer@descriptionwidth=\dimen165
+\beamer@lastskip=\skip49
+\beamer@areabox=\box56
+\beamer@animcurrent=\box57
+\beamer@animshowbox=\box58
+\beamer@sectionbox=\box59
+\beamer@logobox=\box60
+\beamer@linebox=\box61
+\beamer@sectioncount=\count281
+\beamer@subsubsectionmax=\count282
+\beamer@subsectionmax=\count283
+\beamer@sectionmax=\count284
+\beamer@totalheads=\count285
+\beamer@headcounter=\count286
+\beamer@partstartpage=\count287
+\beamer@sectionstartpage=\count288
+\beamer@subsectionstartpage=\count289
+\beamer@animationtempa=\count290
+\beamer@animationtempb=\count291
+\beamer@xpos=\count292
+\beamer@ypos=\count293
+\beamer@ypos@offset=\count294
+\beamer@showpartnumber=\count295
+\beamer@currentsubsection=\count296
+\beamer@coveringdepth=\count297
+\beamer@sectionadjust=\count298
+\beamer@toclastsection=\count299
+\beamer@tocsectionnumber=\count300
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasedecode.sty
-\beamer@slideinframe=\count188
-\beamer@minimum=\count189
-\beamer@decode@box=\box52
-)
-\beamer@commentbox=\box53
-\beamer@modecount=\count190
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/iftex
-\iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
-)
-\headdp=\dimen140
-\footheight=\dimen141
-\sidebarheight=\dimen142
-\beamer@tempdim=\dimen143
-\beamer@finalheight=\dimen144
-\beamer@animht=\dimen145
-\beamer@animdp=\dimen146
-\beamer@animwd=\dimen147
-\beamer@leftmargin=\dimen148
-\beamer@rightmargin=\dimen149
-\beamer@leftsidebar=\dimen150
-\beamer@rightsidebar=\dimen151
-\beamer@boxsize=\dimen152
-\beamer@vboxoffset=\dimen153
-\beamer@descdefault=\dimen154
-\beamer@descriptionwidth=\dimen155
-\beamer@lastskip=\skip48
-\beamer@areabox=\box54
-\beamer@animcurrent=\box55
-\beamer@animshowbox=\box56
-\beamer@sectionbox=\box57
-\beamer@logobox=\box58
-\beamer@linebox=\box59
-\beamer@sectioncount=\count191
-\beamer@subsubsectionmax=\count192
-\beamer@subsectionmax=\count193
-\beamer@sectionmax=\count194
-\beamer@totalheads=\count195
-\beamer@headcounter=\count196
-\beamer@partstartpage=\count197
-\beamer@sectionstartpage=\count198
-\beamer@subsectionstartpage=\count199
-\beamer@animationtempa=\count266
-\beamer@animationtempb=\count267
-\beamer@xpos=\count268
-\beamer@ypos=\count269
-\beamer@ypos@offset=\count270
-\beamer@showpartnumber=\count271
-\beamer@currentsubsection=\count272
-\beamer@coveringdepth=\count273
-\beamer@sectionadjust=\count274
-\beamer@toclastsection=\count275
-\beamer@tocsectionnumber=\count276
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseoptions.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s\keyval.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseoption
+s.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 ))
-\beamer@paperwidth=\skip49
-\beamer@paperheight=\skip50
+\beamer@paperwidth=\skip50
+\beamer@paperheight=\skip51
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/geometr
-y\geometry.sty
-Package: geometry 2020/01/02 v5.9 Page Geometry
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2026/03/07 v6.0 Page Geometry
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/iftex
-\ifvtex.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count277
-\Gm@cntv=\count278
-\c@Gm@tempcnt=\count279
-\Gm@bindingoffset=\dimen156
-\Gm@wd@mp=\dimen157
-\Gm@odd@mp=\dimen158
-\Gm@even@mp=\dimen159
-\Gm@layoutwidth=\dimen160
-\Gm@layoutheight=\dimen161
-\Gm@layouthoffset=\dimen162
-\Gm@layoutvoffset=\dimen163
+\Gm@cnth=\count301
+\Gm@cntv=\count302
+\c@Gm@tempcnt=\count303
+\Gm@bindingoffset=\dimen166
+\Gm@wd@mp=\dimen167
+\Gm@odd@mp=\dimen168
+\Gm@even@mp=\dimen169
+\Gm@layoutwidth=\dimen170
+\Gm@layoutheight=\dimen171
+\Gm@layouthoffset=\dimen172
+\Gm@layoutvoffset=\dimen173
 \Gm@dimlist=\toks18
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/geometr
-y\geometry.cfg))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/mat
-h\pgfmath.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
-lities\pgfrcs.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
-tilities\pgfutil-common.tex
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.st
+y
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common.tex
 \pgfutil@everybye=\toks19
-\pgfutil@tempdima=\dimen164
-\pgfutil@tempdimb=\dimen165
+\pgfutil@tempdima=\dimen174
+\pgfutil@tempdimb=\dimen175
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
-tilities\pgfutil-latex.def
-\pgfutil@abb=\box60
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-latex.def
+\pgfutil@abb=\box62
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
-tilities\pgfrcs.code.tex
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf\p
-gf.revision.tex)
-Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
+code.tex
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
-lities\pgfkeys.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
-tilities\pgfkeys.code.tex
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.s
+ty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
 \pgfkeys@pathtoks=\toks20
 \pgfkeys@temptoks=\toks21
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/u
-tilities\pgfkeyslibraryfiltered.code.tex
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+libraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks22
 )))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmath.code.tex
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathutil.code.tex
-\pgf@x=\dimen166
-\pgf@xa=\dimen167
-\pgf@xb=\dimen168
-\pgf@xc=\dimen169
-\pgf@y=\dimen170
-\pgf@ya=\dimen171
-\pgf@yb=\dimen172
-\pgf@yc=\dimen173
-\c@pgf@counta=\count280
-\c@pgf@countb=\count281
-\c@pgf@countc=\count282
-\c@pgf@countd=\count283
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex
+\pgf@x=\dimen176
+\pgf@xa=\dimen177
+\pgf@xb=\dimen178
+\pgf@xc=\dimen179
+\pgf@y=\dimen180
+\pgf@ya=\dimen181
+\pgf@yb=\dimen182
+\pgf@yc=\dimen183
+\c@pgf@counta=\count304
+\c@pgf@countb=\count305
+\c@pgf@countc=\count306
+\c@pgf@countd=\count307
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathparser.code.tex
-\pgfmath@dimen=\dimen174
-\pgfmath@count=\count284
-\pgfmath@box=\box61
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex
+\pgfmath@dimen=\dimen184
+\pgfmath@count=\count308
+\pgfmath@box=\box63
 \pgfmath@toks=\toks23
 \pgfmath@stack@operand=\toks24
 \pgfmath@stack@operation=\toks25
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.basic.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.trigonometric.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.random.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.comparison.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.base.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.round.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.misc.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfunctions.integerarithmetics.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathcalc.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count285
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex
+\c@pgfmathroundto@lastzeros=\count309
 )))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\si
-ze11.clo
-File: size11.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo
+File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/bas
-iclayer\pgfcore.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s\graphicx.sty
-Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s\graphics.sty
-Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s\trig.sty
-Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s-cfg\graphics.cfg
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 107.
+Package graphics Info: Driver file: pdftex.def on input line 106.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s-def\pdftex.def
-File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen175
-\Gin@req@width=\dimen176
+\Gin@req@height=\dimen185
+\Gin@req@width=\dimen186
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/sys
-temlayer\pgfsys.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
-ystemlayer\pgfsys.code.tex
-Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
-\pgf@x=\dimen177
-\pgf@y=\dimen178
-\pgf@xa=\dimen179
-\pgf@ya=\dimen180
-\pgf@xb=\dimen181
-\pgf@yb=\dimen182
-\pgf@xc=\dimen183
-\pgf@yc=\dimen184
-\pgf@xd=\dimen185
-\pgf@yd=\dimen186
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.code.tex
+Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@x=\dimen187
+\pgf@y=\dimen188
+\pgf@xa=\dimen189
+\pgf@ya=\dimen190
+\pgf@xb=\dimen191
+\pgf@yb=\dimen192
+\pgf@xc=\dimen193
+\pgf@yc=\dimen194
+\pgf@xd=\dimen195
+\pgf@yd=\dimen196
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count286
-\c@pgf@countb=\count287
-\c@pgf@countc=\count288
-\c@pgf@countd=\count289
+\c@pgf@counta=\count310
+\c@pgf@countb=\count311
+\c@pgf@countc=\count312
+\c@pgf@countd=\count313
 \t@pgf@toka=\toks26
 \t@pgf@tokb=\toks27
 \t@pgf@tokc=\toks28
-\pgf@sys@id@count=\count290
+\pgf@sys@id@count=\count314
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
-ystemlayer\pgf.cfg
-File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
+fg
+File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
-ystemlayer\pgfsys-pdftex.def
-File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-pdftex.def
+File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
-ystemlayer\pgfsys-common-pdf.def
-File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def
+File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
 )))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
-ystemlayer\pgfsyssoftpath.code.tex
-File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count291
-\pgfsyssoftpath@bigbuffer@items=\count292
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfsyssoftpath@smallbuffer@items=\count315
+\pgfsyssoftpath@bigbuffer@items=\count316
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/s
-ystemlayer\pgfsysprotocol.code.tex
-File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex
+File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\
-xcolor.sty
-Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s-cfg\color.cfg
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: pdftex.def on input line 227.
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
+Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/graphic
-s\mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
-Package xcolor Info: Model `RGB' extended on input line 1369.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex
+File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@picminx=\dimen197
+\pgf@picmaxx=\dimen198
+\pgf@picminy=\dimen199
+\pgf@picmaxy=\dimen256
+\pgf@pathminx=\dimen257
+\pgf@pathmaxx=\dimen258
+\pgf@pathminy=\dimen259
+\pgf@pathmaxy=\dimen260
+\pgf@xx=\dimen261
+\pgf@xy=\dimen262
+\pgf@yx=\dimen263
+\pgf@yy=\dimen264
+\pgf@zx=\dimen265
+\pgf@zy=\dimen266
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcore.code.tex
-Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/m
-ath\pgfint.code.tex)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorepoints.code.tex
-File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen187
-\pgf@picmaxx=\dimen188
-\pgf@picminy=\dimen189
-\pgf@picmaxy=\dimen190
-\pgf@pathminx=\dimen191
-\pgf@pathmaxx=\dimen192
-\pgf@pathminy=\dimen193
-\pgf@pathmaxy=\dimen194
-\pgf@xx=\dimen195
-\pgf@xy=\dimen196
-\pgf@yx=\dimen197
-\pgf@yy=\dimen198
-\pgf@zx=\dimen199
-\pgf@zy=\dimen256
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@path@lastx=\dimen267
+\pgf@path@lasty=\dimen268
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorepathconstruct.code.tex
-File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen257
-\pgf@path@lasty=\dimen258
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex
+File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@shorten@end@additional=\dimen269
+\pgf@shorten@start@additional=\dimen270
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorepathusage.code.tex
-File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen259
-\pgf@shorten@start@additional=\dimen260
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex
+File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfpic=\box64
+\pgf@hbox=\box65
+\pgf@layerbox@main=\box66
+\pgf@picture@serial@count=\count317
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorescopes.code.tex
-File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box62
-\pgf@hbox=\box63
-\pgf@layerbox@main=\box64
-\pgf@picture@serial@count=\count293
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgflinewidth=\dimen271
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoregraphicstate.code.tex
-File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen261
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex
+File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@pt@x=\dimen272
+\pgf@pt@y=\dimen273
+\pgf@pt@temp=\dimen274
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoretransformations.code.tex
-File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen262
-\pgf@pt@y=\dimen263
-\pgf@pt@temp=\dimen264
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex
+File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorequick.code.tex
-File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex
+File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoreobjects.code.tex
-File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorepathprocessing.code.tex
-File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex
+File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowsep=\dimen275
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorearrows.code.tex
-File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen265
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex
+File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@max=\dimen276
+\pgf@sys@shading@range@num=\count318
+\pgf@shadingcount=\count319
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoreshade.code.tex
-File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen266
-\pgf@sys@shading@range@num=\count294
-\pgf@shadingcount=\count295
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex
+File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoreimage.code.tex
-File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex
+File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfexternal@startupbox=\box67
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoreexternal.code.tex
-File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box65
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex
+File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorelayers.code.tex
-File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex
+File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcoretransparency.code.tex
-File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex
+File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorepatterns.code.tex
-File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pgf/b
-asiclayer\pgfcorerdf.code.tex
-File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex
+File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
-lities\xxcolor.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\xxcolor.s
+ty
 Package: xxcolor 2003/10/24 ver 0.1
-\XC@nummixins=\count296
-\XC@countmixins=\count297
+\XC@nummixins=\count320
+\XC@countmixins=\count321
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\at
-begshi-ltx.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
-f\hyperref.sty
-Package: hyperref 2023-07-08 v7.01b Hypertext links for LaTeX
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2026-04-24 v7.01q Hypertext links for LaTeX
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/ltxcm
-ds\ltxcmds.sty
-Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pdfte
-xcmds\pdftexcmds.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/infwa
-rerr\infwarerr.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/kvsetke
-ys\kvsetkeys.sty
-Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/kvdef
-inekeys\kvdefinekeys.sty
-Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/pdfes
-cape\pdfescape.sty
-Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hycolor
-\hycolor.sty
+))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/letltxm
-acro\letltxmacro.sty
-Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/auxhook
-\auxhook.sty
-Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
-f\nameref.sty
-Package: nameref 2023-08-07 v2.53 Cross-referencing by name of section
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/refcoun
-t\refcount.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/getti
-tlestring\gettitlestring.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/kvoptio
-ns\kvoptions.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count298
+\c@section@level=\count322
 )
-\@linkdim=\dimen267
-\Hy@linkcounter=\count299
-\Hy@pagecounter=\count300
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
-f\pd1enc.def
-File: pd1enc.def 2023-07-08 v7.01b Hyperref: PDFDocEncoding definition (HO)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen277
+\Hy@linkcounter=\count323
+\Hy@pagecounter=\count324
+ (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2026-04-24 v7.01q Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/intca
-lc\intcalc.sty
+) (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count301
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
-f\puenc.def
-File: puenc.def 2023-07-08 v7.01b Hyperref: PDF Unicode definition (HO)
+\Hy@SavedSpaceFactor=\count325
+ (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2026-04-24 v7.01q Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Option `unicode' set `true' on input line 4050.
-Package hyperref Info: Option `bookmarks' set `true' on input line 4050.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 4050.
-Package hyperref Info: Option `implicit' set `false' on input line 4050.
-Package hyperref Info: Hyper figures OFF on input line 4167.
-Package hyperref Info: Link nesting OFF on input line 4172.
-Package hyperref Info: Hyper index ON on input line 4175.
-Package hyperref Info: Plain pages OFF on input line 4182.
-Package hyperref Info: Backreferencing OFF on input line 4187.
+Package hyperref Info: Option `unicode' set `true' on input line 4070.
+Package hyperref Info: Option `bookmarks' set `true' on input line 4070.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4070.
+Package hyperref Info: Option `implicit' set `false' on input line 4070.
+Package hyperref Info: Hyper figures OFF on input line 4199.
+Package hyperref Info: Link nesting OFF on input line 4204.
+Package hyperref Info: Hyper index ON on input line 4207.
+Package hyperref Info: Plain pages OFF on input line 4214.
+Package hyperref Info: Backreferencing OFF on input line 4219.
 Package hyperref Info: Implicit mode OFF; no redefinition of LaTeX internals.
-Package hyperref Info: Bookmarks ON on input line 4434.
-\c@Hy@tempcnt=\count302
+Package hyperref Info: Bookmarks ON on input line 4466.
+\c@Hy@tempcnt=\count326
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/url\url
-.sty
-\Urlmuskip=\muskip16
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4772.
-\XeTeXLinkMargin=\dimen268
+LaTeX Info: Redefining \url on input line 4805.
+\XeTeXLinkMargin=\dimen278
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/bitse
-t\bitset.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/bigin
-tcalc\bigintcalc.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count303
-\Field@Width=\dimen269
-\Fld@charsize=\dimen270
-Package hyperref Info: Hyper figures OFF on input line 6051.
-Package hyperref Info: Link nesting OFF on input line 6056.
-Package hyperref Info: Hyper index ON on input line 6059.
-Package hyperref Info: backreferencing OFF on input line 6066.
-Package hyperref Info: Link coloring OFF on input line 6071.
-Package hyperref Info: Link coloring with OCG OFF on input line 6076.
-Package hyperref Info: PDF/A mode OFF on input line 6081.
-\Hy@abspage=\count304
+\Fld@menulength=\count327
+\Field@Width=\dimen279
+\Fld@charsize=\dimen280
+Package hyperref Info: Hyper figures OFF on input line 6091.
+Package hyperref Info: Link nesting OFF on input line 6096.
+Package hyperref Info: Hyper index ON on input line 6099.
+Package hyperref Info: backreferencing OFF on input line 6106.
+Package hyperref Info: Link coloring OFF on input line 6111.
+Package hyperref Info: Link coloring with OCG OFF on input line 6116.
+Package hyperref Info: PDF/A mode OFF on input line 6121.
+\Hy@abspage=\count328
 
 
 Package hyperref Message: Stopped early.
 
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
+ (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2026-04-24 v7.01q Hyperref driver for pdfTeX
+\Fld@listcount=\count329
+\c@bookmark@seq@number=\count330
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/hyperre
-f\hpdftex.def
-File: hpdftex.def 2023-07-08 v7.01b Hyperref driver for pdfTeX
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\at
-veryend-ltx.sty
-Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
-kage
-with kernel methods
-)
-\Fld@listcount=\count305
-\c@bookmark@seq@number=\count306
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/rerunfi
-lecheck\rerunfilecheck.sty
-Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/generic/uniqu
-ecounter\uniquecounter.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-85.
+84.
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaserequires.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasecompatibility.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasefont.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsfont
-s\amssymb.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaserequir
+es.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasecompat
+ibility.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasefont.s
+ty (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsfont
-s\amsfonts.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks29
 \symAMSa=\mathgroup4
@@ -589,279 +538,265 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/sansmat
-haccent\sansmathaccent.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\sansmath
+accent.sty
 Package: sansmathaccent 2020/01/31
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/koma-sc
-ript\scrlfile.sty
-Package: scrlfile 2023/07/07 v3.41 KOMA-Script package (file load hooks)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlfile.st
+y
+Package: scrlfile 2026/02/02 v3.49.2 KOMA-Script package (file load hooks)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/koma-sc
-ript\scrlfile-hook.sty
-Package: scrlfile-hook 2023/07/07 v3.41 KOMA-Script package (using LaTeX hooks)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlfile-ho
+ok.sty
+Package: scrlfile-hook 2026/02/02 v3.49.2 KOMA-Script package (using LaTeX hook
+s)
 
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/koma-sc
-ript\scrlogo.sty
-Package: scrlogo 2023/07/07 v3.41 KOMA-Script package (logo)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlogo.sty
+Package: scrlogo 2026/02/02 v3.49.2 KOMA-Script package (logo)
 )))))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasetranslator.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetransl
+ator.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator.s
+ty
 Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasemisc.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasetwoscreens.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseoverlay.sty
-\beamer@argscount=\count307
-\beamer@lastskipcover=\skip51
-\beamer@trivlistdepth=\count308
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasemisc.s
+ty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetwoscr
+eens.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseoverla
+y.sty
+\beamer@argscount=\count331
+\beamer@lastskipcover=\skip52
+\beamer@trivlistdepth=\count332
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasetitle.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasesection.sty
-\c@lecture=\count309
-\c@part=\count310
-\c@section=\count311
-\c@subsection=\count312
-\c@subsubsection=\count313
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetitle.
+sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasesectio
+n.sty
+\c@lecture=\count333
+\c@part=\count334
+\c@section=\count335
+\c@subsection=\count336
+\c@subsubsection=\count337
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseframe.sty
-\beamer@framebox=\box66
-\beamer@frametitlebox=\box67
-\beamer@zoombox=\box68
-\beamer@zoomcount=\count314
-\beamer@zoomframecount=\count315
-\beamer@frametextheight=\dimen271
-\c@subsectionslide=\count316
-\beamer@frametopskip=\skip52
-\beamer@framebottomskip=\skip53
-\beamer@frametopskipautobreak=\skip54
-\beamer@framebottomskipautobreak=\skip55
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframe.
+sty
+\beamer@framebox=\box68
+\beamer@frametitlebox=\box69
+\beamer@zoombox=\box70
+\beamer@zoomcount=\count338
+\beamer@zoomframecount=\count339
+\beamer@frametextheight=\dimen281
+\c@subsectionslide=\count340
+\beamer@frametopskip=\skip53
+\beamer@framebottomskip=\skip54
+\beamer@frametopskipautobreak=\skip55
+\beamer@framebottomskipautobreak=\skip56
 \beamer@envbody=\toks30
-\framewidth=\dimen272
-\c@framenumber=\count317
+\framewidth=\dimen282
+\c@framenumber=\count341
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseverbatim.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseverbat
+im.sty
 \beamer@verbatimfileout=\write4
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseframesize.sty
-\beamer@splitbox=\box69
-\beamer@autobreakcount=\count318
-\beamer@autobreaklastheight=\dimen273
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframes
+ize.sty
+\beamer@splitbox=\box71
+\beamer@autobreakcount=\count342
+\beamer@autobreaklastheight=\dimen283
 \beamer@frametitletoks=\toks31
 \beamer@framesubtitletoks=\toks32
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseframecomponents.sty
-\beamer@footins=\box70
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframec
+omponents.sty
+\beamer@colheight=\skip57
+\beamer@footins=\box72
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasecolor.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasenotes.sty
-\beamer@frameboxcopy=\box71
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasecolor.
+sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenotes.
+sty
+\beamer@frameboxcopy=\box73
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasetoc.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasetemplates.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetoc.st
+y)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetempla
+tes.sty
 \beamer@sbttoks=\toks33
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseauxtemplates.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaseboxes.sty
-\bmb@box=\box72
-\bmb@colorbox=\box73
-\bmb@boxwidth=\dimen274
-\bmb@boxheight=\dimen275
-\bmb@prevheight=\dimen276
-\bmb@temp=\dimen277
-\bmb@dima=\dimen278
-\bmb@dimb=\dimen279
-\bmb@prevheight=\dimen280
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseauxtem
+plates.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseboxes.
+sty
+\bmb@box=\box74
+\bmb@colorbox=\box75
+\bmb@boxwidth=\dimen284
+\bmb@boxheight=\dimen285
+\bmb@prevheight=\dimen286
+\bmb@temp=\dimen287
+\bmb@dima=\dimen288
+\bmb@dimb=\dimen289
+\bmb@prevheight=\dimen290
 )
-\beamer@blockheadheight=\dimen281
+\beamer@blockheadheight=\dimen291
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbaselocalstructure.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/tools\e
-numerate.sty
-Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaselocals
+tructure.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/tools\enumerate.sty
+Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
 \@enLab=\toks34
 )
-\beamer@bibiconwidth=\skip56
-\c@figure=\count319
-\c@table=\count320
-\abovecaptionskip=\skip57
-\belowcaptionskip=\skip58
+\beamer@bibiconwidth=\skip58
+\c@figure=\count343
+\c@table=\count344
+\abovecaptionskip=\skip59
+\belowcaptionskip=\skip60
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasenavigation.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasenavigationsymbols.tex)
-\beamer@section@min@dim=\dimen282
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenaviga
+tion.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenaviga
+tionsymbols.tex)
+\beamer@section@min@dim=\dimen292
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasetheorems.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
-\amsmath.sty
-Package: amsmath 2023/05/13 v2.17o AMS math features
-\@mathmargin=\skip59
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetheore
+ms.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip61
 
 For additional information on amsmath, use the `?' option.
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
-\amstext.sty
-Package: amstext 2021/08/26 v2.01 AMS text
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
-\amsgen.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks35
-\ex@=\dimen283
+\ex@=\dimen293
 ))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
-\amsbsy.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen284
+\pmbraise@=\dimen294
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsmath
-\amsopn.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count321
-LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count322
-\leftroot@=\count323
-LaTeX Info: Redefining \overline on input line 399.
-LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count324
-\DOTSCASE@=\count325
-LaTeX Info: Redefining \ldots on input line 496.
-LaTeX Info: Redefining \dots on input line 499.
-LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box74
-\strutbox@=\box75
-LaTeX Info: Redefining \big on input line 722.
-LaTeX Info: Redefining \Big on input line 723.
-LaTeX Info: Redefining \bigg on input line 724.
-LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen285
-LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count326
-LaTeX Info: Redefining \bmod on input line 905.
-LaTeX Info: Redefining \pmod on input line 910.
-LaTeX Info: Redefining \smash on input line 940.
-LaTeX Info: Redefining \relbar on input line 970.
-LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count327
-\dotsspace@=\muskip17
-\c@parentequation=\count328
-\dspbrk@lvl=\count329
+\inf@bad=\count345
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count346
+\leftroot@=\count347
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count348
+\DOTSCASE@=\count349
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box76
+\strutbox@=\box77
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen295
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count350
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count351
+\dotsspace@=\muskip18
+\c@parentequation=\count352
+\dspbrk@lvl=\count353
 \tag@help=\toks36
-\row@=\count330
-\column@=\count331
-\maxfields@=\count332
+\row@=\count354
+\column@=\count355
+\maxfields@=\count356
 \andhelp@=\toks37
-\eqnshift@=\dimen286
-\alignsep@=\dimen287
-\tagshift@=\dimen288
-\tagwidth@=\dimen289
-\totwidth@=\dimen290
-\lineht@=\dimen291
+\eqnshift@=\dimen296
+\alignsep@=\dimen297
+\tagshift@=\dimen298
+\tagwidth@=\dimen299
+\totwidth@=\dimen300
+\lineht@=\dimen301
 \@envbody=\toks38
-\multlinegap=\skip60
-\multlinetaggap=\skip61
+\multlinegap=\skip62
+\multlinetaggap=\skip63
 \mathdisplay@stack=\toks39
-LaTeX Info: Redefining \[ on input line 2953.
-LaTeX Info: Redefining \] on input line 2954.
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amscls\
-amsthm.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty
 Package: amsthm 2020/05/29 v2.20.6
 \thm@style=\toks40
 \thm@bodyfont=\toks41
 \thm@headfont=\toks42
 \thm@notefont=\toks43
 \thm@headpunct=\toks44
-\thm@preskip=\skip62
-\thm@postskip=\skip63
-\thm@headsep=\skip64
+\thm@preskip=\skip64
+\thm@postskip=\skip65
+\thm@headsep=\skip66
 \dth@everypar=\toks45
 )
-\c@theorem=\count333
+\c@theorem=\count357
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerbasethemes.sty))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerthemedefault.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerfontthemedefault.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamercolorthemedefault.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerinnerthemedefault.sty
-\beamer@dima=\dimen292
-\beamer@dimb=\dimen293
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasethemes
+.sty))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerthemedefau
+lt.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerfontthemed
+efault.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+default.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerinnertheme
+default.sty
+\beamer@dima=\dimen302
+\beamer@dimb=\dimen303
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerouterthemedefault.sty)))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/pgf/uti
-lities\pgfpages.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
+default.sty)))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfpages.
+sty
 Package: pgfpages 2011/01/05 ver 0.02
-
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/tools\c
-alc.sty
-Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count334
-\calc@Bcount=\count335
-\calc@Adimen=\dimen294
-\calc@Bdimen=\dimen295
-\calc@Askip=\skip65
-\calc@Bskip=\skip66
-LaTeX Info: Redefining \setlength on input line 80.
-LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count336
-\calc@Cskip=\skip67
+ (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
+Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
+\calc@Acount=\count358
+\calc@Bcount=\count359
+\calc@Adimen=\dimen304
+\calc@Bdimen=\dimen305
+\calc@Askip=\skip67
+\calc@Bskip=\skip68
+LaTeX Info: Redefining \setlength on input line 86.
+LaTeX Info: Redefining \addtolength on input line 87.
+\calc@Ccount=\count360
+\calc@Cskip=\skip69
 )
-\pgf@logicalpages=\count337
-\pgf@firstshipout=\count338
-\pgf@lastshipout=\count339
-\pgf@currentshipout=\count340
-\pgf@cpn=\count341
-\pgf@shipoutnextto=\count342
-\pgfphysicalheight=\dimen296
-\pgfphysicalwidth=\dimen297
-\pgfpages@shipoutbox=\box76
+\pgf@logicalpages=\count361
+\pgf@firstshipout=\count362
+\pgf@lastshipout=\count363
+\pgf@currentshipout=\count364
+\pgf@cpn=\count365
+\pgf@shipoutnextto=\count366
+\pgfphysicalheight=\dimen306
+\pgfphysicalwidth=\dimen307
+\pgfpages@shipoutbox=\box78
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\fo
-ntenc.sty
-Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\in
-putenc.sty
-Package: inputenc 2021/02/14 v1.3d Input encoding file
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks46
 \inpenc@posthook=\toks47
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/base\te
-xtcomp.sty
-Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/lm\lmod
-ern.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/lm\lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -896,100 +831,196 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerthemeMadrid.sty
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamercolorthemewhale.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamercolorthemeorchid.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerinnerthemerounded.sty)
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/beamer\
-beamerouterthemeinfolines.sty))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/upquote
-\upquote.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerthemeMadri
+d.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+whale.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+orchid.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerinnertheme
+rounded.sty)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
+infolines.sty))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/microty
-pe\microtype.sty
-Package: microtype 2023/03/13 v3.1a Micro-typographical refinements (RS)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
 \MT@toks=\toks48
-\MT@tempbox=\box77
-\MT@count=\count343
-LaTeX Info: Redefining \noprotrusionifhmode on input line 1059.
-LaTeX Info: Redefining \leftprotrusion on input line 1060.
+\MT@tempbox=\box79
+\MT@count=\count367
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1084.
+LaTeX Info: Redefining \leftprotrusion on input line 1085.
 \MT@prot@toks=\toks49
-LaTeX Info: Redefining \rightprotrusion on input line 1078.
-LaTeX Info: Redefining \textls on input line 1368.
-\MT@outer@kern=\dimen298
-LaTeX Info: Redefining \textmicrotypecontext on input line 1988.
-\MT@listname@count=\count344
+LaTeX Info: Redefining \rightprotrusion on input line 1104.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen308
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count368
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/microty
-pe\microtype-pdftex.def
-File: microtype-pdftex.def 2023/03/13 v3.1a Definitions specific to pdftex (RS)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdf
+tex.def
+File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
 
-LaTeX Info: Redefining \lsstyle on input line 902.
-LaTeX Info: Redefining \lslig on input line 902.
-\MT@outer@space=\skip68
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip70
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/microty
-pe\microtype.cfg
-File: microtype.cfg 2023/03/13 v3.1a microtype main configuration file (RS)
-))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/parskip
-\parskip.sty
-Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+File: microtype.cfg 2026/03/01 v3.2d microtype main configuration file (RS)
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/bookmar
-k\bookmark.sty
-Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
+) (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/parskip\parskip.sty
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+) (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
+Package: bookmark 2026-05-21 v1.32 PDF bookmarks (HO)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/bookmar
-k\bkm-pdftex.def
-File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count345
-))
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xu
-rl.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def
+File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count369
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bkm-pdftex.def
+File: bkm-pdftex.def 2026-05-21 v1.32 bookmark driver for pdfTeX (HO)
+\BKM@id=\count370
+)) (C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/xurl\xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-13.
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lm
-ss.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex
+File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodeparttextbox=\box80
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex
+File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty
+Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@nodesepstart=\dimen309
+\pgf@nodesepend=\dimen310
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty
+Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex
+Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
+\pgffor@iter=\dimen311
+\pgffor@skip=\dimen312
+\pgffor@stack=\toks50
+\pgffor@toks=\toks51
+))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
+Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@plot@mark@count=\count371
+\pgfplotmarksize=\dimen313
+)
+\tikz@lastx=\dimen314
+\tikz@lasty=\dimen315
+\tikz@lastxsaved=\dimen316
+\tikz@lastysaved=\dimen317
+\tikz@lastmovetox=\dimen318
+\tikz@lastmovetoy=\dimen319
+\tikzleveldistance=\dimen320
+\tikzsiblingdistance=\dimen321
+\tikz@figbox=\box81
+\tikz@figbox@bg=\box82
+\tikz@tempbox=\box83
+\tikz@tempbox@bg=\box84
+\tikztreelevel=\count372
+\tikznumberofchildren=\count373
+\tikznumberofcurrentchild=\count374
+\tikz@fig@count=\count375
+
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex
+File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfmatrixcurrentrow=\count376
+\pgfmatrixcurrentcolumn=\count377
+\pgf@matrix@numberofcolumns=\count378
+)
+\tikz@expandcount=\count379
+
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowinset=\dimen322
+\pgfarrowlength=\dimen323
+\pgfarrowwidth=\dimen324
+\pgfarrowlinewidth=\dimen325
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarybackgrounds.code.tex
+File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@layerbox@background=\box85
+\pgf@layerboxsaved@background=\box86
+)
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
+22.
+
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/l3backe
-nd\l3backend-pdftex.def
-File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count346
-\l__pdf_internal_box=\box78
-) (1 - Transmissores e modulações digitais.aux)
+(1 - Transmissores e modulações digitais.aux)
 \openout1 = `"1 - Transmissores e modulações digitais.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 113.
-LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1026,116 +1057,117 @@ LaTeX Font Info:    ... okay on input line 113.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/context/base/
-mkii\supp-pdf.mkii
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count347
-\scratchdimen=\dimen299
-\scratchbox=\box79
-\nofMPsegments=\count348
-\nofMParguments=\count349
-\everyMPshowfont=\toks50
-\MPscratchCnt=\count350
-\MPscratchDim=\dimen300
-\MPnumerator=\count351
-\makeMPintoPDFobject=\count352
-\everyMPtoPDFconversion=\toks51
+\scratchcounter=\count380
+\scratchdimen=\dimen326
+\scratchbox=\box87
+\nofMPsegments=\count381
+\nofMParguments=\count382
+\everyMPshowfont=\toks52
+\MPscratchCnt=\count383
+\MPscratchDim=\dimen327
+\MPnumerator=\count384
+\makeMPintoPDFobject=\count385
+\everyMPtoPDFconversion=\toks53
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/epstopd
-f-pkg\epstopdf-base.sty
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/00mikte
-x\epstopdf-sys.cfg
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 113.
+Package hyperref Info: Link coloring OFF on input line 122.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 113.
+(Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 122.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/lmr/bx/n --> OT1/cmss/b/n on input line 113.
+(Font)                  OT1/lmr/bx/n --> OT1/cmss/b/n on input line 122.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 113.
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 122.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/lmss/b/n on input line 113.
+(Font)                  OT1/cmss/b/n --> OT1/lmss/b/n on input line 122.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/lmss/m/n --> T1/lmr/m/n on input line 113.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 113.
+(Font)                  OT1/lmss/m/n --> T1/lmr/m/n on input line 122.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> T1/lmss/b/n on input line 113.
+(Font)                  OT1/lmr/bx/n --> T1/lmss/b/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/lmr/bx/n --> T1/lmss/b/n on input line 113.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 113.
+(Font)                  OT1/lmr/bx/n --> T1/lmss/b/n on input line 122.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> T1/lmss/m/n on input line 113.
+(Font)                  OT1/lmss/m/n --> T1/lmss/m/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> T1/lmss/m/n on input line 113.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 113.
+(Font)                  OT1/lmss/bx/n --> T1/lmss/m/n on input line 122.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> T1/lmss/m/it on input line 113.
+(Font)                  OT1/lmr/m/it --> T1/lmss/m/it on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/lmr/bx/it --> T1/lmss/m/it on input line 113.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 113.
+(Font)                  OT1/lmr/bx/it --> T1/lmss/m/it on input line 122.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 113.
+(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 113.
+(Font)                  OT1/lmtt/m/n --> T1/lmtt/m/n on input line 122.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/b/n on input line 113.
+(Font)                  T1/lmss/m/n --> T1/lmss/b/n on input line 122.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  T1/lmss/m/it --> T1/lmss/b/it on input line 113.
+(Font)                  T1/lmss/m/it --> T1/lmss/b/it on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/lmss/b/n --> T1/lmr/b/n on input line 113.
+(Font)                  OT1/lmss/b/n --> T1/lmr/b/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  T1/lmss/b/n --> T1/lmss/b/n on input line 113.
+(Font)                  T1/lmss/b/n --> T1/lmss/b/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/b/n on input line 113.
+(Font)                  T1/lmss/m/n --> T1/lmss/b/n on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  T1/lmss/m/it --> T1/lmss/b/it on input line 113.
+(Font)                  T1/lmss/m/it --> T1/lmss/b/it on input line 122.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  T1/lmtt/m/n --> T1/lmtt/b/n on input line 113.
+(Font)                  T1/lmtt/m/n --> T1/lmtt/b/n on input line 122.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator-basic-dictionary-English.dict
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-b
+asic-dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator-bibliography-dictionary-English.dict
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-b
+ibliography-dictionary-English.dict
 Dictionary: translator-bibliography-dictionary, Language: English 
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator-environment-dictionary-English.dict
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-e
+nvironment-dictionary-English.dict
 Dictionary: translator-environment-dictionary, Language: English 
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator-months-dictionary-English.dict
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-m
+onths-dictionary-English.dict
 Dictionary: translator-months-dictionary, Language: English 
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator-numbers-dictionary-English.dict
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-n
+umbers-dictionary-English.dict
 Dictionary: translator-numbers-dictionary, Language: English 
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/transla
-tor\translator-theorem-dictionary-English.dict
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-t
+heorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \microtypecontext on input line 113.
-Package microtype Info: Applying patch `item' on input line 113.
-Package microtype Info: Applying patch `toc' on input line 113.
-Package microtype Info: Applying patch `eqnum' on input line 113.
-Package microtype Info: Applying patch `footnote' on input line 113.
-Package microtype Info: Applying patch `verbatim' on input line 113.
+LaTeX Info: Redefining \microtypecontext on input line 122.
+Package microtype Info: Applying patch `item' on input line 122.
+Package microtype Info: Applying patch `toc' on input line 122.
+Package microtype Info: Applying patch `eqnum' on input line 122.
+Package microtype Info: Applying patch `footnote' on input line 122.
+Package microtype Info: Applying patch `verbatim' on input line 122.
+LaTeX Info: Redefining \microtypesetup on input line 122.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 113.
+Package microtype Info: Patching command `\showhyphens'.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1143,186 +1175,553 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+ (1 - Transmissores e modulações digitais.nav) [1
 
-(1 - Transmissores e modulações digitais.nav) [1
-
-{C:/Users/edson.DESKTOP-54IJM4F/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.ma
-p}{C:/Users/edson.DESKTOP-54IJM4F/AppData/Local/Programs/MiKTeX/fonts/enc/dvips
-/lm/lm-ec.enc}] [2
-
-] [3
+{C:/Users/edson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/edso
+n/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}] [2
 
 ]
-<figuras/Fig1.png, id=77, 6524.375pt x 2509.375pt>
+<figuras/Fig1.png, id=59, 6524.375pt x 2509.375pt>
 File: figuras/Fig1.png Graphic file (type png)
 <use figuras/Fig1.png>
-Package pdftex.def Info: figuras/Fig1.png  used on input line 128.
+Package pdftex.def Info: figuras/Fig1.png  used on input line 253.
 (pdftex.def)             Requested size: 342.36559pt x 131.67906pt.
-
-[4
+ [3
 
  <./figuras/Fig1.png (PNG copy)>]
 LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 
-141.
+266.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1l
-mss.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmss.fd
 File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-41.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+66.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/lm\omll
-mm.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-141.
+266.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/lm\omsl
-msy.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-141.
+266.
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxl
-mex.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 141.
+(Font)              <10.95> on input line 266.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 141.
+(Font)              <8> on input line 266.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 141.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 141
+(Font)              <6> on input line 266.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 266
 .
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsfont
-s\umsa.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/microty
-pe\mt-msa.cfg
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 141
+LaTeX Font Info:    Trying to load font information for U+msb on input line 266
 .
 
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/amsfont
-s\umsb.fd
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-(C:\Users\edson.DESKTOP-54IJM4F\AppData\Local\Programs\MiKTeX\tex/latex/microty
-pe\mt-msb.cfg
+(C:\Users\edson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 141.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 266.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <8> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 141.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 266.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <6> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 141.
- [5
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 266.
 
-{C:/Users/edson.DESKTOP-54IJM4F/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/l
-m/lm-rm.enc}{C:/Users/edson.DESKTOP-54IJM4F/AppData/Local/Programs/MiKTeX/fonts
-/enc/dvips/lm/lm-mathit.enc}{C:/Users/edson.DESKTOP-54IJM4F/AppData/Local/Progr
-ams/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
+[4
+
+{C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/
+Users/edson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/
+Users/edson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
+[5
+
+{C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}
+] [6
+
+] [7
+
+]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 279.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 279.
+(Font)              <14.4> on input line 378.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 378.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 378.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 378.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 378.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 378.
 
-Overfull \vbox (1392.2257pt too high) detected at line 279
- []
-
-[6
-
-{C:/Users/edson.DESKTOP-54IJM4F/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/l
-m/lm-mathsy.enc}]
-<figuras/nb0_out_0.png, id=184, 388.8126pt x 172.7253pt>
-File: figuras/nb0_out_0.png Graphic file (type png)
-<use figuras/nb0_out_0.png>
-Package pdftex.def Info: figuras/nb0_out_0.png  used on input line 309.
-(pdftex.def)             Requested size: 342.45871pt x 152.13313pt.
-
-Overfull \vbox (213.94635pt too high) detected at line 309
- []
-
-[7
-
- <./figuras/nb0_out_0.png>]
-<figuras/nb0_out_1.png, id=197, 372.9132pt x 142.3719pt>
-File: figuras/nb0_out_1.png Graphic file (type png)
-<use figuras/nb0_out_1.png>
-Package pdftex.def Info: figuras/nb0_out_1.png  used on input line 360.
-(pdftex.def)             Requested size: 342.43561pt x 130.73607pt.
-<figuras/nb0_out_2.png, id=198, 408.3255pt x 158.2713pt>
-File: figuras/nb0_out_2.png Graphic file (type png)
-<use figuras/nb0_out_2.png>
-Package pdftex.def Info: figuras/nb0_out_2.png  used on input line 360.
-(pdftex.def)             Requested size: 342.44278pt x 132.73445pt.
-<figuras/nb0_out_3.png, id=199, 372.9132pt x 142.3719pt>
-File: figuras/nb0_out_3.png Graphic file (type png)
-<use figuras/nb0_out_3.png>
-Package pdftex.def Info: figuras/nb0_out_3.png  used on input line 360.
-(pdftex.def)             Requested size: 342.43561pt x 130.73607pt.
-<figuras/nb0_out_4.png, id=200, 372.9132pt x 142.3719pt>
-File: figuras/nb0_out_4.png Graphic file (type png)
-<use figuras/nb0_out_4.png>
-Package pdftex.def Info: figuras/nb0_out_4.png  used on input line 360.
-(pdftex.def)             Requested size: 342.43561pt x 130.73607pt.
-<figuras/nb0_out_5.png, id=213, 381.5856pt x 156.8259pt>
-File: figuras/nb0_out_5.png Graphic file (type png)
-<use figuras/nb0_out_5.png>
-Package pdftex.def Info: figuras/nb0_out_5.png  used on input line 360.
-(pdftex.def)             Requested size: 342.45149pt x 140.74236pt.
-<figuras/nb0_out_6.png, id=214, 408.3255pt x 156.8259pt>
-File: figuras/nb0_out_6.png Graphic file (type png)
-<use figuras/nb0_out_6.png>
-Package pdftex.def Info: figuras/nb0_out_6.png  used on input line 360.
-(pdftex.def)             Requested size: 342.44278pt x 131.52226pt.
-<figuras/nb0_out_7.png, id=215, 381.5856pt x 142.3719pt>
-File: figuras/nb0_out_7.png Graphic file (type png)
-<use figuras/nb0_out_7.png>
-Package pdftex.def Info: figuras/nb0_out_7.png  used on input line 360.
-(pdftex.def)             Requested size: 342.45149pt x 127.7707pt.
-<figuras/nb0_out_8.png, id=216, 381.5856pt x 156.8259pt>
-File: figuras/nb0_out_8.png Graphic file (type png)
-<use figuras/nb0_out_8.png>
-Package pdftex.def Info: figuras/nb0_out_8.png  used on input line 360.
-(pdftex.def)             Requested size: 342.45149pt x 140.74236pt.
-
-Overfull \vbox (1221.20004pt too high) detected at line 360
+Overfull \vbox (771.72133pt too high) detected at line 378
  []
 
 [8
 
+] [9
+
+]
+<figuras/nb0_out_0.png, id=128, 388.8126pt x 172.7253pt>
+File: figuras/nb0_out_0.png Graphic file (type png)
+<use figuras/nb0_out_0.png>
+Package pdftex.def Info: figuras/nb0_out_0.png  used on input line 434.
+(pdftex.def)             Requested size: 342.45871pt x 152.13313pt.
+
+Overfull \vbox (213.94635pt too high) detected at line 434
+ []
+
+[10
+
+ <./figuras/nb0_out_0.png>]
+Overfull \vbox (80.7534pt too high) detected at line 463
+ []
+
+[11
+
+]
+<figuras/nb0_out_1.png, id=148, 372.9132pt x 142.3719pt>
+File: figuras/nb0_out_1.png Graphic file (type png)
+<use figuras/nb0_out_1.png>
+Package pdftex.def Info: figuras/nb0_out_1.png  used on input line 473.
+(pdftex.def)             Requested size: 342.43561pt x 130.73607pt.
+<figuras/nb0_out_2.png, id=149, 408.3255pt x 158.2713pt>
+File: figuras/nb0_out_2.png Graphic file (type png)
+<use figuras/nb0_out_2.png>
+Package pdftex.def Info: figuras/nb0_out_2.png  used on input line 473.
+(pdftex.def)             Requested size: 342.44278pt x 132.73445pt.
+<figuras/nb0_out_3.png, id=150, 372.9132pt x 142.3719pt>
+File: figuras/nb0_out_3.png Graphic file (type png)
+<use figuras/nb0_out_3.png>
+Package pdftex.def Info: figuras/nb0_out_3.png  used on input line 473.
+(pdftex.def)             Requested size: 342.43561pt x 130.73607pt.
+<figuras/nb0_out_4.png, id=151, 372.9132pt x 142.3719pt>
+File: figuras/nb0_out_4.png Graphic file (type png)
+<use figuras/nb0_out_4.png>
+Package pdftex.def Info: figuras/nb0_out_4.png  used on input line 473.
+(pdftex.def)             Requested size: 342.43561pt x 130.73607pt.
+
+Overfull \vbox (319.27191pt too high) detected at line 473
+ []
+
+[12
+
  <./figuras/nb0_out_1.png> <./figuras/nb0_out_2.png> <./figuras/nb0_out_3.png> 
-<./figuras/nb0_out_4.png> <./figuras/nb0_out_5.png> <./figuras/nb0_out_6.png> <
-./figuras/nb0_out_7.png> <./figuras/nb0_out_8.png>]
+<./figuras/nb0_out_4.png>]
+<figuras/nb0_out_5.png, id=164, 381.5856pt x 156.8259pt>
+File: figuras/nb0_out_5.png Graphic file (type png)
+<use figuras/nb0_out_5.png>
+Package pdftex.def Info: figuras/nb0_out_5.png  used on input line 484.
+(pdftex.def)             Requested size: 342.45149pt x 140.74236pt.
+<figuras/nb0_out_6.png, id=165, 408.3255pt x 156.8259pt>
+File: figuras/nb0_out_6.png Graphic file (type png)
+<use figuras/nb0_out_6.png>
+Package pdftex.def Info: figuras/nb0_out_6.png  used on input line 484.
+(pdftex.def)             Requested size: 342.44278pt x 131.52226pt.
+<figuras/nb0_out_7.png, id=166, 381.5856pt x 142.3719pt>
+File: figuras/nb0_out_7.png Graphic file (type png)
+<use figuras/nb0_out_7.png>
+Package pdftex.def Info: figuras/nb0_out_7.png  used on input line 484.
+(pdftex.def)             Requested size: 342.45149pt x 127.7707pt.
+<figuras/nb0_out_8.png, id=167, 381.5856pt x 156.8259pt>
+File: figuras/nb0_out_8.png Graphic file (type png)
+<use figuras/nb0_out_8.png>
+Package pdftex.def Info: figuras/nb0_out_8.png  used on input line 484.
+(pdftex.def)             Requested size: 342.45149pt x 140.74236pt.
 
-! LaTeX Error: Bad math environment delimiter.
+Overfull \vbox (335.10693pt too high) detected at line 484
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.432 \end{frame}
-                  
+[13
+
+ <./figuras/nb0_out_5.png> <./figuras/nb0_out_6.png> <./figuras/nb0_out_7.png> 
+<./figuras/nb0_out_8.png>]
+<figuras/Fig1-1.png, id=181, 3017.2725pt x 572.1375pt>
+File: figuras/Fig1-1.png Graphic file (type png)
+<use figuras/Fig1-1.png>
+Package pdftex.def Info: figuras/Fig1-1.png  used on input line 519.
+(pdftex.def)             Requested size: 342.39809pt x 64.92578pt.
+
+Overfull \hbox (33.61584pt too wide) detected at line 519
+[]
+ []
+
+<figuras/nb0_out_9.png, id=182, 396.0396pt x 173.448pt>
+File: figuras/nb0_out_9.png Graphic file (type png)
+<use figuras/nb0_out_9.png>
+Package pdftex.def Info: figuras/nb0_out_9.png  used on input line 519.
+(pdftex.def)             Requested size: 342.43658pt x 149.97223pt.
+<figuras/nb0_out_10.png, id=183, 411.939pt x 173.448pt>
+File: figuras/nb0_out_10.png Graphic file (type png)
+<use figuras/nb0_out_10.png>
+Package pdftex.def Info: figuras/nb0_out_10.png  used on input line 519.
+(pdftex.def)             Requested size: 342.43097pt x 144.18146pt.
+
+Overfull \vbox (604.1442pt too high) detected at line 519
+ []
+
+[14
+
+ <./figuras/Fig1-1.png> <./figuras/nb0_out_9.png> <./figuras/nb0_out_10.png>]
+<figuras/nb0_out_11.png, id=195, 393.8715pt x 156.8259pt>
+File: figuras/nb0_out_11.png Graphic file (type png)
+<use figuras/nb0_out_11.png>
+Package pdftex.def Info: figuras/nb0_out_11.png  used on input line 528.
+(pdftex.def)             Requested size: 342.45508pt x 136.35365pt.
+<figuras/nb0_out_12.png, id=196, 384.4764pt x 156.8259pt>
+File: figuras/nb0_out_12.png Graphic file (type png)
+<use figuras/nb0_out_12.png>
+Package pdftex.def Info: figuras/nb0_out_12.png  used on input line 528.
+(pdftex.def)             Requested size: 342.44104pt x 139.67989pt.
+<figuras/nb0_out_13.png, id=197, 395.3169pt x 183.5658pt>
+File: figuras/nb0_out_13.png Graphic file (type png)
+<use figuras/nb0_out_13.png>
+Package pdftex.def Info: figuras/nb0_out_13.png  used on input line 528.
+(pdftex.def)             Requested size: 342.433pt x 159.0091pt.
+
+Overfull \vbox (221.57188pt too high) detected at line 528
+ []
+
+[15
+
+ <./figuras/nb0_out_11.png> <./figuras/nb0_out_12.png> <./figuras/nb0_out_13.pn
+g>]
+<figuras/nb0_out_14.png, id=209, 393.8715pt x 156.8259pt>
+File: figuras/nb0_out_14.png Graphic file (type png)
+<use figuras/nb0_out_14.png>
+Package pdftex.def Info: figuras/nb0_out_14.png  used on input line 537.
+(pdftex.def)             Requested size: 342.45508pt x 136.35365pt.
+<figuras/nb0_out_15.png, id=210, 384.4764pt x 156.8259pt>
+File: figuras/nb0_out_15.png Graphic file (type png)
+<use figuras/nb0_out_15.png>
+Package pdftex.def Info: figuras/nb0_out_15.png  used on input line 537.
+(pdftex.def)             Requested size: 342.44104pt x 139.67989pt.
+<figuras/nb0_out_16.png, id=211, 395.3169pt x 183.5658pt>
+File: figuras/nb0_out_16.png Graphic file (type png)
+<use figuras/nb0_out_16.png>
+Package pdftex.def Info: figuras/nb0_out_16.png  used on input line 537.
+(pdftex.def)             Requested size: 342.433pt x 159.0091pt.
+
+Overfull \vbox (221.57188pt too high) detected at line 537
+ []
+
+[16
+
+ <./figuras/nb0_out_14.png> <./figuras/nb0_out_15.png> <./figuras/nb0_out_16.pn
+g>]
+<figuras/nb0_out_17.png, id=223, 387.3672pt x 156.8259pt>
+File: figuras/nb0_out_17.png Graphic file (type png)
+<use figuras/nb0_out_17.png>
+Package pdftex.def Info: figuras/nb0_out_17.png  used on input line 558.
+(pdftex.def)             Requested size: 342.45053pt x 138.64134pt.
+<figuras/nb0_out_18.png, id=224, 385.9218pt x 183.5658pt>
+File: figuras/nb0_out_18.png Graphic file (type png)
+<use figuras/nb0_out_18.png>
+Package pdftex.def Info: figuras/nb0_out_18.png  used on input line 558.
+(pdftex.def)             Requested size: 342.44469pt x 162.88567pt.
+
+Overfull \vbox (200.26707pt too high) detected at line 558
+ []
+
+[17
+
+ <./figuras/nb0_out_17.png> <./figuras/nb0_out_18.png>] [18
+
+] [19
+
+]
+Overfull \hbox (23.62418pt too wide) detected at line 657
+[]\T1/lmss/m/sl/10.95 R[]\OT1/lmss/m/n/10.95 (\T1/lmss/m/sl/10.95 t \OT1/lmss/m
+/n/10.95 + \OML/lmm/m/it/10.95 ^^\; \T1/lmss/m/sl/10.95 t\OT1/lmss/m/n/10.95 ) 
+= \T1/lmss/m/sl/10.95 E [] \OT1/lmss/m/n/10.95 = [] [] \T1/lmss/m/sl/10.95 E []
+ p\OT1/lmss/m/n/10.95 (\T1/lmss/m/sl/10.95 t \OMS/lmsy/m/n/10.95 ^^@ \T1/lmss/m
+/sl/10.95 nT\OT1/lmss/m/n/10.95 )\T1/lmss/m/sl/10.95 p\OT1/lmss/m/n/10.95 (\T1/
+lmss/m/sl/10.95 t \OT1/lmss/m/n/10.95 + \OML/lmm/m/it/10.95 ^^\ \OMS/lmsy/m/n/1
+0.95 ^^@ \T1/lmss/m/sl/10.95 mT\OT1/lmss/m/n/10.95 )
+ []
+
+
+Overfull \vbox (612.2416pt too high) detected at line 657
+ []
+
+[20
+
+]
+Overfull \vbox (863.76451pt too high) detected at line 751
+ []
+
+[21
+
+]
+<figuras/nb0_out_19.png, id=271, 408.3255pt x 160.4394pt>
+File: figuras/nb0_out_19.png Graphic file (type png)
+<use figuras/nb0_out_19.png>
+Package pdftex.def Info: figuras/nb0_out_19.png  used on input line 757.
+(pdftex.def)             Requested size: 342.44278pt x 134.55273pt.
+ [22
+
+ <./figuras/nb0_out_19.png>]
+<figuras/Fig2.png, id=281, 6524.375pt x 2208.25pt>
+File: figuras/Fig2.png Graphic file (type png)
+<use figuras/Fig2.png>
+Package pdftex.def Info: figuras/Fig2.png  used on input line 778.
+(pdftex.def)             Requested size: 342.36559pt x 115.87758pt.
+
+Overfull \vbox (81.46518pt too high) detected at line 778
+ []
+
+[23
+
+ <./figuras/Fig2.png (PNG copy)>] [24
+
+]
+<figuras/nb0_out_20.png, id=298, 386.6445pt x 156.8259pt>
+File: figuras/nb0_out_20.png Graphic file (type png)
+<use figuras/nb0_out_20.png>
+Package pdftex.def Info: figuras/nb0_out_20.png  used on input line 793.
+(pdftex.def)             Requested size: 342.4488pt x 138.89978pt.
+<figuras/nb0_out_21.png, id=299, 386.6445pt x 156.8259pt>
+File: figuras/nb0_out_21.png Graphic file (type png)
+<use figuras/nb0_out_21.png>
+Package pdftex.def Info: figuras/nb0_out_21.png  used on input line 793.
+(pdftex.def)             Requested size: 342.4488pt x 138.89978pt.
+<figuras/nb0_out_22.png, id=300, 385.9218pt x 183.5658pt>
+File: figuras/nb0_out_22.png Graphic file (type png)
+<use figuras/nb0_out_22.png>
+Package pdftex.def Info: figuras/nb0_out_22.png  used on input line 793.
+(pdftex.def)             Requested size: 342.44469pt x 162.88567pt.
+<figuras/nb0_out_23.png, id=301, 401.8212pt x 160.4394pt>
+File: figuras/nb0_out_23.png Graphic file (type png)
+<use figuras/nb0_out_23.png>
+Package pdftex.def Info: figuras/nb0_out_23.png  used on input line 793.
+(pdftex.def)             Requested size: 342.43866pt x 136.72911pt.
+
+Overfull \vbox (371.74359pt too high) detected at line 793
+ []
+
+[25
+
+ <./figuras/nb0_out_20.png> <./figuras/nb0_out_21.png> <./figuras/nb0_out_22.pn
+g> <./figuras/nb0_out_23.png>]
+<figuras/nb0_out_24.png, id=315, 393.8715pt x 172.7253pt>
+File: figuras/nb0_out_24.png Graphic file (type png)
+<use figuras/nb0_out_24.png>
+Package pdftex.def Info: figuras/nb0_out_24.png  used on input line 798.
+(pdftex.def)             Requested size: 342.45508pt x 150.17754pt.
+ [26
+
+ <./figuras/nb0_out_24.png>]
+<figuras/nb0_out_25.png, id=325, 294.1389pt x 289.08pt>
+File: figuras/nb0_out_25.png Graphic file (type png)
+<use figuras/nb0_out_25.png>
+Package pdftex.def Info: figuras/nb0_out_25.png  used on input line 804.
+(pdftex.def)             Requested size: 265.05019pt x 260.4916pt.
+
+Overfull \vbox (31.42084pt too high) detected at line 804
+ []
+
+[27
+
+ <./figuras/nb0_out_25.png>]
+<figuras/nb0_out_26.png, id=336, 397.485pt x 156.8259pt>
+File: figuras/nb0_out_26.png Graphic file (type png)
+<use figuras/nb0_out_26.png>
+Package pdftex.def Info: figuras/nb0_out_26.png  used on input line 817.
+(pdftex.def)             Requested size: 342.44301pt x 135.10931pt.
+<figuras/nb0_out_27.png, id=337, 397.485pt x 156.8259pt>
+File: figuras/nb0_out_27.png Graphic file (type png)
+<use figuras/nb0_out_27.png>
+Package pdftex.def Info: figuras/nb0_out_27.png  used on input line 817.
+(pdftex.def)             Requested size: 342.44301pt x 135.10931pt.
+<figuras/nb0_out_28.png, id=338, 401.0985pt x 156.8259pt>
+File: figuras/nb0_out_28.png Graphic file (type png)
+<use figuras/nb0_out_28.png>
+Package pdftex.def Info: figuras/nb0_out_28.png  used on input line 817.
+(pdftex.def)             Requested size: 342.43478pt x 133.8889pt.
+<figuras/nb0_out_29.png, id=339, 401.0985pt x 156.8259pt>
+File: figuras/nb0_out_29.png Graphic file (type png)
+<use figuras/nb0_out_29.png>
+Package pdftex.def Info: figuras/nb0_out_29.png  used on input line 817.
+(pdftex.def)             Requested size: 342.43478pt x 133.8889pt.
+<figuras/nb0_out_30.png, id=340, 395.3169pt x 183.5658pt>
+File: figuras/nb0_out_30.png Graphic file (type png)
+<use figuras/nb0_out_30.png>
+Package pdftex.def Info: figuras/nb0_out_30.png  used on input line 817.
+(pdftex.def)             Requested size: 342.433pt x 159.0091pt.
+
+Overfull \vbox (499.13478pt too high) detected at line 817
+ []
+
+[28
+
+ <./figuras/nb0_out_26.png> <./figuras/nb0_out_27.png> <./figuras/nb0_out_28.pn
+g> <./figuras/nb0_out_29.png> <./figuras/nb0_out_30.png>]
+<figuras/nb0_out_31.png, id=354, 401.8212pt x 160.4394pt>
+File: figuras/nb0_out_31.png Graphic file (type png)
+<use figuras/nb0_out_31.png>
+Package pdftex.def Info: figuras/nb0_out_31.png  used on input line 822.
+(pdftex.def)             Requested size: 342.43866pt x 136.72911pt.
+ [29
+
+ <./figuras/nb0_out_31.png>]
+<figuras/nb0_out_32.png, id=364, 403.2666pt x 172.7253pt>
+File: figuras/nb0_out_32.png Graphic file (type png)
+<use figuras/nb0_out_32.png>
+Package pdftex.def Info: figuras/nb0_out_32.png  used on input line 831.
+(pdftex.def)             Requested size: 342.44594pt x 146.67487pt.
+<figuras/nb0_out_33.png, id=365, 403.2666pt x 172.7253pt>
+File: figuras/nb0_out_33.png Graphic file (type png)
+<use figuras/nb0_out_33.png>
+Package pdftex.def Info: figuras/nb0_out_33.png  used on input line 831.
+(pdftex.def)             Requested size: 342.44594pt x 146.67487pt.
+<figuras/nb0_out_34.png, id=366, 401.0985pt x 172.7253pt>
+File: figuras/nb0_out_34.png Graphic file (type png)
+<use figuras/nb0_out_34.png>
+Package pdftex.def Info: figuras/nb0_out_34.png  used on input line 831.
+(pdftex.def)             Requested size: 342.43478pt x 147.4629pt.
+
+Overfull \vbox (227.34189pt too high) detected at line 831
+ []
+
+[30
+
+ <./figuras/nb0_out_32.png> <./figuras/nb0_out_33.png> <./figuras/nb0_out_34.pn
+g>]
+<figuras/nb0_out_35.png, id=378, 288.3573pt x 289.08pt>
+File: figuras/nb0_out_35.png Graphic file (type png)
+<use figuras/nb0_out_35.png>
+Package pdftex.def Info: figuras/nb0_out_35.png  used on input line 837.
+(pdftex.def)             Requested size: 259.84035pt x 260.4916pt.
+
+Overfull \vbox (31.42084pt too high) detected at line 837
+ []
+
+[31
+
+ <./figuras/nb0_out_35.png>]
+<figuras/nb0_out_36.png, id=389, 397.485pt x 156.8259pt>
+File: figuras/nb0_out_36.png Graphic file (type png)
+<use figuras/nb0_out_36.png>
+Package pdftex.def Info: figuras/nb0_out_36.png  used on input line 846.
+(pdftex.def)             Requested size: 342.44301pt x 135.10931pt.
+<figuras/nb0_out_37.png, id=390, 397.485pt x 156.8259pt>
+File: figuras/nb0_out_37.png Graphic file (type png)
+<use figuras/nb0_out_37.png>
+Package pdftex.def Info: figuras/nb0_out_37.png  used on input line 846.
+(pdftex.def)             Requested size: 342.44301pt x 135.10931pt.
+<figuras/nb0_out_38.png, id=391, 395.3169pt x 183.5658pt>
+File: figuras/nb0_out_38.png Graphic file (type png)
+<use figuras/nb0_out_38.png>
+Package pdftex.def Info: figuras/nb0_out_38.png  used on input line 846.
+(pdftex.def)             Requested size: 342.433pt x 159.0091pt.
+
+Overfull \vbox (215.75697pt too high) detected at line 846
+ []
+
+[32
+
+ <./figuras/nb0_out_36.png> <./figuras/nb0_out_37.png> <./figuras/nb0_out_38.pn
+g>]
+<figuras/nb0_out_39.png, id=403, 401.8212pt x 160.4394pt>
+File: figuras/nb0_out_39.png Graphic file (type png)
+<use figuras/nb0_out_39.png>
+Package pdftex.def Info: figuras/nb0_out_39.png  used on input line 851.
+(pdftex.def)             Requested size: 342.43866pt x 136.72911pt.
+ [33
+
+ <./figuras/nb0_out_39.png>]
+<figuras/nb0_out_40.png, id=413, 403.2666pt x 172.7253pt>
+File: figuras/nb0_out_40.png Graphic file (type png)
+<use figuras/nb0_out_40.png>
+Package pdftex.def Info: figuras/nb0_out_40.png  used on input line 860.
+(pdftex.def)             Requested size: 342.44594pt x 146.67487pt.
+<figuras/nb0_out_41.png, id=414, 403.2666pt x 172.7253pt>
+File: figuras/nb0_out_41.png Graphic file (type png)
+<use figuras/nb0_out_41.png>
+Package pdftex.def Info: figuras/nb0_out_41.png  used on input line 860.
+(pdftex.def)             Requested size: 342.44594pt x 146.67487pt.
+<figuras/nb0_out_42.png, id=415, 401.0985pt x 172.7253pt>
+File: figuras/nb0_out_42.png Graphic file (type png)
+<use figuras/nb0_out_42.png>
+Package pdftex.def Info: figuras/nb0_out_42.png  used on input line 860.
+(pdftex.def)             Requested size: 342.43478pt x 147.4629pt.
+
+Overfull \vbox (227.34189pt too high) detected at line 860
+ []
+
+[34
+
+ <./figuras/nb0_out_40.png> <./figuras/nb0_out_41.png> <./figuras/nb0_out_42.pn
+g>] [35
+
+]
+\tf@nav=\write5
+\openout5 = `"1 - Transmissores e modulações digitais.nav"'.
+
+\tf@toc=\write6
+\openout6 = `"1 - Transmissores e modulações digitais.toc"'.
+
+\tf@snm=\write7
+\openout7 = `"1 - Transmissores e modulações digitais.snm"'.
+
+ (1 - Transmissores e modulações digitais.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-03-20>
+ ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 24707 strings out of 475248
- 489848 string characters out of 5750261
- 1977801 words of memory out of 5000000
- 45595 multiletter control sequences out of 15000+600000
- 610128 words of font info for 113 fonts, out of 8000000 for 9000
+ 29253 strings out of 467691
+ 592837 string characters out of 5414988
+ 1016519 words of memory out of 5000000
+ 57496 multiletter control sequences out of 15000+600000
+ 698459 words of font info for 154 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,15n,123p,1042b,1127s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,15n,123p,1042b,659s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pf
+b><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pf
+b><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb
+><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb>
+<C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb>
+<C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb>
+<C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss8.pfb><
+C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb
+><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso10.pf
+b><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.p
+fb><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso8.p
+fb><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.p
+fb><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pf
+b><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb
+><C:/Users/edson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symb
+ols/msbm10.pfb>
+Output written on "1 - Transmissores e modulações digitais.pdf" (35 pages, 36
+70989 bytes).
+PDF statistics:
+ 534 PDF objects out of 1000 (max. 8388607)
+ 104 named destinations out of 1000 (max. 500000)
+ 41319 words of extra memory for PDF output out of 42996 (max. 10000000)
 
-!  ==> Fatal error occurred, no output PDF file produced!
