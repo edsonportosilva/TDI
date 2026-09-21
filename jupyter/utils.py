@@ -341,3 +341,143 @@ def genConvGIF(
 
     anim.save(figName, dpi=200, writer="imagemagick")
     plt.close()
+
+def plot_modulacoes_digitais(symbols, M=2, carrier_cycles_per_symbol=4):
+    """
+    Gera os gráficos das modulações digitais (ASK, FSK, PSK) para qualquer ordem M.
+    
+    Parâmetros:
+    -----------
+    symbols : list ou np.array
+        Sequência de símbolos a serem transmitidos (valores entre 0 e M - 1).
+    M : int
+        Ordem da modulação digital (ex.: 2 para binário, 4 para 4-ário, 8, etc.).
+    carrier_cycles_per_symbol : int
+        Número de ciclos da portadora por período de símbolo.
+    """
+    symbols = np.array(symbols, dtype=int)
+    n_symbols = len(symbols)
+    samples_per_symbol = 500
+    total_samples = n_symbols * samples_per_symbol
+    
+    t = np.linspace(0, n_symbols, total_samples, endpoint=False)
+    
+    # -------------------------------------------------------------
+    # 1. Sinal Digital em Banda Básica
+    # -------------------------------------------------------------
+    # Mapeamento de níveis para visualização dos pulsos (-1 a +1)
+    if M == 2:
+        levels = np.where(symbols == 1, 1.0, -1.0)
+    else:
+        levels = -1.0 + 2.0 * symbols / (M - 1)
+        
+    t_digital = []
+    y_digital = []
+    for i, val in enumerate(levels):
+        t_digital.extend([i, i + 1])
+        y_digital.extend([val, val])
+        
+    # Fechamento inicial e final no nível zero
+    t_digital = [0] + t_digital + [n_symbols]
+    y_digital = [0] + y_digital + [0]
+    
+    # -------------------------------------------------------------
+    # 2. Portadora de Alta Frequência
+    # -------------------------------------------------------------
+    fc = carrier_cycles_per_symbol
+    carrier = np.sin(2 * np.pi * fc * t)
+    
+    # -------------------------------------------------------------
+    # 3. M-ASK (Amplitude Shift Keying)
+    # -------------------------------------------------------------
+    # Amplitudes distribuídas entre 0.3 e 1.0 para manter legibilidade visual
+    ask_signal = np.zeros(total_samples)
+    for i, s in enumerate(symbols):
+        idx = slice(i * samples_per_symbol, (i + 1) * samples_per_symbol)
+        t_local = t[idx]
+        amp = 0.3 + 0.7 * (s / (M - 1)) if M > 1 else 1.0
+        ask_signal[idx] = amp * np.sin(2 * np.pi * fc * t_local)
+        
+    # -------------------------------------------------------------
+    # 4. M-FSK (Frequency Shift Keying)
+    # -------------------------------------------------------------
+    # Frequências com ciclos inteiros por símbolo para suavidade nas transições
+    fsk_signal = np.zeros(total_samples)
+    for i, s in enumerate(symbols):
+        idx = slice(i * samples_per_symbol, (i + 1) * samples_per_symbol)
+        t_local = t[idx] - i  # tempo relativo ao início do símbolo [0, 1)
+        
+        # Para M=2: 1 ciclo para bit 0, 3 ciclos para bit 1 (idêntico à imagem)
+        # Para M>2: frequências crescentes em degraus
+        if M == 2:
+            freq = 1.0 if s == 0 else 3.0
+        else:
+            freq = 1.0 + s
+            
+        fsk_signal[idx] = np.sin(2 * np.pi * freq * t_local)
+        
+    # -------------------------------------------------------------
+    # 5. M-PSK (Phase Shift Keying)
+    # -------------------------------------------------------------
+    # Fase mapeada uniformemente em [0, 2π)
+    psk_signal = np.zeros(total_samples)
+    for i, s in enumerate(symbols):
+        idx = slice(i * samples_per_symbol, (i + 1) * samples_per_symbol)
+        t_local = t[idx]
+        
+        # Para M=2: bit 1 = 0 rad, bit 0 = π rad (inversão idêntica à imagem)
+        if M == 2:
+            phase = 0.0 if s == 1 else np.pi
+        else:
+            phase = 2 * np.pi * s / M
+            
+        psk_signal[idx] = np.sin(2 * np.pi * fc * t_local + phase)
+
+    # -------------------------------------------------------------
+    # Renderização e Estilo
+    # -------------------------------------------------------------
+    fig, axes = plt.subplots(5, 1, figsize=(10, 11), sharex=True, dpi=300)
+    fig.patch.set_facecolor('white')
+
+    plots_data = [
+        (t_digital, y_digital, '#f25454', 'Sinal digital\n\n' + ('binário' if M == 2 else f'{M}-ário') , 'step'),
+        (t, carrier, '#52c46a', 'Portadora\n de alta frequência', 'line'),
+        (t, ask_signal, '#4a69ff', 'Amplitude\nshift\nkeying (ASK)', 'line'),
+        (t, fsk_signal, "#4a69ff", 'Frequency\nshift\nkeying (FSK)', 'line'),
+        (t, psk_signal, '#4a69ff', 'Phase\nshift\nkeying (PSK)', 'line')
+    ]
+
+    label_x_pos = -1.5  # Posição horizontal dos rótulos à esquerda
+
+    for ax, (x, y, color, label, plot_type) in zip(axes, plots_data):
+        ax.set_facecolor('white')
+        
+        # Linha horizontal tracejada passando pelo centro
+        ax.plot([-3.0, n_symbols], [0, 0], color='#a5a5a5', linestyle='--', linewidth=1.0, zorder=1)
+        
+        # Rótulo textual à esquerda com fundo branco para mascarar a linha tracejada
+        ax.text(label_x_pos, 0, label, ha='center', va='center', fontsize=11, 
+                color='#1a1a1a', linespacing=1.2,
+                bbox=dict(boxstyle='square,pad=0.3', facecolor='white', edgecolor='none'))
+        
+        # Curvas dos sinais
+        if plot_type == 'step':
+            ax.plot(x, y, color=color, linewidth=1.0, zorder=2)
+            # Rótulos dos símbolos digitais no topo
+            for i, s in enumerate(symbols):
+                ax.text(i + 0.5, 0.45, str(s), ha='center', va='center', fontsize=11, color='#222222')
+        else:
+            ax.plot(x, y, color=color, linewidth=1.0, zorder=2)
+            
+        ax.set_ylim(-1.4, 1.4)
+        ax.set_xlim(-3.0, n_symbols)
+        
+        # Remove molduras e marcações dos eixos
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+    plt.subplots_adjust(left=0.22, right=0.98, top=0.96, bottom=0.04, hspace=0.15)
+    plt.show()
+
