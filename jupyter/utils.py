@@ -14,38 +14,38 @@ def set_preferences():
     This function sets various preferences for matplotlib plots, such as font family, figure size, label size, grid lines, and legend style.
     Returns:
         None
-    """    
-    rc('font',**{'family':'serif','serif':['Times']})
-    rc('text', usetex=True)
+    """
+    rc("font", **{"family": "serif", "serif": ["Times"]})
+    rc("text", usetex=True)
 
-    plt.rcParams['axes.facecolor'] = 'whitesmoke'
-    plt.rcParams['figure.dpi'] = 200
-    plt.rcParams['figure.figsize'] = (4,2)
+    plt.rcParams["axes.facecolor"] = "white"
+    plt.rcParams["figure.dpi"] = 200
+    plt.rcParams["figure.figsize"] = (5, 2.5)
 
-    plt.rcParams['axes.labelsize'] = 12
-    plt.rcParams['xtick.labelsize'] = 9
-    plt.rcParams['ytick.labelsize'] = 9
-    plt.rcParams['legend.fontsize'] = 12
-    plt.rcParams['font.size'] = 10
+    plt.rcParams["axes.labelsize"] = 12
+    plt.rcParams["xtick.labelsize"] = 9
+    plt.rcParams["ytick.labelsize"] = 9
+    plt.rcParams["legend.fontsize"] = 12
+    plt.rcParams["font.size"] = 10
 
-    plt.rcParams['axes.linewidth'] =  0.5
-    plt.rcParams['grid.linewidth'] =  0.5
-    plt.rcParams['lines.linewidth'] =  0.5
-    plt.rcParams['lines.markersize'] =  2
-                    
+    plt.rcParams["axes.linewidth"] = 0.5
+    plt.rcParams["grid.linewidth"] = 0.5
+    plt.rcParams["lines.linewidth"] = 0.5
+    plt.rcParams["lines.markersize"] = 2
+
     # Grid lines
-    plt.rcParams['axes.grid'] =   False
-    plt.rcParams['axes.axisbelow'] =  False
-    plt.rcParams['grid.linestyle'] =  'dashed'
-    plt.rcParams['grid.color'] =   'k'
-    plt.rcParams['grid.alpha'] =   0.25
-    plt.rcParams['grid.linewidth'] =   0.5
+    plt.rcParams["axes.grid"] = False
+    plt.rcParams["axes.axisbelow"] = False
+    plt.rcParams["grid.linestyle"] = "dashed"
+    plt.rcParams["grid.color"] = "k"
+    plt.rcParams["grid.alpha"] = 0.25
+    plt.rcParams["grid.linewidth"] = 0.5
 
     # Legend
-    plt.rcParams['legend.frameon'] =   False
-    plt.rcParams['legend.framealpha'] =   0.25
-    plt.rcParams['legend.fancybox'] =   False
-    plt.rcParams['legend.numpoints'] =   1
+    plt.rcParams["legend.frameon"] = False
+    plt.rcParams["legend.framealpha"] = 0.25
+    plt.rcParams["legend.fancybox"] = False
+    plt.rcParams["legend.numpoints"] = 1
 
     return None
 
