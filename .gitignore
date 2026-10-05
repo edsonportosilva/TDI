@@ -13,3 +13,4 @@ jupyter/__pycache__/utils.cpython-311.pyc
 /jupyter/__pycache__
 *.pyc
 /jupyter/__pycache__
+/jupyter/.ipynb_checkpoints
